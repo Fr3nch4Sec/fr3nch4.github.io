@@ -1,32 +1,23 @@
-url: https://fr3nch4.github.io
-baseurl: "/portfolio"  # Use "" if your site is at https://fr3nch4.github.io
-url: "https://fr3nch4.github.io"
+baseurl: "/portfolio"
+url: "https://fr3nch4sec.github.io"
 theme: agency-jekyll-theme
-
-# Site settings
 title: fr3nch4 - Portfolio
 email: cyoann30@gmail.com
 description: "This is my static Portfolio, and i add things when i have time."
-
-# Social networks usernames
 social:
   - title: twitter
-    url:  # Ajoutez votre URL Twitter ou laissez vide
+    url: # Ajoutez votre URL Twitter ou laissez vide
   - title: facebook
-    url:  # Ajoutez votre URL Facebook ou laissez vide
+    url: # Ajoutez votre URL Facebook ou laissez vide
   - title: stack-overflow
-    url:  # Ajoutez votre URL Stack Overflow ou laissez vide
+    url: # Ajoutez votre URL Stack Overflow ou laissez vide
   - title: bitbucket
-    url:  # Ajoutez votre URL Bitbucket ou laissez vide
+    url: # Ajoutez votre URL Bitbucket ou laissez vide
   - title: github
     url: https://github.com/Fr3nch4Sec
-
-# Postal address
 address:
   - line: Dijon, 21000
   - line: France
-
-# Build settings
 markdown: kramdown
 permalink: pretty
 sass:
