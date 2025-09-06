@@ -4,7 +4,7 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.17"
   gem "jekyll-seo-tag", "~> 2.8"
 end
-# Corriger les avertissements de plateforme
+gem "faraday-retry"
 gem "base64", platforms: :ruby
 gem "csv", platforms: :ruby
 gem "eventmachine", platforms: :ruby
