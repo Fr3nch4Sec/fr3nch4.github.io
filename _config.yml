@@ -1,27 +1,25 @@
-url: https://fr3nch4.github.io
-baseurl: /Fr3nch4Sec/
+url: https://fr3nch4sec.github.io
+baseurl: ""
 
 # Site settings
 title: fr3nch4 - Portfolio
 email: cyoann30@gmail.com
 description: "This is my static Portfolio, and i add things when i have time."
 
-
-
-# Social networks usernames (many more available: google-plus, flickr, dribbble, pinterest, instagram, tumblr, linkedin, etc.)
+# Social networks usernames
 social:
   - title: twitter
-    url: http://twitter.com/jekyllrb
+    url:  # Ajoutez votre URL Twitter ou laissez vide
   - title: facebook
-    url:
+    url:  # Ajoutez votre URL Facebook ou laissez vide
   - title: stack-overflow
-    url: http://stackoverflow.com/questions/tagged/jekyll
-  - title: bitbucket 
-    url: http://bitbucket.org/jekyll
+    url:  # Ajoutez votre URL Stack Overflow ou laissez vide
+  - title: bitbucket
+    url:  # Ajoutez votre URL Bitbucket ou laissez vide
   - title: github
-    url: http://github.com/jekyll
+    url: https://github.com/Fr3nch4Sec
 
-# Postal address (add as many lines as necessary)
+# Postal address
 address:
   - line: Dijon, 21000
   - line: France
@@ -29,3 +27,6 @@ address:
 # Build settings
 markdown: kramdown
 permalink: pretty
+sass:
+  sass_dir: _sass
+  style: compressed
