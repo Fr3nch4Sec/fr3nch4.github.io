@@ -1,7 +1,7 @@
 baseurl: ""
 url: "https://fr3nch4.github.io"
-theme: agency-jekyll-theme
-title: fr3nch4 - Portfolio
+theme: "agency-jekyll-theme"
+title: "fr3nch4 - Portfolio"
 email: cyoann30@gmail.com
 description: "This is my static Portfolio, and i add things when i have time."
 social:
