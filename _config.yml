@@ -1,5 +1,5 @@
-url: https://fr3nch4sec.github.io
-baseurl: ""  # Use "" if your site is at https://fr3nch4.github.io
+url: https://fr3nch4.github.io
+baseurl: "/portfolio"  # Use "" if your site is at https://fr3nch4.github.io
 url: "https://fr3nch4.github.io"
 theme: agency-jekyll-theme
 
