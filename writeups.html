@@ -4,30 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writeups CTF - Fr3nch4Sec</title>
+    <title>Fr3nch4Sec - Writeups CTF</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #0d1117;
-            color: #c9d1d9;
-            margin: 0;
-            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
         }
 
-        h1 {
-            color: #58a6ff;
+        h1,
+        h2 {
+            color: #333;
         }
 
-        .writeup {
-            background: #161b22;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 10px;
+        .writeup-list {
+            margin-bottom: 40px;
+        }
+
+        .writeup-item {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .writeup-content {
+            display: none;
+            margin-top: 10px;
         }
 
         a {
-            color: #58a6ff;
+            color: #007bff;
             text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -36,25 +56,95 @@
     <h1>📂 Writeups CTF</h1>
     <p>Voici quelques writeups que j’ai réalisés sur différentes plateformes :</p>
 
-    <div class="writeup">
-        <h3>HackTheBox - Machine Basique</h3>
-        <p>Découverte des services exposés et exploitation d’une faille simple.</p>
-        <a href="#">Lire le writeup</a>
+    <div class="writeup-list" id="writeupList">
+        <div class="writeup-item">
+            <h2>HackTheBox - Machine Basique</h2>
+            <a href="#" class="toggle-link">Lire le writeup</a>
+            <div class="writeup-content">
+                <script type="text/markdown">
+                    # HackTheBox - Machine Basique
+
+                    ## Introduction
+                    Ce writeup décrit la résolution de la machine "Basique" sur HackTheBox. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.
+
+                    ## Étapes
+                    1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
+                    2. **Exploitation** : Découverte d'une vulnérabilité dans un service web.
+                    3. **Accès root** : Escalade de privilèges via un fichier de configuration mal sécurisé.
+
+                    ## Conclusion
+                    Cette machine était un excellent exercice pour les débutants en pentest.
+                </script>
+            </div>
+        </div>
+
+        <div class="writeup-item">
+            <h2>Root-Me - Challenge Forensic</h2>
+            <a href="#" class="toggle-link">Lire le writeup</a>
+            <div class="writeup-content">
+                <script type="text/markdown">
+                    # Root-Me - Challenge Forensic
+
+                    ## Introduction
+                    Ce challenge portait sur l'analyse d'une image mémoire avec Volatility pour extraire des informations sensibles.
+
+                    ## Étapes
+                    1. **Analyse mémoire** : Utilisation de Volatility pour lister les processus.
+                    2. **Extraction** : Récupération d'un mot de passe dans un dump mémoire.
+                    3. **Validation** : Soumission du flag obtenu.
+
+                    ## Conclusion
+                    Une bonne introduction à l'analyse forensique avec Volatility.
+                </script>
+            </div>
+        </div>
+
+        <div class="writeup-item">
+            <h2>FCSC 2025 - Cryptobro</h2>
+            <a href="#" class="toggle-link">Lire le writeup</a>
+            <div class="writeup-content">
+                <script type="text/markdown">
+                    # FCSC 2025 - Cryptobro
+
+                    ## Introduction
+                    Ce challenge combinait cryptographie et analyse forensique, avec un fichier `.npy` à analyser.
+
+                    ## Étapes
+                    1. **Analyse du fichier** : Utilisation de NumPy pour charger le fichier `.npy`.
+                    2. **Décodage** : Identification d'un message chiffré dans les données.
+                    3. **Décryptage** : Application d'une méthode de déchiffrement pour extraire le flag.
+
+                    ## Conclusion
+                    Un challenge intéressant qui mêle plusieurs disciplines.
+                </script>
+            </div>
+        </div>
     </div>
 
-    <div class="writeup">
-        <h3>Root-Me - Challenge Forensic</h3>
-        <p>Analyse mémoire avec Volatility, extraction de mots de passe.</p>
-        <a href="#">Lire le writeup</a>
-    </div>
+    <a href="index.html" class="back-link">⬅ Retour au portfolio</a>
 
-    <div class="writeup">
-        <h3>FCSC 2025 - Cryptobro</h3>
-        <p>Challenge crypto/forensic, analyse de fichiers .npy pour retrouver un flag.</p>
-        <a href="#">Lire le writeup</a>
-    </div>
+    <script>
+        // Convertir le Markdown en HTML pour chaque writeup
+        document.querySelectorAll('.writeup-item').forEach(item => {
+            const contentDiv = item.querySelector('.writeup-content');
+            const markdownScript = contentDiv.querySelector('script[type="text/markdown"]');
+            if (markdownScript) {
+                contentDiv.innerHTML = marked.parse(markdownScript.textContent);
+            }
 
-    <p><a href="index.html">⬅ Retour au portfolio</a></p>
+            const toggleLink = item.querySelector('.toggle-link');
+            toggleLink.onclick = (e) => {
+                e.preventDefault();
+                if (contentDiv.style.display === 'block') {
+                    contentDiv.style.display = 'none';
+                    toggleLink.textContent = 'Lire le writeup';
+                } else {
+                    contentDiv.style.display = 'block';
+                    toggleLink.textContent = 'Masquer le writeup';
+                }
+            };
+        });
+    </script>
 </body>
 
 </html>
