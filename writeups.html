@@ -6,18 +6,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fr3nch4Sec - Writeups CTF</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-bold.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Inter', Arial, sans-serif;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
             line-height: 1.6;
+            background: url('https://images.unsplash.com/photo-1639326264340-4d6e7f2c99a9?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+            transition: all 0.3s ease;
         }
 
-        h1,
-        h2 {
-            color: #333;
+        /* Mode sombre (par défaut) */
+        body.dark-mode {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            /* Overlay sombre */
+            z-index: -1;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2 {
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .writeup-item {
+            background: rgba(30, 30, 30, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .writeup-content {
+            background: rgba(50, 50, 50, 0.7);
+        }
+
+        body.dark-mode pre,
+        body.dark-mode code {
+            background: #1a1a1a;
+            color: #00ff00;
+            /* Vert hacker */
+        }
+
+        body.dark-mode a {
+            color: #1e90ff;
+        }
+
+        body.dark-mode a:hover {
+            color: #63b3ed;
+        }
+
+        body.dark-mode .toggle-link {
+            background: #1e90ff;
+        }
+
+        body.dark-mode .toggle-link:hover {
+            background: #63b3ed;
+        }
+
+        /* Mode clair */
+        body.light-mode {
+            color: #333333;
+        }
+
+        body.light-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            /* Overlay clair */
+            z-index: -1;
+        }
+
+        body.light-mode h1,
+        body.light-mode h2 {
+            color: #222222;
+            text-shadow: none;
+        }
+
+        body.light-mode .writeup-item {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .writeup-content {
+            background: rgba(240, 240, 240, 0.9);
+        }
+
+        body.light-mode pre,
+        body.light-mode code {
+            background: #f5f5f5;
+            color: #d81b60;
+            /* Rose pour le code en mode clair */
+        }
+
+        body.light-mode a {
+            color: #d81b60;
+        }
+
+        body.light-mode a:hover {
+            color: #f06292;
+        }
+
+        body.light-mode .toggle-link {
+            background: #d81b60;
+        }
+
+        body.light-mode .toggle-link:hover {
+            background: #f06292;
+        }
+
+        /* Styles communs */
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
 
         .writeup-list {
@@ -26,33 +144,81 @@
 
         .writeup-item {
             margin: 20px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .writeup-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
         }
 
         .writeup-content {
             display: none;
-            margin-top: 10px;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        pre,
+        code {
+            font-family: 'Hack', monospace;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
         }
 
         a {
-            color: #007bff;
             text-decoration: none;
+            font-weight: bold;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .toggle-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            color: #fff;
+            border-radius: 5px;
+            transition: background 0.2s ease;
         }
 
         .back-link {
-            display: block;
+            display: inline-block;
             margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            background: #63b3ed;
+        }
+
+        body.light-mode .theme-toggle {
+            background: #d81b60;
+        }
+
+        body.light-mode .theme-toggle:hover {
+            background: #f06292;
         }
     </style>
 </head>
 
-<body>
+<body class="dark-mode">
+    <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
     <h1>📂 Writeups CTF</h1>
     <p>Voici quelques writeups que j’ai réalisés sur différentes plateformes :</p>
 
@@ -69,6 +235,9 @@
 
                     ## Étapes
                     1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
+                    ```bash
+                    nmap -sC -sV -oA scan 10.10.10.10
+                    ```
                     2. **Exploitation** : Découverte d'une vulnérabilité dans un service web.
                     3. **Accès root** : Escalade de privilèges via un fichier de configuration mal sécurisé.
 
@@ -90,6 +259,9 @@
 
                     ## Étapes
                     1. **Analyse mémoire** : Utilisation de Volatility pour lister les processus.
+                    ```bash
+                    volatility -f memory.dump pslist
+                    ```
                     2. **Extraction** : Récupération d'un mot de passe dans un dump mémoire.
                     3. **Validation** : Soumission du flag obtenu.
 
@@ -111,6 +283,10 @@
 
                     ## Étapes
                     1. **Analyse du fichier** : Utilisation de NumPy pour charger le fichier `.npy`.
+                    ```python
+                    import numpy as np
+                    data = np.load('challenge.npy')
+                    ```
                     2. **Décodage** : Identification d'un message chiffré dans les données.
                     3. **Décryptage** : Application d'une méthode de déchiffrement pour extraire le flag.
 
@@ -124,6 +300,35 @@
     <a href="index.html" class="back-link">⬅ Retour au portfolio</a>
 
     <script>
+        // Gestion du mode sombre/clair
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Charger le mode sauvegardé
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.remove('dark-mode');
+            body.classList.add('light-mode');
+            themeToggle.textContent = '☀ Mode clair';
+        } else {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '🌙 Mode sombre';
+        }
+
+        // Basculer entre les modes
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggle.textContent = '☀ Mode clair';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '🌙 Mode sombre';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
         // Convertir le Markdown en HTML pour chaque writeup
         document.querySelectorAll('.writeup-item').forEach(item => {
             const contentDiv = item.querySelector('.writeup-content');
