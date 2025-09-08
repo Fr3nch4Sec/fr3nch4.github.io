@@ -1,133 +1,172 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Fr3nch4Sec</title>
-  <style>
-    /* Reset */
-    * {margin:0; padding:0; box-sizing:border-box;}
-    body {
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      line-height: 1.6;
-    }
-    header {
-      text-align: center;
-      padding: 3rem 1rem;
-      background: #161b22;
-      border-bottom: 2px solid #21262d;
-    }
-    header h1 {
-      font-size: 2.5rem;
-      color: #58a6ff;
-    }
-    header p {
-      font-size: 1.2rem;
-      margin-top: 0.5rem;
-      color: #8b949e;
-    }
-    nav {
-      margin-top: 1.5rem;
-    }
-    nav a {
-      margin: 0 10px;
-      color: #c9d1d9;
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-    nav a:hover {
-      color: #58a6ff;
-    }
-    section {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 1rem;
-    }
-    section h2 {
-      margin-bottom: 1rem;
-      color: #58a6ff;
-    }
-    .card {
-      background: #161b22;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1rem 0;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-      transition: transform 0.2s;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    .card a {
-      color: #58a6ff;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .skills span {
-      display: inline-block;
-      background: #21262d;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      margin: 0.3rem;
-      font-size: 0.9rem;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      color: #8b949e;
-      border-top: 2px solid #21262d;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Fr3nch4Sec</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0d1117;
+            --card-bg: #f2f2f2;
+            --accent: #0366d6;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0d1117;
+            --text: #c9d1d9;
+            --card-bg: #161b22;
+            --accent: #58a6ff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: var(--card-bg);
+            border-bottom: 2px solid #21262d20;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        nav {
+            margin-top: 1.5rem;
+        }
+
+        nav a {
+            margin: 0 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        #theme-toggle {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--accent);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        section {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        section h2 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            color: var(--text);
+            border-top: 2px solid #21262d20;
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Fr3nch4Sec</h1>
-    <p>Sécurité informatique • Développement</p>
-    <nav>
-      <a href="#projets">Projets</a>
-      <a href="#competences">Compétences</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+    <header>
+        <h1>Fr3nch4Sec</h1>
+        <p>Sécurité informatique • Développement</p>
+        <nav>
+            <a href="#projets">Projets</a>
+            <a href="#competences">Compétences</a>
+            <a href="writeups.html">Writeups CTF</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button id="theme-toggle">🌙 Mode sombre</button>
+    </header>
 
-  <section id="projets">
-    <h2>🚀 Projets</h2>
-    <div class="card">
-      <h3>Analyse Forensique</h3>
-      <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.</p>
-      <a href="https://github.com/Fr3nch4Sec/projet-forensic" target="_blank">Voir sur GitHub</a>
-    </div>
-    <div class="card">
-      <h3>Outil Python</h3>
-      <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
-      <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
-    </div>
-  </section>
+    <section id="projets">
+        <h2>🚀 Projets</h2>
+        <div class="card">
+            <h3>Analyse Forensique</h3>
+            <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.
+            </p>
+            <a href="https://github.com/Fr3nch4Sec/projet-forensic" target="_blank">Voir sur GitHub</a>
+        </div>
+        <div class="card">
+            <h3>Outil Python</h3>
+            <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
+            <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
+        </div>
+    </section>
 
-  <section id="competences">
-    <h2>💡 Compétences</h2>
-    <div class="skills">
-      <span>Python</span>
-      <span>Bash</span>
-      <span>Linux</span>
-      <span>Pentest</span>
-      <span>Git</span>
-    </div>
-  </section>
+    <section id="competences">
+        <h2>💡 Compétences</h2>
+        <div class="card">
+            <p>Python • Bash • Linux • Pentest • Git</p>
+        </div>
+    </section>
 
-  <section id="contact">
-    <h2>📬 Contact</h2>
-    <p>📧 <a href="mailto:tonemail@example.com">tonemail@example.com</a></p>
-    <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
-    <p>💼 <a href="https://linkedin.com/in/tonprofil" target="_blank">LinkedIn</a></p>
-  </section>
+    <section id="contact">
+        <h2>📬 Contact</h2>
+        <p>📧 <a href="mailto:tonemail@example.com">tonemail@example.com</a></p>
+        <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
+        <p>💼 <a href="https://linkedin.com/in/tonprofil" target="_blank">LinkedIn</a></p>
+    </section>
 
-  <footer>
-    © 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages
-  </footer>
+    <footer>
+        © 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages
+    </footer>
+
+    <script>
+        const toggle = document.getElementById("theme-toggle");
+        const body = document.body;
+
+        // Mode automatique selon le navigateur
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            body.setAttribute("data-theme", "dark");
+            toggle.textContent = "☀️ Mode clair";
+        }
+
+        toggle.addEventListener("click", () => {
+            if (body.getAttribute("data-theme") === "dark") {
+                body.removeAttribute("data-theme");
+                toggle.textContent = "🌙 Mode sombre";
+            } else {
+                body.setAttribute("data-theme", "dark");
+                toggle.textContent = "☀️ Mode clair";
+            }
+        });
+    </script>
 </body>
+
 </html>
