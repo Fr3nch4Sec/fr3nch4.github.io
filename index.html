@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Fr3nch4Sec</title>
+  <style>
+    /* Reset */
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: #161b22;
+      border-bottom: 2px solid #21262d;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      color: #58a6ff;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      color: #8b949e;
+    }
+    nav {
+      margin-top: 1.5rem;
+    }
+    nav a {
+      margin: 0 10px;
+      color: #c9d1d9;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    nav a:hover {
+      color: #58a6ff;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    section h2 {
+      margin-bottom: 1rem;
+      color: #58a6ff;
+    }
+    .card {
+      background: #161b22;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .skills span {
+      display: inline-block;
+      background: #21262d;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      margin: 0.3rem;
+      font-size: 0.9rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: #8b949e;
+      border-top: 2px solid #21262d;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fr3nch4Sec</h1>
+    <p>Sécurité informatique • Développement</p>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section id="projets">
+    <h2>🚀 Projets</h2>
+    <div class="card">
+      <h3>Analyse Forensique</h3>
+      <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.</p>
+      <a href="https://github.com/Fr3nch4Sec/projet-forensic" target="_blank">Voir sur GitHub</a>
+    </div>
+    <div class="card">
+      <h3>Outil Python</h3>
+      <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
+      <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
+    </div>
+  </section>
+
+  <section id="competences">
+    <h2>💡 Compétences</h2>
+    <div class="skills">
+      <span>Python</span>
+      <span>Bash</span>
+      <span>Linux</span>
+      <span>Pentest</span>
+      <span>Git</span>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>📬 Contact</h2>
+    <p>📧 <a href="mailto:tonemail@example.com">tonemail@example.com</a></p>
+    <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
+    <p>💼 <a href="https://linkedin.com/in/tonprofil" target="_blank">LinkedIn</a></p>
+  </section>
+
+  <footer>
+    © 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages
+  </footer>
+</body>
+</html>
