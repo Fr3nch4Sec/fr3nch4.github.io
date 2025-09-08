@@ -4,49 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fr3nch4Sec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-bold.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            font-family: 'Inter', Arial, sans-serif;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px 20px;
             line-height: 1.6;
+            background: url('https://images.unsplash.com/photo-1639326264340-4d6e7f2c99a9?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+            transition: all 0.3s ease;
         }
-        h1, h2 {
-            color: #333;
+        /* Mode sombre (par défaut) */
+        body.dark-mode {
+            color: #e0e0e0;
         }
-        a {
-            color: #007bff;
-            text-decoration: none;
+        body.dark-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* Overlay sombre */
+            z-index: -1;
         }
-        a:hover {
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        body.dark-mode .section {
+            background: rgba(30, 30, 30, 0.9);
+            border: 1px solid #444;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        body.dark-mode a {
+            color: #1e90ff;
+        }
+        body.dark-mode a:hover {
+            color: #63b3ed;
             text-decoration: underline;
+        }
+        body.dark-mode nav a {
+            color: #1e90ff;
+            margin-right: 15px;
+        }
+        body.dark-mode nav a:hover {
+            color: #63b3ed;
+        }
+        /* Mode clair */
+        body.light-mode {
+            color: #333333;
+        }
+        body.light-mode::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9); /* Overlay clair */
+            z-index: -1;
+        }
+        body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+            color: #222222;
+            text-shadow: none;
+        }
+        body.light-mode .section {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        body.light-mode a {
+            color: #d81b60;
+        }
+        body.light-mode a:hover {
+            color: #f06292;
+            text-decoration: underline;
+        }
+        body.light-mode nav a {
+            color: #d81b60;
+            margin-right: 15px;
+        }
+        body.light-mode nav a:hover {
+            color: #f06292;
+        }
+        /* Styles communs */
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
         }
         .section {
             margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+        .section div {
+            margin: 20px 0;
         }
         .contact-item {
             margin: 10px 0;
         }
         .contact-item img {
-            max-width: 150px; /* Ajuste la taille du badge */
+            max-width: 150px; /* Taille du badge image */
             height: auto;
             vertical-align: middle;
         }
         .contact-item iframe {
-            max-width: 100%; /* Assure que l'iframe ne dépasse pas la largeur du conteneur */
-            width: 300px; /* Largeur fixe pour l'iframe, ajustable selon tes préférences */
-            height: 100px; /* Hauteur ajustée pour l'iframe */
-            border: none; /* Supprime les bordures */
+            max-width: 100%; /* Taille de l'iframe */
+            width: 300px;
+            height: 100px;
+            border: none;
+        }
+        nav {
+            margin-bottom: 20px;
         }
         .theme-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
+            padding: 10px 15px;
+            background: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .theme-toggle:hover {
+            background: #63b3ed;
+        }
+        body.light-mode .theme-toggle {
+            background: #d81b60;
+        }
+        body.light-mode .theme-toggle:hover {
+            background: #f06292;
+        }
+        /* Style pour les éventuels blocs de code avec Hack Bold */
+        pre, code {
+            font-family: 'Hack', monospace;
+            font-weight: bold;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        body.light-mode pre, body.light-mode code {
+            background: #f5f5f5;
+            color: #d81b60;
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
+    <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
     <h1>Fr3nch4Sec</h1>
     <p>Sécurité informatique • Développement</p>
     <nav>
@@ -55,7 +173,6 @@
         <a href="writeups.html">Writeups CTF</a>
         <a href="#contact">Contact</a>
     </nav>
-    <button class="theme-toggle">🌙 Mode sombre</button>
 
     <div class="section" id="projets">
         <h2>🚀 Projets</h2>
@@ -78,15 +195,46 @@
 
     <div class="section" id="contact">
         <h2>📬 Contact</h2>
-        <div class="contact-item">📧 yoanncoudry494@gmail.com </div>
+        <div class="contact-item">📧 tonemail@example.com</div>
         <div class="contact-item"><img src="https://tryhackme-badges.s3.amazonaws.com/french4.png" alt="Your Image Badge" /></div>
         <div class="contact-item"><iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3645698" style="border:none;"></iframe></div>
-        <div class="contact-item"><a href="#">🔗 GitHub : https://github.com/Fr3nch4Sec </a></div>
+        <div class="contact-item"><a href="#">🔗 GitHub</a></div>
         <div class="contact-item"><a href="#">💼 LinkedIn</a></div>
     </div>
 
     <div>
         <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
     </div>
+
+    <script>
+        // Gestion du mode sombre/clair
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Charger le mode sauvegardé
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.remove('dark-mode');
+            body.classList.add('light-mode');
+            themeToggle.textContent = '☀ Mode clair';
+        } else {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '🌙 Mode sombre';
+        }
+
+        // Basculer entre les modes
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeToggle.textContent = '☀ Mode clair';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeToggle.textContent = '🌙 Mode sombre';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
