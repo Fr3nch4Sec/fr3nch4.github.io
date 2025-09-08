@@ -1,172 +1,92 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Fr3nch4Sec</title>
+    <title>Fr3nch4Sec</title>
     <style>
-        :root {
-            --bg: #ffffff;
-            --text: #0d1117;
-            --card-bg: #f2f2f2;
-            --accent: #0366d6;
-        }
-
-        [data-theme="dark"] {
-            --bg: #0d1117;
-            --text: #c9d1d9;
-            --card-bg: #161b22;
-            --accent: #58a6ff;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
         }
-
-        header {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: var(--card-bg);
-            border-bottom: 2px solid #21262d20;
+        h1, h2 {
+            color: #333;
         }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--accent);
-        }
-
-        nav {
-            margin-top: 1.5rem;
-        }
-
-        nav a {
-            margin: 0 10px;
-            color: var(--text);
+        a {
+            color: #007bff;
             text-decoration: none;
-            font-weight: bold;
         }
-
-        nav a:hover {
-            color: var(--accent);
+        a:hover {
+            text-decoration: underline;
         }
-
-        #theme-toggle {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: var(--accent);
-            color: #fff;
-            font-weight: bold;
+        .section {
+            margin-bottom: 40px;
         }
-
-        section {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 1rem;
+        .contact-item {
+            margin: 10px 0;
         }
-
-        section h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
+        .contact-item img {
+            max-width: 150px; /* Ajuste la taille du badge */
+            height: auto;
+            vertical-align: middle;
         }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
+        .contact-item iframe {
+            max-width: 100%; /* Assure que l'iframe ne dépasse pas la largeur du conteneur */
+            width: 300px; /* Largeur fixe pour l'iframe, ajustable selon tes préférences */
+            height: 100px; /* Hauteur ajustée pour l'iframe */
+            border: none; /* Supprime les bordures */
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            font-size: 0.9rem;
-            color: var(--text);
-            border-top: 2px solid #21262d20;
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>Fr3nch4Sec</h1>
-        <p>Sécurité informatique • Développement</p>
-        <nav>
-            <a href="#projets">Projets</a>
-            <a href="#competences">Compétences</a>
-            <a href="writeups.html">Writeups CTF</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <button id="theme-toggle">🌙 Mode sombre</button>
-    </header>
+    <h1>Fr3nch4Sec</h1>
+    <p>Sécurité informatique • Développement</p>
+    <nav>
+        <a href="#projets">Projets</a>
+        <a href="#competences">Compétences</a>
+        <a href="writeups.html">Writeups CTF</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle">🌙 Mode sombre</button>
 
-    <section id="projets">
+    <div class="section" id="projets">
         <h2>🚀 Projets</h2>
-        <div class="card">
+        <div>
             <h3>Analyse Forensique</h3>
-            <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.
-            </p>
-            <a href="https://github.com/Fr3nch4Sec/projet-forensic" target="_blank">Voir sur GitHub</a>
+            <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.</p>
+            <a href="#">Voir sur GitHub</a>
         </div>
-        <div class="card">
+        <div>
             <h3>Outil Python</h3>
             <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
-            <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
+            <a href="#">Voir sur GitHub</a>
         </div>
-    </section>
+    </div>
 
-    <section id="competences">
+    <div class="section" id="competences">
         <h2>💡 Compétences</h2>
-        <div class="card">
-            <p>Python • Bash • Linux • Pentest • Git</p>
-        </div>
-    </section>
+        <p>Python • Bash • Linux • Pentest • Git</p>
+    </div>
 
-    <section id="contact">
+    <div class="section" id="contact">
         <h2>📬 Contact</h2>
-        <p>📧 <a href="mailto:tonemail@example.com">tonemail@example.com</a></p>
-        <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
-        <p>💼 <a href="https://linkedin.com/in/tonprofil" target="_blank">LinkedIn</a></p>
-    </section>
+        <div class="contact-item">📧 tonemail@example.com</div>
+        <div class="contact-item"><img src="https://tryhackme-badges.s3.amazonaws.com/french4.png" alt="Your Image Badge" /></div>
+        <div class="contact-item"><iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3645698" style="border:none;"></iframe></div>
+        <div class="contact-item"><a href="#">🔗 GitHub</a></div>
+        <div class="contact-item"><a href="#">💼 LinkedIn</a></div>
+    </div>
 
-    <footer>
-        © 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages
-    </footer>
-
-    <script>
-        const toggle = document.getElementById("theme-toggle");
-        const body = document.body;
-
-        // Mode automatique selon le navigateur
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            body.setAttribute("data-theme", "dark");
-            toggle.textContent = "☀️ Mode clair";
-        }
-
-        toggle.addEventListener("click", () => {
-            if (body.getAttribute("data-theme") === "dark") {
-                body.removeAttribute("data-theme");
-                toggle.textContent = "🌙 Mode sombre";
-            } else {
-                body.setAttribute("data-theme", "dark");
-                toggle.textContent = "☀️ Mode clair";
-            }
-        });
-    </script>
+    <div>
+        <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
+    </div>
 </body>
-
 </html>
