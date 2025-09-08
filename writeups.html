@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,12 +20,10 @@
             min-height: 100vh;
             transition: all 0.3s ease;
         }
-
         /* Mode sombre (par défaut) */
         body.dark-mode {
             color: #e0e0e0;
         }
-
         body.dark-mode::before {
             content: '';
             position: fixed;
@@ -34,54 +31,51 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            /* Overlay sombre */
+            background: rgba(0, 0, 0, 0.85); /* Overlay sombre */
             z-index: -1;
         }
-
-        body.dark-mode h1,
-        body.dark-mode h2 {
+        body.dark-mode h1, body.dark-mode h2 {
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
-
         body.dark-mode .writeup-item {
             background: rgba(30, 30, 30, 0.9);
+            border: 1px solid #444;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
-
         body.dark-mode .writeup-content {
             background: rgba(50, 50, 50, 0.7);
         }
-
-        body.dark-mode pre,
-        body.dark-mode code {
+        body.dark-mode pre, body.dark-mode code {
+            font-family: 'Hack', monospace;
+            font-weight: bold;
             background: #1a1a1a;
-            color: #00ff00;
-            /* Vert hacker */
+            color: #00ff00; /* Vert hacker */
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
         }
-
         body.dark-mode a {
             color: #1e90ff;
         }
-
         body.dark-mode a:hover {
             color: #63b3ed;
+            text-decoration: underline;
         }
-
         body.dark-mode .toggle-link {
             background: #1e90ff;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
         }
-
         body.dark-mode .toggle-link:hover {
             background: #63b3ed;
+            text-decoration: none;
         }
-
         /* Mode clair */
         body.light-mode {
             color: #333333;
         }
-
         body.light-mode::before {
             content: '';
             position: fixed;
@@ -89,107 +83,85 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            /* Overlay clair */
+            background: rgba(255, 255, 255, 0.9); /* Overlay clair */
             z-index: -1;
         }
-
-        body.light-mode h1,
-        body.light-mode h2 {
+        body.light-mode h1, body.light-mode h2 {
             color: #222222;
             text-shadow: none;
         }
-
         body.light-mode .writeup-item {
             background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #ddd;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         body.light-mode .writeup-content {
             background: rgba(240, 240, 240, 0.9);
         }
-
-        body.light-mode pre,
-        body.light-mode code {
+        body.light-mode pre, body.light-mode code {
+            font-family: 'Hack', monospace;
+            font-weight: bold;
             background: #f5f5f5;
-            color: #d81b60;
-            /* Rose pour le code en mode clair */
+            color: #d81b60; /* Rose pour le code */
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
         }
-
         body.light-mode a {
             color: #d81b60;
         }
-
         body.light-mode a:hover {
             color: #f06292;
+            text-decoration: underline;
         }
-
         body.light-mode .toggle-link {
             background: #d81b60;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
         }
-
         body.light-mode .toggle-link:hover {
             background: #f06292;
+            text-decoration: none;
         }
-
         /* Styles communs */
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
         }
-
         .writeup-list {
             margin-bottom: 40px;
         }
-
         .writeup-item {
             margin: 20px 0;
             padding: 20px;
             border-radius: 10px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
         .writeup-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
         }
-
         .writeup-content {
             display: none;
             margin-top: 15px;
             padding: 15px;
             border-radius: 5px;
         }
-
-        pre,
-        code {
-            font-family: 'Hack', monospace;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-
         a {
             text-decoration: none;
             font-weight: bold;
         }
-
         .toggle-link {
             display: inline-block;
             margin-top: 10px;
-            padding: 8px 16px;
-            color: #fff;
-            border-radius: 5px;
             transition: background 0.2s ease;
         }
-
         .back-link {
             display: inline-block;
             margin-top: 20px;
             font-size: 1.1em;
         }
-
         .theme-toggle {
             position: fixed;
             top: 20px;
@@ -202,21 +174,17 @@
             cursor: pointer;
             transition: background 0.2s ease;
         }
-
         .theme-toggle:hover {
             background: #63b3ed;
         }
-
         body.light-mode .theme-toggle {
             background: #d81b60;
         }
-
         body.light-mode .theme-toggle:hover {
             background: #f06292;
         }
     </style>
 </head>
-
 <body class="dark-mode">
     <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
     <h1>📂 Writeups CTF</h1>
@@ -351,5 +319,4 @@
         });
     </script>
 </body>
-
 </html>
