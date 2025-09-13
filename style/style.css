@@ -1,131 +1,355 @@
-/* ====== MODE SOMBRE ====== */
+/* ====== RESET ET BASE GÉNÉRALE ====== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: #1f2937; /* Gris foncé, mode clair */
+    background-color: #e5e7eb; /* Gris clair assombri, mode clair */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header global */
+header, h1 {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+/* Sections générales */
+section {
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Projets (index.html) */
+.project, h3 {
+    background: #f9fafb; /* Blanc cassé assombri */
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.project:hover, h3:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.project p, h3 + p {
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* Compétences (index.html) */
+.skills, .competences p {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    list-style: none;
+}
+
+.skills li, .competences span {
+    background: #3d5a3a; /* Vert olive plus saturé, mode clair */
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Liens généraux */
+a {
+    color: #3d5a3a; /* Vert olive, mode clair */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #2d4a2d; /* Vert plus foncé pour hover */
+    text-decoration: underline;
+}
+
+/* Bouton mode jour/nuit */
+#theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    z-index: 1000;
+}
+
+#theme-toggle:hover {
+    background: #d1d5db;
+    transform: rotate(20deg);
+}
+
+#theme-toggle .theme-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* ====== MODE SOMBRE (Mélange CryptoHack + TheHackerRecipes) ====== */
 body.dark-mode {
-  background-color: #0d1117;
-  color: #e6edf3;
+    background-color: #1a1a1a; /* Gris foncé inspiré CryptoHack/TheHackerRecipes */
+    color: #f1f5f9; /* Blanc cassé clair */
 }
 
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3 {
-  color: #58a6ff;
+    color: #10b981; /* Vert CryptoHack pour titres */
 }
 
 body.dark-mode .platform-section {
-  margin-bottom: 30px;
-  padding: 20px;
-  border-radius: 10px;
-  background: rgba(30, 30, 30, 0.85);
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(26, 26, 26, 0.85); /* Fond sombre CryptoHack */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .writeup-item {
-  margin: 15px 0;
-  padding: 15px;
-  border-radius: 8px;
-  background: rgba(50, 50, 50, 0.6);
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: rgba(45, 45, 45, 0.6); /* Gris moyen TheHackerRecipes */
+    transition: background 0.3s ease;
+}
+
+body.dark-mode .writeup-item:hover {
+    background: rgba(45, 45, 45, 0.8);
 }
 
 body.dark-mode .writeup-content {
-  background: rgba(20, 20, 20, 0.8);
-  padding: 15px;
-  border-radius: 6px;
-  margin-top: 10px;
+    background: rgba(26, 26, 26, 0.8); /* Sombre CryptoHack */
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
 }
 
 body.dark-mode pre,
 body.dark-mode code {
-  font-family: 'Hack', monospace;
-  background: #161b22;
-  color: #00ff7f;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
+    font-family: 'Hack', monospace;
+    background: #0a0a0a; /* Noir profond CryptoHack */
+    color: #00ff7f; /* Vert néon CryptoHack pour code */
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
 }
 
-/* ====== MODE CLAIR ====== */
+body.dark-mode .project, body.dark-mode h3 {
+    background: rgba(26, 26, 26, 0.85);
+    border-color: #374151;
+}
+
+body.dark-mode .skills li, body.dark-mode .competences span {
+    background: #10b981; /* Vert CryptoHack */
+}
+
+body.dark-mode a {
+    color: #10b981; /* Vert pour liens */
+}
+
+body.dark-mode a:hover {
+    color: #3b82f6; /* Bleu TheHackerRecipes pour hover */
+}
+
+body.dark-mode #theme-toggle {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+body.dark-mode #theme-toggle:hover {
+    background: #4b5563;
+}
+
+/* ====== MODE CLAIR (Assombri) ====== */
 body.light-mode {
-  background-color: #f6f8fa;
-  color: #24292f;
+    background-color: #e5e7eb; /* Gris clair assombri */
+    color: #1f2937; /* Gris foncé */
 }
 
 body.light-mode h1,
 body.light-mode h2,
 body.light-mode h3 {
-  color: #d81b60;
+    color: #3d5a3a; /* Vert olive saturé */
 }
 
 body.light-mode .platform-section {
-  margin-bottom: 30px;
-  padding: 20px;
-  border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid #ddd;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f9fafb; /* Blanc cassé assombri */
+    border: 1px solid #d1d5db;
 }
 
 body.light-mode .writeup-item {
-  margin: 15px 0;
-  padding: 15px;
-  border-radius: 8px;
-  background: #fafafa;
-  border: 1px solid #e1e4e8;
+    margin: 15px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f3f4f6; /* Gris très clair assombri */
+    border: 1px solid #d1d5db;
 }
 
 body.light-mode .writeup-content {
-  background: #fdfdfd;
-  padding: 15px;
-  border-radius: 6px;
-  margin-top: 10px;
-  border: 1px solid #eaeaea;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border: 1px solid #e5e7eb;
 }
 
 body.light-mode pre,
 body.light-mode code {
-  font-family: 'Hack', monospace;
-  background: #f5f5f5;
-  color: #005cc5;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
+    font-family: 'Hack', monospace;
+    background: #f3f4f6; /* Gris clair assombri pour code */
+    color: #2d4a2d; /* Vert foncé */
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
 }
 
 /* ====== COMMUN ====== */
-a {
-  color: #1e90ff;
-  text-decoration: none;
-  font-weight: bold;
-}
-a:hover {
-  text-decoration: underline;
-}
-
 pre {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 
 /* Images responsives */
 .writeup-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin: 10px 0;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 10px 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 1px solid #d1d5db;
+    opacity: 0.7;
+}
+
+/* Styles pour accordéon (writeups) */
+.writeup-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+    padding: 0 15px;
+}
+
+.writeup-content.open {
+    max-height: 2000px;
+    padding: 15px;
+}
+
+.clickable {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    user-select: none;
+}
+
+.clickable::after {
+    content: '+';
+    font-size: 1.5em;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s ease;
+}
+
+.clickable.open::after {
+    content: '−';
+    transform: rotate(180deg);
+}
+
+.clickable:hover {
+    color: #3d5a3a; /* Vert olive pour hover */
 }
 
 /* Mobile-friendly */
 @media (max-width: 768px) {
-  body {
-    padding: 20px 10px;
-  }
-  h1 {
-    font-size: 2em;
-  }
-  h2.clickable {
-    font-size: 1.2em;
-  }
-  pre, code {
-    font-size: 0.9em;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
+    body {
+        padding: 20px 10px;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2.clickable {
+        font-size: 1.2em;
+    }
+    pre, code {
+        font-size: 0.9em;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+    .project, h3 {
+        padding: 10px;
+    }
+    #theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Animation pour le bouton toggle */
+@keyframes rotateIcon {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(180deg); }
+}
+
+#theme-toggle.clicked .theme-icon {
+    animation: rotateIcon 0.3s ease forwards;
+}
+
+/* Variables CSS pour accents (utilisables dans hover, etc.) */
+:root {
+    --accent-clair: #3d5a3a;
+    --accent-sombre: #10b981;
+    --hover-bleu: #3b82f6;
 }
