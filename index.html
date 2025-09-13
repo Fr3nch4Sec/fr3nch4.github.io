@@ -1,108 +1,14 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Fr3nch4Sec</title>
-    <style>
-        :root {
-            --bg: #ffffff;
-            --text: #0d1117;
-            --card-bg: #f2f2f2;
-            --accent: #0366d6;
-        }
-
-        [data-theme="dark"] {
-            --bg: #0d1117;
-            --text: #c9d1d9;
-            --card-bg: #161b22;
-            --accent: #58a6ff;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        header {
-            text-align: center;
-            padding: 3rem 1rem;
-            background: var(--card-bg);
-            border-bottom: 2px solid #21262d20;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            color: var(--accent);
-        }
-
-        nav {
-            margin-top: 1.5rem;
-        }
-
-        nav a {
-            margin: 0 10px;
-            color: var(--text);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        #theme-toggle {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: var(--accent);
-            color: #fff;
-            font-weight: bold;
-        }
-
-        section {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 1rem;
-        }
-
-        section h2 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem 1rem;
-            font-size: 0.9rem;
-            color: var(--text);
-            border-top: 2px solid #21262d20;
-        }
-    </style>
+    <title>Fr3nch4Sec - Portfolio</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
+<body class="dark-mode">
+    <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
 
-<body>
     <header>
         <h1>Fr3nch4Sec</h1>
         <p>Sécurité informatique • Développement</p>
@@ -112,351 +18,54 @@
             <a href="writeups.html">Writeups CTF</a>
             <a href="#contact">Contact</a>
         </nav>
-        <button id="theme-toggle">🌙 Mode sombre</button>
     </header>
 
-    <section id="projets">
-        <h2>🚀 Projets</h2>
-        <div class="card">
-            <h3>Analyse Forensique</h3>
-            <p>Investigation numérique sur un challenge CTF, extraction et analyse de données pour détecter un incident.
-            </p>
-            <a href="https://github.com/Fr3nch4Sec/projet-forensic" target="_blank">Voir sur GitHub</a>
-        </div>
-        <div class="card">
-            <h3>Outil Python</h3>
-            <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
-            <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
-        </div>
-    </section>
+    <main>
+        <section id="projets">
+            <h2>🚀 Projets</h2>
+            <div class="card">
+                <h3>Scanner de ports en C++</h3>
+                <p>Petit projet d'apprentissage du C++, création d’un scanner de ports.</p>
+                <a href="https://github.com/Fr3nch4Sec/CPorter" target="_blank">Voir sur GitHub</a>
+            </div>
+            <div class="card">
+                <h3>Outil Python</h3>
+                <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
+                <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
+            </div>
+        </section>
 
-    <section id="competences">
-        <h2>💡 Compétences</h2>
-        <div class="card">
-            <p>Python • Bash • Linux • Pentest • Git</p>
-        </div>
-    </section>
+        <section id="competences">
+            <h2>💡 Compétences</h2>
+            <div class="card">
+                <p>Python • Bash • Linux • Pentest • Git</p>
+            </div>
+        </section>
 
-    <section id="contact">
-        <h2>📬 Contact</h2>
-        <p>📧 <a href="mailto:tonemail@example.com">tonemail@example.com</a></p>
-        <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
-        <p>💼 <a href="https://linkedin.com/in/tonprofil" target="_blank">LinkedIn</a></p>
-    </section>
+        <section id="contact">
+            <h2>📬 Contact</h2>
+            <p>📧 <a href="mailto:yoanncoudry494@gmail.com">yoanncoudry494@gmail.com</a></p>
+            <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
+            <p>🔗 <a href="https://app.hackthebox.com/profile/f0rz4d" target="_blank">HackTheBox</a></p>
+            <p>🔗 <a href="https://tryhackme.com/p/french4" target="_blank">TryHackMe</a></p>
+            <p>🔗 <a href="https://play.picoctf.org/users/f0rz4d" target="_blank">PicoCTF</a></p>
+        </section>
+    </main>
 
     <footer>
-        © 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages
+        <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
     </footer>
 
     <script>
-        const toggle = document.getElementById("theme-toggle");
-        const body = document.body;
-
-        // Mode automatique selon le navigateur
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            body.setAttribute("data-theme", "dark");
-            toggle.textContent = "☀️ Mode clair";
-        }
-
-        toggle.addEventListener("click", () => {
-            if (body.getAttribute("data-theme") === "dark") {
-                body.removeAttribute("data-theme");
-                toggle.textContent = "🌙 Mode sombre";
-            } else {
-                body.setAttribute("data-theme", "dark");
-                toggle.textContent = "☀️ Mode clair";
-            }
-        });
-    </script>
-</body>
-
-</html>
-=======
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fr3nch4Sec</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-bold.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Ubuntu', Ubuntu Sans, sans-serif;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-            background: url('https://images.unsplash.com/photo-1639326264340-4d6e7f2c99a9?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
-            background-size: cover;
-            position: relative;
-            min-height: 100vh;
-            transition: all 0.3s ease;
-        }
-
-        /* Mode sombre (par défaut) */
-        body.dark-mode {
-            color: #e0e0e0;
-        }
-
-        body.dark-mode::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            /* Overlay sombre */
-            z-index: -1;
-        }
-
-        body.dark-mode h1,
-        body.dark-mode h2,
-        body.dark-mode h3 {
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        body.dark-mode .section {
-            background: rgba(30, 30, 30, 0.9);
-            border: 1px solid #444;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        body.dark-mode a {
-            color: #1e90ff;
-        }
-
-        body.dark-mode a:hover {
-            color: #63b3ed;
-            text-decoration: underline;
-        }
-
-        body.dark-mode nav a {
-            color: #1e90ff;
-            margin-right: 15px;
-        }
-
-        body.dark-mode nav a:hover {
-            color: #63b3ed;
-        }
-
-        /* Mode clair */
-        body.light-mode {
-            color: #333333;
-        }
-
-        body.light-mode::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            /* Overlay clair */
-            z-index: -1;
-        }
-
-        body.light-mode h1,
-        body.light-mode h2,
-        body.light-mode h3 {
-            color: #222222;
-            text-shadow: none;
-        }
-
-        body.light-mode .section {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        body.light-mode a {
-            color: #d81b60;
-        }
-
-        body.light-mode a:hover {
-            color: #f06292;
-            text-decoration: underline;
-        }
-
-        body.light-mode nav a {
-            color: #d81b60;
-            margin-right: 15px;
-        }
-
-        body.light-mode nav a:hover {
-            color: #f06292;
-        }
-
-        /* Styles communs */
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        .section {
-            margin-bottom: 40px;
-            transition: all 0.3s ease;
-        }
-
-        .section div {
-            margin: 20px 0;
-        }
-
-        .contact-item {
-            margin: 10px 0;
-        }
-
-        .contact-item img {
-            max-width: 150px;
-            /* Taille du badge image */
-            height: auto;
-            vertical-align: middle;
-        }
-
-        .contact-item iframe {
-            max-width: 100%;
-            /* Taille de l'iframe */
-            width: 300px;
-            height: 100px;
-            border: none;
-        }
-
-        nav {
-            margin-bottom: 20px;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 15px;
-            background: #1e90ff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-
-        .theme-toggle:hover {
-            background: #63b3ed;
-        }
-
-        body.light-mode .theme-toggle {
-            background: #d81b60;
-        }
-
-        body.light-mode .theme-toggle:hover {
-            background: #f06292;
-        }
-
-        /* Style pour les éventuels blocs de code avec Hack Bold */
-        pre,
-        code {
-            font-family: 'Hack', monospace;
-            font-weight: bold;
-            background: #1a1a1a;
-            color: #00ff00;
-            padding: 10px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-
-        body.light-mode pre,
-        body.light-mode code {
-            background: #f5f5f5;
-            color: #d81b60;
-        }
-    </style>
-</head>
-
-<body class="dark-mode">
-    <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
-    <h1>Fr3nch4Sec</h1>
-    <p>Sécurité informatique • Développement</p>
-    <nav>
-        <a href="#projets">Projets</a>
-        <a href="#competences">Compétences</a>
-        <a href="writeups.html">Writeups CTF</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <div class="section" id="projets">
-        <h2>🚀 Projets</h2>
-        <div>
-            <h3>Scanner de ports en C++</h3>
-            <p>J'ai débuté l'apprentissage du C++ sur Openclassrooms, Codecademy, CodeWars.
-                Après cela, j'ai décidé de bricoler un scanner de ports. Je me suis aidé de la documentation en ligne,
-                de l'IA.
-                Mais j'ai arrêté le projet par manque de connaissances assez solide sur ce language. La structure
-                de mon code impactait très négativement le scan. C++ est, normalement, plus rapide que Python.
-                J'ai introduit de options basique, pour choisir la vitesse de détection des ports.(type silencieux et bruyant).
-                
-                En tout cas, je préfère en apprendre plus sur ce language. Et peut-être en refaire un autre. Un peu mieux. ⚒️ =>🔭=>🚀 Ce sera comme un
-                genre de test.
-                Rapidité du programme == bon code C++.
-                Mais j'ai bien aimé la pratique de ce language.
-                Vous pouvez regarder le résultat à l'adresse ci-dessous:
-            </p>
-            <div class="lien-item"><a href="https://github.com/Fr3nch4Sec/CPorter"></a></div>
-        </div>
-        <div>
-            <h3>Outil Python</h3>
-            <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
-            <a href="#">Voir sur GitHub</a>
-        </div>
-    </div>
-
-    <div class="section" id="competences">
-        <h2>💡 Compétences</h2>
-        <p>Python • Bash • Linux • Pentest • Git</p>
-    </div>
-
-    <div class="section" id="contact">
-        <h2>📬 Contact</h2>
-        <div class="contact-item">📧 yoanncoudry494@gmail.com</div>
-        <div class="contact-item"><img src="https://tryhackme-badges.s3.amazonaws.com/french4.png"
-                alt="Your TryHackMe Image Badge" /></div>
-        <div class="contact-item"><iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3645698"
-                style="border:none;"></iframe></div>
-        <div class="contact-item"><a href="https://app.hackthebox.com/profile/f0rz4d"><img
-                    src="https://www.hackthebox.com/badge/image/2138580" alt="f0rz4d's Hack The Box Badge" /></a></div>
-        <div class="contact-item"><a href="#">🔗 PicoCTF : https://play.picoctf.org/users/f0rz4d </a></div>
-        <div class="contact-item"><a href="#">🔗 CRYPTOHACK : https://cryptohack.org/user/fr3nchg4me4/ </a></div>
-        <div class="contact-item"><a href="#">🔗 RootMe : https://cryptohack.org/user/turner1 UID: 403767 </a></div>
-        <div class="contact-item"><a href="#">🔗 TheBlackSide : https://theblackside.fr/profil/fr3nchG4me4 </a></div>
-        <div class="contact-item"><a href="#">🔗 Openclassrooms : https://openclassrooms.com/Fr3nchg4me </a></div>
-        <div class="contact-item"><a href="#">💼 LinkedIn : Je n'ai pas de linkedIn. </a></div>
-    </div>
-
-    <div>
-        <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
-    </div>
-
-    <script>
-        // Gestion du mode sombre/clair
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
 
-        // Charger le mode sauvegardé
         if (localStorage.getItem('theme') === 'light') {
             body.classList.remove('dark-mode');
             body.classList.add('light-mode');
             themeToggle.textContent = '☀ Mode clair';
-        } else {
-            body.classList.add('dark-mode');
-            themeToggle.textContent = '🌙 Mode sombre';
         }
 
-        // Basculer entre les modes
         themeToggle.addEventListener('click', () => {
             if (body.classList.contains('dark-mode')) {
                 body.classList.remove('dark-mode');
@@ -472,6 +81,4 @@
         });
     </script>
 </body>
-
 </html>
->>>>>>> 190adc9f6e794370088fd49b63ac0bb2a839f5b4
