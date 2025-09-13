@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fr3nch4Sec - Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Hack:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style/style.css"> <!-- Chemin corrigé : à la racine, assume style.css -->
-  <!-- Highlight.js avec thème neutre (github pour clair, github-dark pour sombre) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link rel="stylesheet" href="style/style.css"> <!-- Chemin dans dossier style/ -->
+  <!-- Highlight.js neutre -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body class="dark-mode">
@@ -31,7 +31,7 @@
       <div class="writeup-item">
         <h3>Scanner de ports en C++</h3>
         <p>
-          Projet d’apprentissage du C++ : développement d’un scanner de ports basique,
+          Projet d'apprentissage du C++ : développement d'un scanner de ports basique,
           avec options silencieuses et rapides. Expérience utile pour comprendre le langage
           et la gestion réseau bas-niveau.
         </p>
@@ -40,7 +40,7 @@
       <div class="writeup-item">
         <h3>Outil Python</h3>
         <p>
-          Développement d’un script Python pour automatiser la collecte d’informations système
+          Développement d'un script Python pour automatiser la collecte d'informations système
           (processus, réseau, etc.).
         </p>
         <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
@@ -71,29 +71,36 @@
     <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
   </footer>
   <script>
-    hljs.highlightAll();
-    const toggle = document.getElementById('theme-toggle');
-    const icon = toggle.querySelector('.theme-icon');
-    const isDark = localStorage.getItem('theme') === 'dark';
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      document.body.classList.remove('light-mode');
-      icon.textContent = '☀️';
-    } else {
-      document.body.classList.add('light-mode');
-      document.body.classList.remove('dark-mode');
-      icon.textContent = '🌙';
-    }
-    toggle.addEventListener('click', () => {
-      toggle.classList.add('clicked');
-      setTimeout(() => toggle.classList.remove('clicked'), 300);
-      document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode');
-      const isDarkNow = document.body.classList.contains('dark-mode');
-      icon.textContent = isDarkNow ? '☀️' : '🌙';
-      localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+    document.addEventListener('DOMContentLoaded', () => {
+      hljs.highlightAll();
+      const toggle = document.getElementById('theme-toggle');
+      const icon = toggle.querySelector('.theme-icon');
+      const highlightTheme = document.getElementById('highlight-theme');
+      const isDark = localStorage.getItem('theme') === 'dark';
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        document.body.classList.remove('light-mode');
+        icon.textContent = '☀️';
+        highlightTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+      } else {
+        document.body.classList.add('light-mode');
+        document.body.classList.remove('dark-mode');
+        icon.textContent = '🌙';
+        highlightTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+      }
+      toggle.addEventListener('click', () => {
+        toggle.classList.add('clicked');
+        setTimeout(() => toggle.classList.remove('clicked'), 300);
+        document.body.classList.toggle('dark-mode');
+        document.body.classList.toggle('light-mode');
+        const isDarkNow = document.body.classList.contains('dark-mode');
+        icon.textContent = isDarkNow ? '☀️' : '🌙';
+        highlightTheme.href = isDarkNow
+          ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
+          : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+        localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+      });
     });
   </script>
 </body>
 </html>
-
