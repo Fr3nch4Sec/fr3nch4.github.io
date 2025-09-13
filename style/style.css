@@ -248,6 +248,46 @@ body.light-mode code {
 pre {
     margin: 10px 0;
 }
+/* Corrections pour code blocks Markdown (prévention saccades/chevauchage) */
+pre, code {
+    line-height: 1.5; /* Espacement lignes augmenté pour éviter chevauchement */
+    margin: 1em 0; /* Marge au-dessus/en-dessous pour séparer du texte adjacent */
+    padding: 12px; /* Padding interne plus généreux */
+    font-size: 0.95em; /* Légèrement réduit pour lisibilité sans zoom */
+    word-break: break-all; /* Casse les mots longs (ex: URLs dans shell) sans scroll horizontal forcé */
+    white-space: pre-wrap; /* Wrap des lignes longues tout en préservant espaces/indentation */
+    overflow-wrap: break-word; /* Backup pour wrapping */
+    border-radius: 6px; /* Coins arrondis pour modernité */
+}
+
+pre {
+    overflow-x: auto; /* Scroll horizontal seulement si vraiment nécessaire */
+    background: inherit; /* Hérite du fond parent pour cohérence mode clair/sombre */
+    border: 1px solid; /* Bordure subtile pour délimiter */
+    tab-size: 4; /* Indentation cohérente pour shell */
+}
+
+/* Spécifique à l'accordéon : Évite clipping pendant transition */
+.writeup-content.open pre,
+.writeup-content.open code {
+    overflow: visible; /* Temporairement visible pendant ouvert */
+    margin-bottom: 1.5em; /* Plus d'espace en bas pour sorties shell longues */
+}
+
+/* Highlight.js : Corrige spans internes qui cassent les lignes */
+.hljs {
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* Mobile : Réduit padding pour petits écrans */
+@media (max-width: 768px) {
+    pre, code {
+        font-size: 0.9em;
+        padding: 8px;
+        margin: 0.5em 0;
+    }
+}
 
 /* Images responsives */
 .writeup-content img {
