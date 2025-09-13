@@ -1,1 +1,200 @@
 
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    line-height: 1.6;
+    background: url('https://images.unsplash.com/photo-1639326264340-4d6e7f2c99a9?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+/* Mode sombre */
+body.dark-mode {
+    color: #e0e0e0;
+}
+body.dark-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: -1;
+}
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+body.dark-mode .platform-section,
+body.dark-mode .writeup-item {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid #444;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+body.dark-mode .writeup-content {
+    background: rgba(50, 50, 50, 0.7);
+}
+body.dark-mode pre, body.dark-mode code {
+    font-family: 'Hack', monospace;
+    font-weight: bold;
+    background: #1a1a1a;
+    color: #00ff00;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+body.dark-mode a {
+    color: #1e90ff;
+}
+body.dark-mode a:hover {
+    color: #63b3ed;
+    text-decoration: underline;
+}
+
+/* Mode clair */
+body.light-mode {
+    color: #e0e0e0;
+}
+body.light-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(45, 45, 45, 0.9);
+    z-index: -1;
+}
+body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+    color: #ffffff;
+    text-shadow: none;
+}
+body.light-mode .platform-section,
+body.light-mode .writeup-item {
+    background: rgba(60, 60, 60, 0.95);
+    border: 1px solid #666;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+body.light-mode .writeup-content {
+    background: rgba(80, 80, 80, 0.9);
+}
+body.light-mode pre, body.light-mode code {
+    font-family: 'Hack', monospace;
+    font-weight: bold;
+    background: #333333;
+    color: #00ff00;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+body.light-mode a {
+    color: #1e90ff;
+}
+body.light-mode a:hover {
+    color: #63b3ed;
+    text-decoration: underline;
+}
+
+/* Commun */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+h2.clickable {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+h2.clickable:hover {
+    color: #63b3ed;
+}
+.platform-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+.writeup-item {
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.writeup-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+.writeup-content {
+    display: none;
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+a {
+    text-decoration: none;
+    font-weight: bold;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.1em;
+}
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background: #1e90ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.theme-toggle:hover {
+    background: #63b3ed;
+}
+body.light-mode .theme-toggle {
+    background: #1e90ff;
+}
+body.light-mode .theme-toggle:hover {
+    background: #63b3ed;
+}
+
+/* Images responsives */
+.writeup-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2.clickable {
+        font-size: 1.2em;
+    }
+    pre, code {
+        font-size: 0.9em;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+    }
+}
