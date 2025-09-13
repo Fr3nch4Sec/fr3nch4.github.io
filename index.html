@@ -1,84 +1,96 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fr3nch4Sec - Portfolio</title>
-    <link rel="stylesheet" href="style/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fr3nch4Sec - Portfolio</title>
+  <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="dark-mode">
-    <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
+  <button class="theme-toggle" id="themeToggle">🌙 Mode sombre</button>
 
-    <header>
-        <h1>Fr3nch4Sec</h1>
-        <p>Sécurité informatique • Développement</p>
-        <nav>
-            <a href="#projets">Projets</a>
-            <a href="#competences">Compétences</a>
-            <a href="writeups.html">Writeups CTF</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+  <header>
+    <h1>Fr3nch4Sec</h1>
+    <p>Sécurité informatique • Développement</p>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="#competences">Compétences</a>
+      <a href="writeups.html">Writeups CTF</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-    <main>
-        <section id="projets">
-            <h2>🚀 Projets</h2>
-            <div class="card">
-                <h3>Scanner de ports en C++</h3>
-                <p>Petit projet d'apprentissage du C++, création d’un scanner de ports.</p>
-                <a href="https://github.com/Fr3nch4Sec/CPorter" target="_blank">Voir sur GitHub</a>
-            </div>
-            <div class="card">
-                <h3>Outil Python</h3>
-                <p>Développement d’un script Python pour automatiser la collecte d’informations système.</p>
-                <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
-            </div>
-        </section>
+  <main>
+    <!-- Section Projets -->
+    <section id="projets" class="platform-section">
+      <h2>🚀 Projets</h2>
+      <div class="writeup-item">
+        <h3>Scanner de ports en C++</h3>
+        <p>
+          Projet d’apprentissage du C++ : développement d’un scanner de ports basique,
+          avec options silencieuses et rapides. Expérience utile pour comprendre le langage
+          et la gestion réseau bas-niveau.
+        </p>
+        <a href="https://github.com/Fr3nch4Sec/CPorter" target="_blank">Voir sur GitHub</a>
+      </div>
+      <div class="writeup-item">
+        <h3>Outil Python</h3>
+        <p>
+          Développement d’un script Python pour automatiser la collecte d’informations système
+          (processus, réseau, etc.).
+        </p>
+        <a href="https://github.com/Fr3nch4Sec/projet-python" target="_blank">Voir sur GitHub</a>
+      </div>
+    </section>
 
-        <section id="competences">
-            <h2>💡 Compétences</h2>
-            <div class="card">
-                <p>Python • Bash • Linux • Pentest • Git</p>
-            </div>
-        </section>
+    <!-- Section Compétences -->
+    <section id="competences" class="platform-section">
+      <h2>💡 Compétences</h2>
+      <div class="writeup-item">
+        <p>Python • Bash • Linux • Pentest • Git • Sécurité des réseaux</p>
+      </div>
+    </section>
 
-        <section id="contact">
-            <h2>📬 Contact</h2>
-            <p>📧 <a href="mailto:yoanncoudry494@gmail.com">yoanncoudry494@gmail.com</a></p>
-            <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
-            <p>🔗 <a href="https://app.hackthebox.com/profile/f0rz4d" target="_blank">HackTheBox</a></p>
-            <p>🔗 <a href="https://tryhackme.com/p/french4" target="_blank">TryHackMe</a></p>
-            <p>🔗 <a href="https://play.picoctf.org/users/f0rz4d" target="_blank">PicoCTF</a></p>
-        </section>
-    </main>
+    <!-- Section Contact -->
+    <section id="contact" class="platform-section">
+      <h2>📬 Contact</h2>
+      <div class="writeup-item">
+        <p>📧 <a href="mailto:yoanncoudry494@gmail.com">yoanncoudry494@gmail.com</a></p>
+        <p>🔗 <a href="https://github.com/Fr3nch4Sec" target="_blank">GitHub</a></p>
+        <p>🔗 <a href="https://app.hackthebox.com/profile/f0rz4d" target="_blank">HackTheBox</a></p>
+        <p>🔗 <a href="https://tryhackme.com/p/french4" target="_blank">TryHackMe</a></p>
+        <p>🔗 <a href="https://play.picoctf.org/users/f0rz4d" target="_blank">PicoCTF</a></p>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
-    </footer>
+  <footer>
+    <p>© 2025 Fr3nch4Sec — Portfolio hébergé sur GitHub Pages</p>
+  </footer>
 
-    <script>
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
 
-        if (localStorage.getItem('theme') === 'light') {
-            body.classList.remove('dark-mode');
-            body.classList.add('light-mode');
-            themeToggle.textContent = '☀ Mode clair';
-        }
+    if (localStorage.getItem('theme') === 'light') {
+      body.classList.remove('dark-mode');
+      body.classList.add('light-mode');
+      themeToggle.textContent = '☀ Mode clair';
+    }
 
-        themeToggle.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                body.classList.remove('dark-mode');
-                body.classList.add('light-mode');
-                themeToggle.textContent = '☀ Mode clair';
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.remove('light-mode');
-                body.classList.add('dark-mode');
-                themeToggle.textContent = '🌙 Mode sombre';
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-    </script>
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
+        themeToggle.textContent = '☀ Mode clair';
+        localStorage.setItem('theme', 'light');
+      } else {
+        body.classList.remove('light-mode');
+        body.classList.add('dark-mode');
+        themeToggle.textContent = '🌙 Mode sombre';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
 </body>
 </html>
