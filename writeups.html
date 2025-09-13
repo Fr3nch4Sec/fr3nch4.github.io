@@ -11,15 +11,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
-        /* Styles pour accordéon moderne */
+        /* Styles pour accordéon moderne (amélioré pour éviter clips) */
         .writeup-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+            transition: max-height 0.5s ease-out, padding 0.3s ease-out; /* Transition plus douce */
             padding: 0 15px;
         }
         .writeup-content.open {
-            max-height: 2000px; /* Ajusté pour contenu long */
+            max-height: none; /* Pas de limite fixe pour éviter coupures */
+            overflow: visible; /* Visible complet quand ouvert */
             padding: 15px;
         }
         .clickable {
@@ -44,6 +45,38 @@
         }
         .clickable:hover {
             color: var(--accent-color, #4a7043);
+        }
+        /* Fix pour code blocks (anti-saccadé et visibilité lignes shell) */
+        .writeup-content pre {
+            white-space: pre-wrap; /* Wrap lignes longues sans saccades */
+            line-height: 1.4; /* Espacement uniforme pour lignes shell */
+            margin: 15px 0 !important; /* Espace au-dessus/en-dessous pour éviter chevauchement */
+            overflow-x: auto;
+            overflow-y: visible; /* Toutes les lignes visibles */
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Hack', monospace;
+            font-size: 0.9em; /* Légèrement plus petit pour lisibilité */
+        }
+        .writeup-content code {
+            line-height: 1.4; /* Uniformité */
+            white-space: pre-wrap;
+            margin: 0;
+        }
+        .writeup-content pre code {
+            display: block;
+            padding: 0;
+            margin: 0;
+            white-space: pre-wrap; /* Assure wrap dans Highlight.js */
+        }
+        /* Évite chevauchement avec texte adjacent */
+        .writeup-content h3, .writeup-content p {
+            margin-bottom: 10px;
+        }
+        .writeup-content > *:first-child {
+            margin-top: 0;
         }
     </style>
 </head>
@@ -70,7 +103,7 @@ J'utilise Naabu en premier avec Nmap sur chaque machine, car c'est super rapide.
 Donc, j'ai utilisé le flag `-sS` dans Nmap, pour initier la connexion avec l'envoi de paquets. Si Nmap reçoit la réponse, le port est considéré comme ouvert.  
 ```bash
 sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v'
-```  
+```
 PORT   STATE SERVICE VERSION  
 21/tcp open  ftp     vsftpd 3.0.3  
 22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)  
@@ -272,10 +305,13 @@ Un challenge intéressant qui mêle plusieurs disciplines.
                 const markdownScript = contentDiv.querySelector('script[type="text/markdown"]');
                 if (markdownScript) {
                     contentDiv.innerHTML = marked.parse(markdownScript.textContent);
+                    // Re-highlight après parsing pour appliquer styles fixés
+                    hljs.highlightAll();
                 }
                 const title = item.querySelector('h2.clickable');
                 title.addEventListener('click', () => {
                     const isOpen = contentDiv.classList.contains('open');
+                    // Ferme les autres pour mode unique
                     document.querySelectorAll('.writeup-content.open').forEach(other => {
                         if (other !== contentDiv) {
                             other.classList.remove('open');
@@ -284,10 +320,14 @@ Un challenge intéressant qui mêle plusieurs disciplines.
                     });
                     contentDiv.classList.toggle('open', !isOpen);
                     title.classList.toggle('open', !isOpen);
+                    // Re-highlight si ouvert (pour visibilité)
+                    if (!isOpen) {
+                        setTimeout(() => hljs.highlightAll(), 100);
+                    }
                 });
             });
         });
-        // Toggle thème
+        // Toggle thème (cohérent avec index)
         document.addEventListener('DOMContentLoaded', () => {
             const toggle = document.getElementById('theme-toggle');
             const icon = toggle.querySelector('.theme-icon');
@@ -315,6 +355,8 @@ Un challenge intéressant qui mêle plusieurs disciplines.
                     ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
                     : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
                 localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
+                // Re-highlight après changement thème
+                setTimeout(() => hljs.highlightAll(), 100);
             });
         });
     </script>
