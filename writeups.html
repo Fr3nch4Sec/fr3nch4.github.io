@@ -52,12 +52,12 @@ body.dark-mode::before{
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
   z-index:-2;
 }
-/* Overlay clair pour light mode (semi-transparent crème pour adoucir l'image) */
+/* Overlay clair pour light mode (semi-transparent crème pour laisser voir l'image) */
 body.light-mode::before{
   content:"";
   position:fixed;
   inset:0;
-  background:linear-gradient(180deg, rgba(232,236,239,0.7), rgba(245,247,250,0.9)); /* Gris bleuté doux */
+  background:linear-gradient(180deg, rgba(232,236,239,0.6), rgba(245,247,250,0.8)); /* Plus transparent pour voir l'image */
   z-index:-2;
 }
 
@@ -74,8 +74,8 @@ main{
   box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 body.light-mode main {
-  background: linear-gradient(180deg, rgba(232,236,239,0.95), rgba(245,247,250,0.98)); /* Gris bleuté crème, moins blanc */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre subtile */
+  background: linear-gradient(180deg, rgba(232,236,239,0.9), rgba(245,247,250,0.95)); /* Gris bleuté crème, overlay image visible */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 header h1{margin:0 0 6px;font-size:2rem;color:var(--accent1)}
@@ -1116,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
 
 
 
