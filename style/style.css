@@ -198,50 +198,70 @@ body.dark-mode #theme-toggle:hover {
     background: #4b5563;
 }
 
-/* ====== MODE CLAIR (Assombri) ====== */
+/* ====== MODE CLAIR (Adouci) ====== */
 body.light-mode {
-    background-color: #e5e7eb; /* Gris clair assombri */
-    color: #1f2937; /* Gris foncé */
+  background-color: #f8f9fa; /* Crème doux */
+  color: #2c3e50; /* Anthracite doux */
 }
 
 body.light-mode h1,
 body.light-mode h2,
 body.light-mode h3 {
-    color: #3d5a3a; /* Vert olive saturé */
+  color: #5dade2; /* Turquoise pastel pour titres */
 }
 
 body.light-mode .platform-section {
-    margin-bottom: 30px;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f9fafb; /* Blanc cassé assombri */
-    border: 1px solid #d1d5db;
+  background: #f8f9fa; /* Crème clair */
+  border: 1px solid #e9ecef; /* Bordure grise douce */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Ombre subtile */
 }
 
 body.light-mode .writeup-item {
-    margin: 15px 0;
-    padding: 15px;
-    border-radius: 8px;
-    background: #f3f4f6; /* Gris très clair assombri */
-    border: 1px solid #d1d5db;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
 }
 
-body.light-mode .writeup-content {
-    background: #f9fafb;
-    padding: 15px;
-    border-radius: 6px;
-    margin-top: 10px;
-    border: 1px solid #e5e7eb;
+body.light-mode .project, body.light-mode h3 {
+  background: #f8f9fa;
+  border-color: #e9ecef;
+}
+
+body.light-mode .skills li, body.light-mode .competences span {
+  background: #5dade2; /* Turquoise pastel */
+  color: #ffffff;
+}
+
+body.light-mode a {
+  color: #bb8fce; /* Violet pastel pour liens */
+}
+
+body.light-mode a:hover {
+  color: #5dade2; /* Turquoise pour hover */
 }
 
 body.light-mode pre,
 body.light-mode code {
-    font-family: 'Hack', monospace;
-    background: #f3f4f6; /* Gris clair assombri pour code */
-    color: #2d4a2d; /* Vert foncé */
-    padding: 10px;
-    border-radius: 5px;
-    overflow-x: auto;
+  background: #f1f3f4; /* Gris crème */
+  color: #3498db; /* Bleu doux */
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+body.light-mode #theme-toggle {
+  background: #f8f9fa;
+  border-color: #e9ecef;
+  color: #2c3e50;
+}
+
+body.light-mode #theme-toggle:hover {
+  background: #e9ecef;
 }
 
 /* ====== COMMUN ====== */
