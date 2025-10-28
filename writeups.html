@@ -39,7 +39,7 @@ body{
   padding:30px;
   box-sizing:border-box;
   transition:background .25s,color .25s;
-  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop'); /* Même image que index.html */
+  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
   background-size:cover;
   background-attachment: fixed;
   overflow-x: hidden;
@@ -52,7 +52,7 @@ body.dark-mode::before{
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
   z-index:-2;
 }
-/* Overlay clair pour light mode (ultra-transparent pour voir l'image comme sur index.html) */
+/* Overlay clair pour light mode (ultra-transparent pour voir l'image) */
 body.light-mode::before{
   content:"";
   position:fixed;
@@ -183,7 +183,8 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
     @media (max-width:700px){
       body{padding:18px}
       .theme-toggle{right:12px;top:12px;padding:6px 10px}
-      header
+      header h1{font-size:1.4rem}
+      .writeup-item { margin-bottom: 25px; }
     }
   </style>
 </head>
@@ -1115,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
 
 
 
