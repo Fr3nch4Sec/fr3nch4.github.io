@@ -10,48 +10,56 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="highlight-theme">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <style>
-    /* Ajout pour fond cohérent avec writeups.html */
+    /* Fond cohérent avec writeups.html - Image en light mode */
     body {
       background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
       background-size: cover;
       background-attachment: fixed;
       overflow-x: hidden;
+      transition: background 0.3s ease;
     }
-    body::before {
+    /* Overlay sombre pour dark mode */
+    body.dark-mode::before {
       content: "";
       position: fixed;
       inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
       z-index: -2;
     }
+    /* Overlay clair pour light mode (semi-transparent crème pour adoucir l'image) */
+    body.light-mode::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(232,236,239,0.7), rgba(245,247,250,0.9)); /* Gris bleuté doux */
+      z-index: -2;
+    }
+    /* Main container - Adouci en light mode */
     main {
       position: relative;
       z-index: 10;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(2px);
       max-width: 1100px;
       margin: 0 auto;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
     }
-    /* Light mode overrides pour index.html (cohérent avec writeups) */
-    body.light-mode {
-      background: #e8ecef; /* Gris bleuté doux, moins blanc */
-    }
-    body.light-mode::before {
-      display: none;
+    body.dark-mode main {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(2px);
     }
     body.light-mode main {
-      background: linear-gradient(180deg, rgba(232,236,239,0.95), rgba(232,236,239,0.98)); /* Gris bleuté semi-transparent */
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background: linear-gradient(180deg, rgba(232,236,239,0.95), rgba(245,247,250,0.98)); /* Gris bleuté crème, moins blanc */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre subtile */
     }
+    /* Light mode overrides pour sections - Moins clair */
     body.light-mode .platform-section {
-      background: #f8f9fa; /* Crème clair doux */
+      background: #f5f7fa; /* Crème grisâtre doux, moins blanc */
       border: 1px solid #e9ecef;
     }
     body.light-mode .writeup-item {
-      background: #f8f9fa;
+      background: #f5f7fa;
       border: 1px solid #e9ecef;
     }
     body.light-mode h1, body.light-mode h2 {
@@ -64,8 +72,8 @@
       color: #5dade2;
     }
     body.light-mode pre, body.light-mode code {
-      background: #f1f3f4; /* Gris crème */
-      color: #3498db; /* Bleu doux */
+      background: #e9ecef; /* Gris crème doux */
+      color: #3498db; /* Bleu atténué */
       border: 1px solid #dee2e6;
     }
   </style>
