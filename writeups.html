@@ -25,12 +25,12 @@
   --code-green: #4cffb6;
   --code-pink: #ff7ab6;
 
-  --bg-light: #dfe3ea;         /* gris bleuté doux */
-  --text-light: #20232a;       /* texte anthracite */
-  --accent1-light: #008b8b;    /* turquoise profond */
-  --accent2-light: #9442ff;    /* violet plus sobre */
-  --code-bg-light: #e7e9ee;    /* fond code gris clair */
-  --code-blue: #004ea1;        /* bleu plus doux */
+  --bg-light: #f8f9fa;         /* crème doux (au lieu de gris bleuté trop clair) */
+  --text-light: #2c3e50;       /* anthracite doux (moins noir) */
+  --accent1-light: #5dade2;    /* turquoise pastel atténué */
+  --accent2-light: #bb8fce;    /* violet pastel (moins saturé) */
+  --code-bg-light: #f1f3f4;    /* gris crème très clair */
+  --code-blue: #3498db;        /* bleu doux (moins vif) */
 }
 
 /* Global */
@@ -83,7 +83,7 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 }
 .platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
 .writeup-item{
-  margin:12px 0 20px 0; /* Espace bas standard */
+  margin:12px 0 20px 0;
   padding:12px;border-radius:10px;
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border:1px solid rgba(255,255,255,0.03);
@@ -102,17 +102,17 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 .clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:50%;transform:translateY(-50%);transition:transform .2s}
 .clickable.open::after{content:'−';transform:translateY(-50%) rotate(180deg)}
 
-/* Accordion content - Transition sur height au lieu de max-height pour éviter overflow */
+/* Accordion content */
 .writeup-content{
   height:0;
   overflow:hidden;
   padding:0 8px;
   transition:height 0.45s ease, padding 0.25s ease;
-  will-change: height; /* Optimise pour perf */
+  will-change: height;
 }
 .writeup-content.open{
   padding:12px 8px;
-  height: auto; /* JS gère la valeur exacte */
+  height: auto;
 }
 
 /* Markdown styling */
@@ -133,32 +133,44 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 
 .writeup-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block}
 
-/* Light mode overrides */
+/* Light mode overrides - COULEURS ADOUCIES */
 body.light-mode {
-  background: var(--bg-light);
-  color: var(--text-light);
+  background: var(--bg-light); /* Crème doux, moins agressif */
+  color: var(--text-light); /* Anthracite doux */
 }
 body.light-mode::before {
   display: none;
 }
 body.light-mode main {
-  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.9));
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  background: linear-gradient(180deg, rgba(248,249,250,0.95), rgba(248,249,250,0.98)); /* Crème semi-transparent */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre plus douce */
+  color: var(--text-light);
 }
 body.light-mode .platform-section {
-  background: #f1f2f5;
-  border: 1px solid #d2d5da;
+  background: #f8f9fa; /* Crème clair */
+  border: 1px solid #e9ecef; /* Bordure grise douce */
 }
 body.light-mode .platform-section h2 {
-  color: var(--accent1-light);
+  color: var(--accent1-light); /* Turquoise pastel */
 }
 body.light-mode .clickable .title-text {
-  color: var(--accent2-light);
+  color: var(--accent2-light); /* Violet pastel */
+}
+body.light-mode .writeup-content {
+  background: #f8f9fa; /* Même crème que sections */
+  border: 1px solid #e9ecef;
 }
 body.light-mode .writeup-content pre {
-  background: var(--code-bg-light);
-  color: var(--code-blue);
-  border: 1px solid rgba(0,92,197,0.1);
+  background: var(--code-bg-light); /* Gris crème */
+  color: var(--code-blue); /* Bleu doux */
+  border: 1px solid #dee2e6; /* Gris clair */
+}
+body.light-mode .writeup-item {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+body.light-mode .theme-toggle {
+  background: linear-gradient(90deg, #5dade2, #bb8fce); /* Accents pastel pour bouton */
 }
 
 /* Responsive */
@@ -166,7 +178,7 @@ body.light-mode .writeup-content pre {
   body{padding:18px}
   .theme-toggle{right:12px;top:12px;padding:6px 10px}
   header h1{font-size:1.4rem}
-  .writeup-item { margin-bottom: 25px; } /* Espace mobile */
+  .writeup-item { margin-bottom: 25px; }
 }
   </style>
 </head>
@@ -1098,6 +1110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
 
 
 
