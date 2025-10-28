@@ -198,43 +198,24 @@ body.dark-mode #theme-toggle:hover {
     background: #4b5563;
 }
 
-/* ====== MODE CLAIR (Adouci) ====== */
-/* ====== MODE CLAIR (Adouci pour yeux) ====== */
+/* Light mode adouci pour index.html - Moins blanc */
 body.light-mode {
-  background-color: #e8ecef; /* Gris bleuté doux, moins blanc */
+  background-color: #e8ecef; /* Gris bleuté doux */
   color: #2c3e50; /* Anthracite doux */
 }
 
-body.light-mode h1,
-body.light-mode h2,
-body.light-mode h3 {
-  color: #5dade2; /* Turquoise pastel atténué */
-}
-
 body.light-mode .platform-section {
-  background: #f1f2f5; /* Gris crème doux */
-  border: 1px solid #dee2e6; /* Bordure grise subtile */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Ombre légère */
+  background: #f5f7fa; /* Crème grisâtre doux */
+  border: 1px solid #e9ecef;
 }
 
 body.light-mode .writeup-item {
-  background: #f1f2f5;
-  border: 1px solid #dee2e6;
-  margin: 15px 0;
-  padding: 15px;
-  border-radius: 8px;
+  background: #f5f7fa;
+  border: 1px solid #e9ecef;
 }
 
-body.light-mode .project, body.light-mode h3 {
-  background: #f1f2f5;
-  border-color: #dee2e6;
-}
-
-body.light-mode .skills li, body.light-mode .competences span {
-  background: #5dade2; /* Turquoise pastel */
-  color: #ffffff;
+body.light-mode h1, body.light-mode h2 {
+  color: #5dade2; /* Turquoise pastel */
 }
 
 body.light-mode a {
@@ -242,27 +223,13 @@ body.light-mode a {
 }
 
 body.light-mode a:hover {
-  color: #5dade2; /* Turquoise pour hover */
+  color: #5dade2;
 }
 
-body.light-mode pre,
-body.light-mode code {
-  background: #e9ecef; /* Gris crème très doux */
+body.light-mode pre, body.light-mode code {
+  background: #e9ecef; /* Gris crème doux */
   color: #3498db; /* Bleu atténué */
   border: 1px solid #dee2e6;
-  padding: 10px;
-  border-radius: 5px;
-  overflow-x: auto;
-}
-
-body.light-mode #theme-toggle {
-  background: #e8ecef;
-  border-color: #dee2e6;
-  color: #2c3e50;
-}
-
-body.light-mode #theme-toggle:hover {
-  background: #dee2e6;
 }
 
 /* ====== COMMUN ====== */
