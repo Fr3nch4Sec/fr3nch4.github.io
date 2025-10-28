@@ -15,151 +15,160 @@
 
   <!-- Inline CSS -->
   <style>
-    :root{
-      --bg-dark: #071025;
-      --bg-overlay: rgba(5,8,12,0.55);
-      --text-dark: #dbefff;
-      --accent1: #6ef0d3; /* turquoise */
-      --accent2: #b16bff; /* violet */
-      --code-bg-dark: #0b1116;
-      --code-green: #4cffb6;
-      --code-pink: #ff7ab6;
+:root{
+  --bg-dark: #071025;
+  --bg-overlay: rgba(5,8,12,0.55);
+  --text-dark: #dbefff;
+  --accent1: #6ef0d3; /* turquoise */
+  --accent2: #b16bff; /* violet */
+  --code-bg-dark: #0b1116;
+  --code-green: #4cffb6;
+  --code-pink: #ff7ab6;
 
-	--bg-light: #dfe3ea;         /* gris bleuté doux */
-	--text-light: #20232a;       /* texte anthracite */
-	--accent1-light: #008b8b;    /* turquoise profond */
-	--accent2-light: #9442ff;    /* violet plus sobre */
-	--code-bg-light: #e7e9ee;    /* fond code gris clair */
-	--code-blue: #004ea1;        /* bleu plus doux */
+  --bg-light: #dfe3ea;         /* gris bleuté doux */
+  --text-light: #20232a;       /* texte anthracite */
+  --accent1-light: #008b8b;    /* turquoise profond */
+  --accent2-light: #9442ff;    /* violet plus sobre */
+  --code-bg-light: #e7e9ee;    /* fond code gris clair */
+  --code-blue: #004ea1;        /* bleu plus doux */
+}
 
+/* Global */
+html,body{height:100%;margin:0;padding:0;font-family:Inter, Arial, sans-serif;background:var(--bg-dark);color:var(--text-dark);}
+body{
+  padding:30px;
+  box-sizing:border-box;
+  transition:background .25s,color .25s;
+  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
+  background-size:cover;
+  background-attachment: fixed;
+  overflow-x: hidden; /* Évite scrolls horizontaux indésirables */
+}
+/* background overlay - keep it beneath content */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
+  z-index:-2; /* important: ensure behind everything */
+}
 
-    }
+/* main container above overlay */
+main{
+  position:relative;
+  z-index:10; /* Augmenté pour stacking global */
+  max-width:1100px;
+  margin:0 auto;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(2px);
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
 
-    /* Global */
-    html,body{height:100%;margin:0;padding:0;font-family:Inter, Arial, sans-serif;background:var(--bg-dark);color:var(--text-dark);}
-    body{
-      padding:30px;
-      box-sizing:border-box;
-      transition:background .25s,color .25s;
-      background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
-      background-size:cover;
-      background-attachment: fixed;
-    }
-    /* background overlay - keep it beneath content */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
-      z-index:-2; /* important: ensure behind everything */
-    }
+header h1{margin:0 0 6px;font-size:2rem;color:var(--accent1)}
+header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 
-    /* main container above overlay */
-    main{
-      position:relative;
-      z-index:2; /* ensure clickable area is above overlay */
-      max-width:1100px;
-      margin:0 auto;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      backdrop-filter: blur(2px);
-      padding:20px;
-      border-radius:12px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.5);
-    }
+/* Theme toggle */
+.theme-toggle{
+  position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
+  background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
+  z-index:9999; /* above everything */
+}
 
-    header h1{margin:0 0 6px;font-size:2rem;color:var(--accent1)}
-    header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
+/* Sections & cards */
+.platform-section{
+  margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
+  border:1px solid rgba(255,255,255,0.03);
+  position: relative; /* Contexte stacking pour sections */
+  z-index: 5; /* Sections au-dessus du contenu ouvert */
+}
+.platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
+.writeup-item{
+  margin:12px 0 20px 0; /* Espace en bas augmenté pour éviter chevauchement */
+  padding:12px;border-radius:10px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+  position:relative;
+  z-index: 8; /* Items au-dessus du contenu (augmenté) */
+}
+.writeup-item h3{margin:0;font-size:1.05rem}
+.clickable{
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-right:28px;
+  user-select:none;
+  pointer-events:auto; /* ensure clicks are received */
+  position: sticky; /* Titres "collent" si scroll */
+  top: 0;
+  background: inherit; /* Hérite du fond pour lisibilité */
+  z-index: 12; /* Titres toujours au-dessus (augmenté) */
+  padding: 12px; /* Padding pour titre */
+  margin: -12px -12px 0 -12px; /* Ajuste pour full-width */
+  border-radius: 10px 10px 0 0; /* Arrondi en haut */
+}
+.clickable .title-text{color:var(--accent1);font-weight:600}
+.clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:12px;transition:transform .2s}
+.clickable.open::after{content:'−';transform:rotate(180deg)}
 
-    /* Theme toggle */
-    .theme-toggle{
-      position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
-      background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
-      z-index:9999; /* above everything */
-    }
+/* Accordion content */
+.writeup-content{max-height:0;overflow:hidden;padding:0 8px;transition:max-height .45s ease,padding .25s}
+.writeup-content.open{padding:12px 8px;margin-top:8px;max-height:2000px;overflow:visible; z-index: 1;} /* Contenu en dessous des titres */
 
-    /* Sections & cards */
-    .platform-section{
-      margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    .platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
-    .writeup-item{
-      margin:12px 0;padding:12px;border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.03);
-      position:relative;
-      z-index:3; /* ensure clickable region is above */
-    }
-    .writeup-item h3{margin:0;font-size:1.05rem}
-    .clickable{
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding-right:28px;
-      user-select:none;
-      pointer-events:auto; /* ensure clicks are received */
-    }
-    .clickable .title-text{color:var(--accent1);font-weight:600}
-    .clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:12px;transition:transform .2s}
-    .clickable.open::after{content:'−';transform:rotate(180deg)}
+/* Markdown styling */
+.writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
+.writeup-content p{margin:8px 0;color:inherit}
+.writeup-content ul{margin:8px 0 8px 20px}
+.writeup-content pre{
+  background:var(--code-bg-dark);
+  color:var(--code-green);
+  padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
+  white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06)
+}
+.writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
 
-    /* Accordion content */
-    .writeup-content{max-height:0;overflow:hidden;padding:0 8px;transition:max-height .45s ease,padding .25s}
-    .writeup-content.open{padding:12px 8px;margin-top:8px;max-height:2000px;overflow:visible}
+.writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
+.writeup-content th,.writeup-content td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);word-break:break-word}
 
-    /* Markdown styling */
-    .writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
-    .writeup-content p{margin:8px 0;color:inherit}
-    .writeup-content ul{margin:8px 0 8px 20px}
-    .writeup-content pre{
-      background:var(--code-bg-dark);
-      color:var(--code-green);
-      padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
-      white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06)
-    }
-    .writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
+.writeup-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block}
 
-    .writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
-    .writeup-content th,.writeup-content td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);word-break:break-word}
+/* Light mode overrides */
+body.light-mode {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+body.light-mode::before {
+  display: none;
+}
+body.light-mode main {
+  background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.9));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+body.light-mode .platform-section {
+  background: #f1f2f5;
+  border: 1px solid #d2d5da;
+}
+body.light-mode .platform-section h2 {
+  color: var(--accent1-light);
+}
+body.light-mode .clickable .title-text {
+  color: var(--accent2-light);
+}
+body.light-mode .writeup-content pre {
+  background: var(--code-bg-light);
+  color: var(--code-blue);
+  border: 1px solid rgba(0,92,197,0.1);
+}
 
-    .writeup-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block}
-
-    /* Light mode overrides */
-    body.light-mode {
-  	background: var(--bg-light);
-  	color: var(--text-light);
-	}
-	body.light-mode::before {
-  	display: none;
-	}
-	body.light-mode main {
-  	background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.9));
-  	box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-	}
-	body.light-mode .platform-section {
-  	background: #f1f2f5;
-  	border: 1px solid #d2d5da;
-	}
-	body.light-mode .platform-section h2 {
-  	color: var(--accent1-light);
-	}
-	body.light-mode .clickable .title-text {
-  	color: var(--accent2-light);
-	}
-	body.light-mode .writeup-content pre {
-  	background: var(--code-bg-light);
-  	color: var(--code-blue);
-  	border: 1px solid rgba(0,92,197,0.1);
-	}
-
-
-    /* Responsive */
-    @media (max-width:700px){
-      body{padding:18px}
-      .theme-toggle{right:12px;top:12px;padding:6px 10px}
-      header h1{font-size:1.4rem}
-    }
+/* Responsive */
+@media (max-width:700px){
+  body{padding:18px}
+  .theme-toggle{right:12px;top:12px;padding:6px 10px}
+  header h1{font-size:1.4rem}
+  .writeup-item { margin-bottom: 25px; } /* Plus d'espace sur mobile */
+}
   </style>
 </head>
 
@@ -1084,6 +1093,7 @@ Tyrell Wellick :	 	$20.855.900.000 	842-029-5701
   </script>
 </body>
 </html>
+
 
 
 
