@@ -39,7 +39,7 @@ body{
   padding:30px;
   box-sizing:border-box;
   transition:background .25s,color .25s;
-  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
+  background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop'); /* Même image que index.html */
   background-size:cover;
   background-attachment: fixed;
   overflow-x: hidden;
@@ -52,12 +52,12 @@ body.dark-mode::before{
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
   z-index:-2;
 }
-/* Overlay clair pour light mode (encore plus transparent pour voir l'image) */
+/* Overlay clair pour light mode (ultra-transparent pour voir l'image comme sur index.html) */
 body.light-mode::before{
   content:"";
   position:fixed;
   inset:0;
-  background:linear-gradient(180deg, rgba(232,236,239,0.3), rgba(245,247,250,0.5)); /* Très transparent : image visible ! */
+  background:linear-gradient(180deg, rgba(232,236,239,0.2), rgba(245,247,250,0.4)); /* Très transparent : image visible ! */
   z-index:-2;
 }
 
@@ -74,7 +74,7 @@ main{
   box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
 body.light-mode main {
-  background: linear-gradient(180deg, rgba(232,236,239,0.7), rgba(245,247,250,0.8)); /* Overlay image visible, moins blanc */
+  background: linear-gradient(180deg, rgba(232,236,239,0.6), rgba(245,247,250,0.7)); /* Overlay image visible, moins blanc */
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -183,8 +183,7 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
     @media (max-width:700px){
       body{padding:18px}
       .theme-toggle{right:12px;top:12px;padding:6px 10px}
-      header h1{font-size:1.4rem}
-      .writeup-item { margin-bottom: 25px; }
+      header
     }
   </style>
 </head>
@@ -1116,6 +1115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
 
 
 
