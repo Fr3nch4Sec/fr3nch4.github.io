@@ -42,21 +42,21 @@ body{
   background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1920&auto=format&fit=crop');
   background-size:cover;
   background-attachment: fixed;
-  overflow-x: hidden; /* Évite scrolls horizontaux indésirables */
+  overflow-x: hidden; /* Évite scrolls horizontaux */
 }
-/* background overlay - keep it beneath content */
+/* Overlay beneath content */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
-  z-index:-2; /* important: ensure behind everything */
+  z-index:-2;
 }
 
-/* main container above overlay */
+/* Main container */
 main{
   position:relative;
-  z-index:10; /* Augmenté pour stacking global */
+  z-index:10; /* Stacking global */
   max-width:1100px;
   margin:0 auto;
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
@@ -73,24 +73,24 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 .theme-toggle{
   position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
   background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  z-index:9999; /* above everything */
+  z-index:9999;
 }
 
 /* Sections & cards */
 .platform-section{
   margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
   border:1px solid rgba(255,255,255,0.03);
-  position: relative; /* Contexte stacking pour sections */
-  z-index: 5; /* Sections au-dessus du contenu ouvert */
+  position: relative; /* Stacking context */
+  z-index: 5; /* Au-dessus du contenu */
 }
 .platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
 .writeup-item{
-  margin:12px 0 30px 0; /* Espace en bas augmenté pour contenu ouvert */
+  margin:12px 0 40px 0; /* Espace bas augmenté pour débordement */
   padding:12px;border-radius:10px;
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border:1px solid rgba(255,255,255,0.03);
   position:relative;
-  z-index: 8; /* Items au-dessus du contenu (augmenté) */
+  z-index: 8; /* Items au-dessus du contenu */
 }
 .writeup-item h3{margin:0;font-size:1.05rem}
 .clickable{
@@ -100,14 +100,14 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
   justify-content:space-between;
   padding-right:28px;
   user-select:none;
-  pointer-events:auto; /* ensure clicks are received */
-  position: sticky; /* Titres "collent" au scroll si besoin */
+  pointer-events:auto;
+  position: sticky; /* Titres flottent au scroll */
   top: 0;
-  background: inherit; /* Hérite du fond pour lisibilité */
-  z-index: 12; /* Titres toujours au-dessus (augmenté) */
-  padding: 12px; /* Padding pour titre */
-  margin: -12px -12px 0 -12px; /* Ajuste pour full-width */
-  border-radius: 10px 10px 0 0; /* Arrondi en haut */
+  background: inherit;
+  z-index: 12; /* Titres toujours au-dessus */
+  padding: 12px;
+  margin: -12px -12px 0 -12px; /* Full-width */
+  border-radius: 10px 10px 0 0;
 }
 .clickable .title-text{color:var(--accent1);font-weight:600}
 .clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:12px;transition:transform .2s}
@@ -115,7 +115,7 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 
 /* Accordion content */
 .writeup-content{max-height:0;overflow:hidden;padding:0 8px;transition:max-height .45s ease,padding .25s}
-.writeup-content.open{padding:12px 8px;margin-top:8px;max-height:2000px;overflow:visible; z-index: 1;} /* Contenu en dessous des titres */
+.writeup-content.open{padding:12px 8px;margin-top:8px;max-height:2000px;overflow:visible; z-index: 1;} /* Contenu en dessous */
 
 /* Markdown styling */
 .writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
@@ -125,7 +125,8 @@ header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
   background:var(--code-bg-dark);
   color:var(--code-green);
   padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
-  white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06)
+  white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06);
+  max-height: none; /* Pas de limite haute pour longs outputs */
 }
 .writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
 
@@ -167,7 +168,7 @@ body.light-mode .writeup-content pre {
   body{padding:18px}
   .theme-toggle{right:12px;top:12px;padding:6px 10px}
   header h1{font-size:1.4rem}
-  .writeup-item { margin-bottom: 35px; } /* Plus d'espace sur mobile pour contenu ouvert */
+  .writeup-item { margin-bottom: 50px; } /* Plus d'espace sur mobile */
 }
   </style>
 </head>
@@ -1093,6 +1094,7 @@ Tyrell Wellick :	 	$20.855.900.000 	842-029-5701
   </script>
 </body>
 </html>
+
 
 
 
