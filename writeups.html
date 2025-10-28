@@ -25,12 +25,12 @@
   --code-green: #4cffb6;
   --code-pink: #ff7ab6;
 
-  --bg-light: #f8f9fa;         /* crème doux (au lieu de gris bleuté trop clair) */
-  --text-light: #2c3e50;       /* anthracite doux (moins noir) */
-  --accent1-light: #5dade2;    /* turquoise pastel atténué */
-  --accent2-light: #bb8fce;    /* violet pastel (moins saturé) */
-  --code-bg-light: #f1f3f4;    /* gris crème très clair */
-  --code-blue: #3498db;        /* bleu doux (moins vif) */
+  --bg-light: #e8ecef;         /* Gris bleuté doux, moins blanc */
+  --text-light: #2c3e50;       /* Anthracite doux */
+  --accent1-light: #5dade2;    /* Turquoise pastel atténué */
+  --accent2-light: #bb8fce;    /* Violet pastel (moins saturé) */
+  --code-bg-light: #f1f3f4;    /* Gris crème très clair */
+  --code-blue: #3498db;        /* Bleu doux (moins vif) */
 }
 
 /* Global */
@@ -44,19 +44,27 @@ body{
   background-attachment: fixed;
   overflow-x: hidden;
 }
-/* Overlay beneath content */
-body::before{
+/* Overlay sombre pour dark mode */
+body.dark-mode::before{
   content:"";
   position:fixed;
   inset:0;
   background:linear-gradient(180deg, rgba(0,0,0,0.65), rgba(2,6,12,0.85));
   z-index:-2;
 }
+/* Overlay clair pour light mode (semi-transparent crème pour adoucir l'image) */
+body.light-mode::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg, rgba(232,236,239,0.7), rgba(245,247,250,0.9)); /* Gris bleuté doux */
+  z-index:-2;
+}
 
-/* Main container */
+/* main container */
 main{
   position:relative;
-  z-index:10;
+  z-index:2;
   max-width:1100px;
   margin:0 auto;
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
@@ -65,121 +73,119 @@ main{
   border-radius:12px;
   box-shadow:0 10px 30px rgba(0,0,0,0.5);
 }
+body.light-mode main {
+  background: linear-gradient(180deg, rgba(232,236,239,0.95), rgba(245,247,250,0.98)); /* Gris bleuté crème, moins blanc */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre subtile */
+}
 
 header h1{margin:0 0 6px;font-size:2rem;color:var(--accent1)}
 header p{margin:0 0 16px;color:rgba(219,239,255,0.9)}
 
-/* Theme toggle */
-.theme-toggle{
-  position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
-  background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
-  z-index:9999;
-}
+    /* Theme toggle */
+    .theme-toggle{
+      position:fixed;right:18px;top:18px;padding:8px 12px;border-radius:10px;border:0;cursor:pointer;
+      background:linear-gradient(90deg,#1e90ff,#8a2be2);color:#fff;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,0.35);
+      z-index:9999;
+    }
+    body.light-mode .theme-toggle {
+      background: linear-gradient(90deg, #5dade2, #bb8fce); /* Accents pastel pour bouton */
+    }
 
-/* Sections & cards */
-.platform-section{
-  margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
-  border:1px solid rgba(255,255,255,0.03);
-}
-.platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
-.writeup-item{
-  margin:12px 0 20px 0;
-  padding:12px;border-radius:10px;
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border:1px solid rgba(255,255,255,0.03);
-}
-.writeup-item h3{margin:0;font-size:1.05rem}
-.clickable{
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-right:28px;
-  user-select:none;
-  pointer-events:auto;
-}
-.clickable .title-text{color:var(--accent1);font-weight:600}
-.clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:50%;transform:translateY(-50%);transition:transform .2s}
-.clickable.open::after{content:'−';transform:translateY(-50%) rotate(180deg)}
+    /* Sections & cards */
+    .platform-section{
+      margin-bottom:26px;padding:14px;border-radius:10px;background:var(--bg-overlay);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    body.light-mode .platform-section {
+      background: #f5f7fa; /* Crème grisâtre doux, moins blanc */
+      border: 1px solid #e9ecef;
+    }
+    .platform-section h2{margin:0 0 12px;color:var(--accent2);text-shadow:0 2px 6px rgba(177,107,255,0.06)}
+    body.light-mode .platform-section h2 {
+      color: var(--accent1-light); /* Turquoise pastel */
+    }
+    .writeup-item{
+      margin:12px 0;padding:12px;border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    body.light-mode .writeup-item {
+      background: #f5f7fa;
+      border: 1px solid #e9ecef;
+    }
+    .writeup-item h3{margin:0;font-size:1.05rem}
+    .clickable{
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding-right:28px;
+      user-select:none;
+      pointer-events:auto;
+    }
+    body.light-mode .clickable .title-text {
+      color: var(--accent2-light); /* Violet pastel */
+    }
+    .clickable .title-text{color:var(--accent1);font-weight:600}
+    .clickable::after{content:'+';font-size:1.25rem;font-weight:700;position:absolute;right:16px;top:50%;transform:translateY(-50%);transition:transform .2s}
+    .clickable.open::after{content:'−';transform:translateY(-50%) rotate(180deg)}
 
-/* Accordion content */
-.writeup-content{
-  height:0;
-  overflow:hidden;
-  padding:0 8px;
-  transition:height 0.45s ease, padding 0.25s ease;
-  will-change: height;
-}
-.writeup-content.open{
-  padding:12px 8px;
-  height: auto;
-}
+    /* Accordion content */
+    .writeup-content{
+      height:0;
+      overflow:hidden;
+      padding:0 8px;
+      transition:height 0.45s ease, padding 0.25s ease;
+      will-change: height;
+    }
+    .writeup-content.open{
+      padding:12px 8px;
+      height: auto;
+    }
+    body.light-mode .writeup-content {
+      background: #f5f7fa; /* Crème pour contenu */
+      border: 1px solid #e9ecef;
+    }
 
-/* Markdown styling */
-.writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
-.writeup-content p{margin:8px 0;color:inherit}
-.writeup-content ul{margin:8px 0 8px 20px}
-.writeup-content pre{
-  background:var(--code-bg-dark);
-  color:var(--code-green);
-  padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
-  white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06);
-  max-height: none;
-}
-.writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
+    /* Markdown styling */
+    .writeup-content h1,.writeup-content h2,.writeup-content h3{color:var(--accent2);margin-top:8px}
+    .writeup-content p{margin:8px 0;color:inherit}
+    .writeup-content ul{margin:8px 0 8px 20px}
+    .writeup-content pre{
+      background:var(--code-bg-dark);
+      color:var(--code-green);
+      padding:12px;border-radius:8px;overflow:auto;margin:10px 0;
+      white-space:pre-wrap;font-family:"Hack", monospace;font-size:0.95rem;border:1px solid rgba(0,255,182,0.06);
+      max-height: none;
+    }
+    body.light-mode .writeup-content pre {
+      background: var(--code-bg-light); /* Gris crème */
+      color: var(--code-blue); /* Bleu doux */
+      border: 1px solid #dee2e6;
+    }
+    .writeup-content code{background:rgba(255,255,255,0.03);padding:2px 6px;border-radius:4px}
+    body.light-mode .writeup-content code {
+      background: rgba(233,236,239,0.5); /* Gris crème pour inline code */
+    }
 
-.writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
-.writeup-content th,.writeup-content td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);word-break:break-word}
+    .writeup-content table{width:100%;table-layout:auto;border-collapse:collapse;margin:10px 0}
+    .writeup-content th,.writeup-content td{padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.03);word-break:break-word}
 
-.writeup-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block}
+    .writeup-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block}
 
-/* Light mode overrides - COULEURS ADOUCIES */
-body.light-mode {
-  background: var(--bg-light); /* Crème doux, moins agressif */
-  color: var(--text-light); /* Anthracite doux */
-}
-body.light-mode::before {
-  display: none;
-}
-body.light-mode main {
-  background: linear-gradient(180deg, rgba(248,249,250,0.95), rgba(248,249,250,0.98)); /* Crème semi-transparent */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Ombre plus douce */
-  color: var(--text-light);
-}
-body.light-mode .platform-section {
-  background: #f8f9fa; /* Crème clair */
-  border: 1px solid #e9ecef; /* Bordure grise douce */
-}
-body.light-mode .platform-section h2 {
-  color: var(--accent1-light); /* Turquoise pastel */
-}
-body.light-mode .clickable .title-text {
-  color: var(--accent2-light); /* Violet pastel */
-}
-body.light-mode .writeup-content {
-  background: #f8f9fa; /* Même crème que sections */
-  border: 1px solid #e9ecef;
-}
-body.light-mode .writeup-content pre {
-  background: var(--code-bg-light); /* Gris crème */
-  color: var(--code-blue); /* Bleu doux */
-  border: 1px solid #dee2e6; /* Gris clair */
-}
-body.light-mode .writeup-item {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-}
-body.light-mode .theme-toggle {
-  background: linear-gradient(90deg, #5dade2, #bb8fce); /* Accents pastel pour bouton */
-}
+    /* Light mode overrides - COULEURS ADOUCIES */
+    body.light-mode {
+      background: var(--bg-light); /* Gris bleuté doux */
+      color: var(--text-light);
+    }
 
-/* Responsive */
-@media (max-width:700px){
-  body{padding:18px}
-  .theme-toggle{right:12px;top:12px;padding:6px 10px}
-  header h1{font-size:1.4rem}
-  .writeup-item { margin-bottom: 25px; }
-}
+    /* Responsive */
+    @media (max-width:700px){
+      body{padding:18px}
+      .theme-toggle{right:12px;top:12px;padding:6px 10px}
+      header h1{font-size:1.4rem}
+      .writeup-item { margin-bottom: 25px; }
+    }
   </style>
 </head>
 
@@ -1110,6 +1116,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
 
 
 
