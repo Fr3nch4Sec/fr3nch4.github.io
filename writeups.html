@@ -1007,91 +1007,98 @@ Tyrell Wellick :	 	$20.855.900.000 	842-029-5701
   <!-- JS: Markdown -> highlight -> accordion -> theme -->
   <script>
     // marked + highlight config
-    marked.setOptions({
-      highlight: function(code, lang) {
-        try {
-          if (lang && hljs.getLanguage(lang)) {
-            return hljs.highlight(code, { language: lang }).value;
-          } else {
-            return hljs.highlightAuto(code).value;
-          }
-        } catch (e) {
-          return code;
-        }
+marked.setOptions({
+  highlight: function(code, lang) {
+    try {
+      if (lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(code, { language: lang }).value;
+      } else {
+        return hljs.highlightAuto(code).value;
       }
-    });
+    } catch (e) {
+      return code;
+    }
+  }
+});
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1) Convert markdown into HTML
-      document.querySelectorAll('.writeup-content').forEach(contentDiv => {
-        const mdScript = contentDiv.querySelector('script[type="text/markdown"]');
-        if (mdScript) {
-          contentDiv.innerHTML = marked.parse(mdScript.textContent);
+document.addEventListener('DOMContentLoaded', () => {
+  // 1) Convert markdown into HTML
+  document.querySelectorAll('.writeup-content').forEach(contentDiv => {
+    const mdScript = contentDiv.querySelector('script[type="text/markdown"]');
+    if (mdScript) {
+      contentDiv.innerHTML = marked.parse(mdScript.textContent);
+    }
+  });
+
+  // 2) Highlight
+  hljs.highlightAll();
+
+  // 3) Accordion: attach listeners AFTER markdown parsed - avec hauteur dynamique
+  document.querySelectorAll('.clickable').forEach(title => {
+    title.addEventListener('click', () => {
+      const item = title.parentElement;
+      const content = item.querySelector('.writeup-content');
+      if (!content) return;
+
+      const isOpen = content.classList.contains('open');
+
+      // Close others
+      document.querySelectorAll('.writeup-content.open').forEach(other => {
+        if (other !== content) {
+          other.style.height = '0';
+          other.classList.remove('open');
+          const othTitle = other.parentElement.querySelector('.clickable');
+          if (othTitle) othTitle.classList.remove('open');
         }
       });
 
-      // 2) Highlight
-      hljs.highlightAll();
-
-      // 3) Accordion: attach listeners AFTER markdown parsed
-      document.querySelectorAll('.clickable').forEach(title => {
-        title.addEventListener('click', () => {
-          const item = title.parentElement;
-          const content = item.querySelector('.writeup-content');
-          if (!content) return;
-
-          const isOpen = content.classList.contains('open');
-
-          // close others
-          document.querySelectorAll('.writeup-content.open').forEach(other => {
-            if (other !== content) {
-              other.classList.remove('open');
-              const othTitle = other.parentElement.querySelector('.clickable');
-              if (othTitle) othTitle.classList.remove('open');
-            }
-          });
-
-          // toggle current
-          content.classList.toggle('open', !isOpen);
-          title.classList.toggle('open', !isOpen);
-
-          if (!isOpen) setTimeout(() => hljs.highlightAll(), 120);
-        });
-      });
-
-      // 4) Theme toggle
-      const toggle = document.getElementById('theme-toggle');
-      const icon = toggle.querySelector('.theme-icon');
-      const hlTheme = document.getElementById('highlight-theme');
-
-      function applyTheme(isDark) {
-        if (isDark) {
-          document.body.classList.remove('light-mode');
-          document.body.classList.add('dark-mode');
-          icon.textContent = '☀️';
-          hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
-        } else {
-          document.body.classList.remove('dark-mode');
-          document.body.classList.add('light-mode');
-          icon.textContent = '🌙';
-          hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
-        }
-        setTimeout(() => hljs.highlightAll(), 160);
+      // Toggle current
+      if (isOpen) {
+        content.style.height = '0';
+      } else {
+        content.classList.add('open');
+        content.style.height = content.scrollHeight + 'px'; // Hauteur exacte
       }
+      title.classList.toggle('open', !isOpen);
 
-      const saved = localStorage.getItem('theme');
-      const isDark = (saved === 'dark' || saved === null);
-      applyTheme(isDark);
-
-      toggle.addEventListener('click', () => {
-        const nowDark = document.body.classList.contains('dark-mode');
-        applyTheme(!nowDark);
-        localStorage.setItem('theme', !nowDark ? 'dark' : 'light');
-      });
+      if (!isOpen) setTimeout(() => hljs.highlightAll(), 120);
     });
+  });
+
+  // 4) Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  const icon = toggle.querySelector('.theme-icon');
+  const hlTheme = document.getElementById('highlight-theme');
+
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.body.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      icon.textContent = '☀️';
+      hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css';
+    } else {
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      icon.textContent = '🌙';
+      hlTheme.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css';
+    }
+    setTimeout(() => hljs.highlightAll(), 160);
+  }
+
+  const saved = localStorage.getItem('theme');
+  const isDark = (saved === 'dark' || saved === null);
+  applyTheme(isDark);
+
+  toggle.addEventListener('click', () => {
+    const nowDark = document.body.classList.contains('dark-mode');
+    applyTheme(!nowDark);
+    localStorage.setItem('theme', !nowDark ? 'dark' : 'light');
+  });
+});
   </script>
 </body>
 </html>
+
 
 
 
